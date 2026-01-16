@@ -1,0 +1,90 @@
+.hero-section {
+  position: relative;
+  height: 306px;
+  margin: 0 111px;
+  border-radius: 29px;
+  overflow: hidden;
+  margin-bottom: 149px;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a4a8c 0%, #4a90e2 100%);
+}
+
+.hero-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 29px;
+}
+
+.hero-bg-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: 'Tilt Warp', sans-serif;
+  font-size: 48px;
+  margin: 0 0 10px 0;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-family: 'Tilt Warp', sans-serif;
+  font-size: 18px;
+  margin: 0;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.hero-bg-image[style*="display: none"] ~ .hero-bg-placeholder {
+  display: flex;
+}
+
+
+.hero-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 44px;
+  z-index: 3;
+}
+
+.hero-control-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 33px;
+  height: 31px;
+}
+
+.hero-control-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1200px) {
+  .hero-section {
+    margin: 0 20px;
+    margin-bottom: 80px;
+  }
+  
+  .hero-decor-left,
+  .hero-decor-right {
+    display: none;
+  }
+}
