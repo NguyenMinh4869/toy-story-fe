@@ -1,7 +1,16 @@
+import React from 'react'
 import './BlogSection.css'
 
-const BlogSection = () => {
-  const blogs = [
+interface Blog {
+  image: string
+  title: string
+  date: string
+  author: string
+  description: string
+}
+
+const BlogSection: React.FC = () => {
+  const blogs: Blog[] = [
     {
       image: "https://www.figma.com/api/mcp/asset/1d1fb706-1cdb-4b52-908b-8bc96b2bb371",
       title: "Cẩm nang mua đồ chơi không mua phải hàng giả",
@@ -18,9 +27,11 @@ const BlogSection = () => {
     }
   ]
 
-  const handleImageError = (e) => {
-    e.target.style.display = 'none'
-    e.target.nextElementSibling?.classList.add('show')
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    const target = e.currentTarget
+    target.style.display = 'none'
+    const nextElement = target.nextElementSibling as HTMLElement
+    nextElement?.classList.add('show')
   }
 
   return (

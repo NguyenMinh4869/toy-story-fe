@@ -1,14 +1,22 @@
+import React from 'react'
 import './BrandsSection.css'
 
-const BrandsSection = () => {
-  const brands = Array(8).fill(null).map((_, i) => ({
+interface Brand {
+  id: number
+  name: string
+}
+
+const BrandsSection: React.FC = () => {
+  const brands: Brand[] = Array(8).fill(null).map((_, i) => ({
     id: i,
     name: `Brand ${i + 1}`
   }))
 
-  const handleImageError = (e) => {
-    e.target.style.display = 'none'
-    e.target.nextElementSibling?.classList.add('show')
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    const target = e.currentTarget
+    target.style.display = 'none'
+    const nextElement = target.nextElementSibling as HTMLElement
+    nextElement?.classList.add('show')
   }
 
   return (

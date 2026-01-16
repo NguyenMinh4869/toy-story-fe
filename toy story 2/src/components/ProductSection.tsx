@@ -1,9 +1,33 @@
+import React from 'react'
 import './ProductSection.css'
+import { Link } from 'react-router-dom'
 
-const ProductSection = ({ title, subtitle, products, hasGradient = false }) => {
-  const handleImageError = (e) => {
-    e.target.style.display = 'none'
-    e.target.nextElementSibling?.classList.add('show')
+interface Product {
+  image: string
+  name: string
+  price: string
+  originalPrice: string
+  discount: string
+}
+
+interface ProductSectionProps {
+  title: string
+  subtitle?: string
+  products: Product[]
+  hasGradient?: boolean
+}
+
+const ProductSection: React.FC<ProductSectionProps> = ({ 
+  title, 
+  subtitle, 
+  products, 
+  hasGradient = false 
+}) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    const target = e.currentTarget
+    target.style.display = 'none'
+    const nextElement = target.nextElementSibling as HTMLElement
+    nextElement?.classList.add('show')
   }
 
   return (
@@ -33,6 +57,7 @@ const ProductSection = ({ title, subtitle, products, hasGradient = false }) => {
         <div className="product-grid">
           {products.map((product, index) => (
             <div key={index} className="product-card">
+              <Link to={`/product/${index + 1}`} className="product-card-link">
               <div className="product-card-bg">
                 <div className="card-bg-placeholder"></div>
               </div>
@@ -69,6 +94,7 @@ const ProductSection = ({ title, subtitle, products, hasGradient = false }) => {
                   </div>
                 </div>
               </div>
+              </Link>
             </div>
           ))}
         </div>

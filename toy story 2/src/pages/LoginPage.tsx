@@ -1,13 +1,14 @@
+import React, { FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './LoginPage.css'
 
-const imgImage11 = "https://www.figma.com/api/mcp/asset/85994e85-ec79-4a37-8966-0df73005c709";
-const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f";
+const imgImage11 = "https://www.figma.com/api/mcp/asset/85994e85-ec79-4a37-8966-0df73005c709"
+const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
     // Navigate to home page
     navigate('/')
@@ -75,4 +76,3 @@ const LoginPage = () => {
 }
 
 export default LoginPage
-

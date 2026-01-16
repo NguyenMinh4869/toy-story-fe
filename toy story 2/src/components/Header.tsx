@@ -1,9 +1,10 @@
+import React from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
 
-const Header = () => {
-  const handleImageError = (e) => {
-    e.target.style.display = 'none'
+const Header: React.FC = () => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    e.currentTarget.style.display = 'none'
   }
 
   return (

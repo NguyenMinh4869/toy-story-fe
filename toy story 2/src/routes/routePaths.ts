@@ -1,4 +1,7 @@
-// Route path constants - use these instead of hardcoding strings
+/**
+ * Route path constants
+ * Use these instead of hardcoding strings throughout the application
+ */
 export const ROUTES = {
   // Public
   HOME: '/',
@@ -9,7 +12,7 @@ export const ROUTES = {
   
   // Shop
   PRODUCTS: '/products',
-  PRODUCT_DETAIL: '/products/:id',
+  PRODUCT_DETAIL: '/product/:id',
   CATEGORY: '/category/:category',
   
   // Cart & Checkout
@@ -22,5 +25,7 @@ export const ROUTES = {
   
   // Other
   NOT_FOUND: '*'
-}
+} as const
 
+export type RouteKey = keyof typeof ROUTES
+export type RoutePath = typeof ROUTES[RouteKey]

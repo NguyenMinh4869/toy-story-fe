@@ -1,15 +1,12 @@
-import '../App.css'
-import Header from '../components/Header'
+import React from 'react'
 import HeroSection from '../components/HeroSection'
 import ProductSection from '../components/ProductSection'
 import BrandsSection from '../components/BrandsSection'
 import BlogSection from '../components/BlogSection'
-import Footer from '../components/Footer'
 
-function HomePage() {
+const Home: React.FC = () => {
   return (
-    <div className="app">
-      <Header />
+    <>
       <HeroSection />
       <ProductSection 
         title="CƠ HỘI CUỐI"
@@ -114,10 +111,8 @@ function HomePage() {
       />
       <BrandsSection />
       <BlogSection />
-      <Footer />
-    </div>
+    </>
   )
 }
 
-export default HomePage
-
+export default Home

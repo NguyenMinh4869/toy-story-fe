@@ -1,10 +1,15 @@
+import React from 'react'
 import './HeroSection.css'
 
-const HeroSection = () => {
-  const handleImageError = (e) => {
-    e.target.style.display = 'none'
-    if (e.target.classList.contains('hero-bg-image')) {
-      e.target.parentElement.style.backgroundColor = '#1a4a8c'
+const HeroSection: React.FC = () => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
+    const target = e.currentTarget
+    target.style.display = 'none'
+    if (target.classList.contains('hero-bg-image')) {
+      const parent = target.parentElement as HTMLElement
+      if (parent) {
+        parent.style.backgroundColor = '#1a4a8c'
+      }
     }
   }
 
