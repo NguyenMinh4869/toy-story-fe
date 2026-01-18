@@ -16,9 +16,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="bg-[#ab0007] min-h-screen w-full relative max-w-[1200px] mx-auto max-xl:max-w-full">
+    <div className="bg-[#ab0007] min-h-screen w-full">
       <Header />
-      <main>
+      <main className="w-full">
         <AppRoutes />
       </main>
       <Footer />
