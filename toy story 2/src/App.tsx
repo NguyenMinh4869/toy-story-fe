@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import AppRoutes from './routes/AppRoutes'
@@ -17,7 +16,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="app">
+    <div className="bg-[#ab0007] min-h-screen w-full relative max-w-[1200px] mx-auto max-xl:max-w-full">
       <Header />
       <main>
         <AppRoutes />

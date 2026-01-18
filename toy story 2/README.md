@@ -1,16 +1,92 @@
-# React + Vite
+# ToyStory E-Commerce Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern React + TypeScript e-commerce frontend built with Vite, Tailwind CSS, and React Router.
 
-Currently, two official plugins are available:
+## 🚀 Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Install dependencies
+npm install
 
-## React Compiler
+# Start development server
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Build for production
+npm run build
+```
 
-## Expanding the ESLint configuration
+## 📋 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **React Router** - Navigation
+- **React Hook Form + Zod** - Form handling & validation
+- **Lucide React** - Icons
+- **Framer Motion** - Animations (ready to use)
+
+## 🔌 Backend Integration
+
+### Setup
+
+1. **Create `.env` file** in root directory:
+```env
+VITE_API_BASE_URL=http://localhost:5104/api
+VITE_ENV=development
+```
+
+2. **Start your backend** (port 5104)
+
+3. **Start frontend**: `npm run dev`
+
+### API Services
+
+- `src/services/productService.ts` - Product operations
+- `src/services/authService.ts` - Authentication
+- `src/services/apiClient.ts` - HTTP client
+
+See `API_SETUP.md` for detailed integration guide.
+
+## 📁 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components
+├── routes/        # Routing configuration
+├── services/      # API services
+├── types/         # TypeScript types
+├── utils/         # Utility functions
+└── config/        # Configuration
+```
+
+## 🛠️ Development
+
+### Adding a New Page
+
+1. Create component in `src/pages/`
+2. Add route in `src/routes/routePaths.ts`
+3. Register in `src/routes/AppRoutes.tsx`
+
+### Using API Services
+
+```typescript
+import { getProductById } from '../services/productService'
+
+const product = await getProductById('123')
+```
+
+## 📚 Documentation
+
+- `API_SETUP.md` - Backend integration guide
+- `QUICK_START.md` - Development quick reference
+
+## ✅ Features
+
+- ✅ TypeScript for type safety
+- ✅ Tailwind CSS for styling
+- ✅ React Router for navigation
+- ✅ React Hook Form for forms
+- ✅ JWT authentication ready
+- ✅ API integration layer
+- ✅ Responsive design
