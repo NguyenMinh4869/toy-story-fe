@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Search, User, ShoppingBag, ChevronDown } from 'lucide-react'
+import { useCart } from '../context/CartContext'
 
 const Header: React.FC = () => {
+  const { getTotalItems, openCart } = useCart()
+  
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
     e.currentTarget.style.display = 'none'
   }
@@ -34,10 +37,15 @@ const Header: React.FC = () => {
             <User size={22} stroke="white" strokeWidth={2} className="w-[22px] h-[22px] flex-shrink-0" />
             <span className="font-tilt-warp text-xs text-white">Đăng nhập</span>
           </Link>
-          <Link to="/cart" className="flex items-center gap-2 cursor-pointer no-underline text-inherit">
+          <button 
+            onClick={openCart}
+            className="flex items-center gap-2 cursor-pointer bg-transparent border-none"
+          >
             <ShoppingBag size={22} stroke="white" strokeWidth={2} className="w-[22px] h-[22px] flex-shrink-0" />
-            <span className="font-tilt-warp text-xs text-white">Giỏ hàng</span>
-          </Link>
+            <span className="font-tilt-warp text-xs text-white">
+              Giỏ hàng {getTotalItems() > 0 && `(${getTotalItems()})`}
+            </span>
+          </button>
         </div>
       </div>
       <nav className="max-w-[1800px] mx-auto flex gap-12 items-center justify-center font-tilt-warp text-xs max-xl:gap-6 max-xl:flex-wrap">
