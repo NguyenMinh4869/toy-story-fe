@@ -5,11 +5,13 @@ import ProductSection from '../components/ProductSection'
 import { ProductDTO } from '../types/ProductDTO'
 import { ProductCard } from '../types/ProductCard'
 import { formatPrice, formatDiscount } from '../utils/formatPrice'
+import { useCart } from '../context/CartContext'
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [quantity, setQuantity] = useState<number>(1)
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
+  const { addToCart } = useCart()
 
   // Mock data - structure ready for API call with useEffect
   const product: ProductDTO = {
@@ -95,8 +97,8 @@ Lợi ích nổi bật cho bé
   }
 
   const handleAddToCart = (): void => {
-    console.log(`Adding ${quantity} of product ${id} to cart`)
-    // TODO: Implement cart logic
+    addToCart(product, quantity)
+    // Cart popup will open automatically via context
   }
 
 

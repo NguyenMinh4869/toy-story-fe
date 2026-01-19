@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import AppRoutes from './routes/AppRoutes'
 import LoginPage from './pages/LoginPage'
+import CartPopup from './components/CartPopup'
 import { ROUTES } from './routes/routePaths'
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         <AppRoutes />
       </main>
       <Footer />
+      <CartPopup />
     </div>
   )
 }
