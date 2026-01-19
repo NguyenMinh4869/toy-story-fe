@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import ProductDetailPage from '../pages/ProductDetailPage'
+import { BrandPage } from '../pages/BrandPage'
 import { ROUTES } from './routePaths'
 
 const AppRoutes: React.FC = () => {
@@ -19,6 +20,10 @@ const AppRoutes: React.FC = () => {
       <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
       {/* <Route path={ROUTES.PRODUCTS} element={<ProductListPage />} /> */}
       {/* <Route path={ROUTES.CATEGORY} element={<ProductListPage />} /> */}
+      
+      {/* Brand Routes */}
+      <Route path={ROUTES.BRANDS} element={<BrandPage />} />
+      {/* <Route path={ROUTES.BRAND_DETAIL} element={<BrandDetailPage />} /> */}
       
       {/* Cart & Checkout */}
       {/* <Route path={ROUTES.CART} element={<CartPage />} /> */}
