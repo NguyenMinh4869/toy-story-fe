@@ -6,6 +6,7 @@ import ProductDetailPage from '../pages/ProductDetailPage'
 import { BrandPage } from '../pages/BrandPage'
 import ProductsPage from '../pages/ProductsPage'
 import { ROUTES } from './routePaths'
+import PromotionPage from '../pages/PromotionPage'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -25,6 +26,9 @@ const AppRoutes: React.FC = () => {
       {/* Brand Routes */}
       <Route path={ROUTES.BRANDS} element={<BrandPage />} />
       {/* <Route path={ROUTES.BRAND_DETAIL} element={<BrandDetailPage />} /> */}
+
+      {/* Promotion Route */}
+      <Route path="/promotion" element={<PromotionPage />} />
       
       {/* Cart & Checkout */}
       {/* <Route path={ROUTES.CART} element={<CartPage />} /> */}
