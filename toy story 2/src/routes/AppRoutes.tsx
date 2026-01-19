@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage'
 import LoginPage from '../pages/LoginPage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import { BrandPage } from '../pages/BrandPage'
+import ProductsPage from '../pages/ProductsPage'
 import { ROUTES } from './routePaths'
 
 const AppRoutes: React.FC = () => {
@@ -18,7 +19,7 @@ const AppRoutes: React.FC = () => {
       
       {/* Product Routes */}
       <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
-      {/* <Route path={ROUTES.PRODUCTS} element={<ProductListPage />} /> */}
+      <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
       {/* <Route path={ROUTES.CATEGORY} element={<ProductListPage />} /> */}
       
       {/* Brand Routes */}
