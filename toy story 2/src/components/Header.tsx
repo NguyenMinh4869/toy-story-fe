@@ -86,7 +86,7 @@ const Header: React.FC = () => {
         
         <Link to="/promotion" className="text-white no-underline flex items-center gap-2 hover:opacity-80">KHUYẾN MÃI</Link>
         <Link to={ROUTES.BRANDS} className="text-white no-underline flex items-center gap-2 hover:opacity-80">THƯƠNG HIỆU</Link>
-        <a href="#guide" className="text-white no-underline flex items-center gap-2 hover:opacity-80">CẨM NANG MUA HÀNG</a>
+        <Link to={ROUTES.CAM_NANG} className="text-white no-underline flex items-center gap-2 hover:opacity-80">CẨM NANG MUA HÀNG</Link>
       </nav>
     </header>
   )

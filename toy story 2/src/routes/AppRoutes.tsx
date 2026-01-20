@@ -5,6 +5,8 @@ import LoginPage from '../pages/LoginPage'
 import ProductDetailPage from '../pages/ProductDetailPage'
 import { BrandPage } from '../pages/BrandPage'
 import ProductsPage from '../pages/ProductsPage'
+import CamNangPage from '../pages/CamNangPage'
+import CamNangDetailPage from '../pages/CamNangDetailPage'
 import { ROUTES } from './routePaths'
 import PromotionPage from '../pages/PromotionPage'
 
@@ -29,6 +31,10 @@ const AppRoutes: React.FC = () => {
 
       {/* Promotion Route */}
       <Route path="/promotion" element={<PromotionPage />} />
+      
+      {/* Other Pages */}
+      <Route path={ROUTES.CAM_NANG} element={<CamNangPage />} />
+      <Route path={ROUTES.CAM_NANG_DETAIL} element={<CamNangDetailPage />} />
       
       {/* Cart & Checkout */}
       {/* <Route path={ROUTES.CART} element={<CartPage />} /> */}

@@ -26,6 +26,8 @@ export const ROUTES = {
   ORDERS: '/orders',
   
   // Other
+  CAM_NANG: '/cam-nang',
+  CAM_NANG_DETAIL: '/cam-nang/:id',
   NOT_FOUND: '*'
 } as const
 
