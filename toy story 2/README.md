@@ -31,13 +31,13 @@ npm run build
 
 1. **Create `.env` file** in root directory:
 ```env
-VITE_API_BASE_URL=http://localhost:5104/api
+VITE_API_BASE_URL=https://toy-story-xwni.onrender.com/api
 VITE_ENV=development
 ```
 
-2. **Start your backend** (port 5104)
+2. **Start frontend**: `npm run dev`
 
-3. **Start frontend**: `npm run dev`
+**Note:** The API is deployed at `https://toy-story-xwni.onrender.com`. For local development, use `http://localhost:5104/api`
 
 ### API Services
 
