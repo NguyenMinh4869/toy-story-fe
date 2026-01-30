@@ -74,12 +74,18 @@ async function apiRequest<T>(
       success: true
     }
   } catch (error) {
+    // Preserve structured API errors (e.g. { message, status, errors }) thrown above
+    if (error && typeof error === 'object' && 'message' in error && 'status' in error) {
+      throw error as ApiError
+    }
+
     if (error instanceof Error) {
       throw {
         message: error.message,
         status: 0
       } as ApiError
     }
+
     throw error
   }
 }

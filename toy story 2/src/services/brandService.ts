@@ -10,7 +10,7 @@ import type { ViewBrandDto, CreateBrandDto, UpdateBrandDto } from '../types/Bran
  * Get active brands (public endpoint)
  */
 export const getActiveBrands = async (): Promise<ViewBrandDto[]> => {
-  const response = await apiGet<ViewBrandDto[]>('/brand/active-brands')
+  const response = await apiGet<ViewBrandDto[]>('/Brand/active-brands')
   return response.data
 }
 

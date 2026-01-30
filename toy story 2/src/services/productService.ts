@@ -11,8 +11,7 @@ import type { CreateProductDto, UpdateProductDto } from '../types/ProductDTO'
  * Get active products (public endpoint)
  */
 export const getActiveProducts = async (): Promise<ViewProductDto[]> => {
-  const response = await apiGet<ViewProductDto[]>('/product/active-brands')
-  return response.data
+  return filterProducts({ status: 'Active' })
 }
 
 /**

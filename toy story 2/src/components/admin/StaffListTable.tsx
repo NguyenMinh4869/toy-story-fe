@@ -43,7 +43,7 @@ const StaffListTable: React.FC<StaffListTableProps> = ({ staffList, onEdit, onSt
                 <button
                   onClick={() => staff.accountId && onStatusChange(staff.accountId)}
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer ${
-                    staff.status === 'Active'
+                    (staff.status?.toLowerCase() === 'active' || staff.status?.toLowerCase() === 'đang hoạt động')
                       ? 'bg-green-100 text-green-800'
                       : 'bg-red-100 text-red-800'
                   }`}

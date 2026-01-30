@@ -38,7 +38,7 @@ const BrandListTable: React.FC<BrandListTableProps> = ({ brands, onEdit, onChang
                 <button
                   onClick={() => brand.brandId && onChangeStatus(brand.brandId)}
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full cursor-pointer ${
-                    brand.status === 'Active'
+                    (brand.status?.toLowerCase() === 'active' || brand.status?.toLowerCase() === 'đang hoạt động')
                       ? 'bg-green-100 text-green-800'
                       : 'bg-red-100 text-red-800'
                   }`}

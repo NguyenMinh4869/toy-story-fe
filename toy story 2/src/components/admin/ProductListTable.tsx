@@ -51,9 +51,9 @@ const ProductListTable: React.FC<ProductListTableProps> = ({ products, onEdit, o
               <td className="px-6 py-4">
                 <span
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    product.status === 'Active'
+                    (product.status?.toLowerCase() === 'active' || product.status?.toLowerCase() === 'đang bán')
                       ? 'bg-green-100 text-green-800'
-                      : product.status === 'OutOfStock'
+                      : (product.status?.toLowerCase() === 'outofstock' || product.status?.toLowerCase() === 'hết hàng' || product.status?.toLowerCase() === 'inactive')
                       ? 'bg-red-100 text-red-800'
                       : 'bg-gray-100 text-gray-800'
                   }`}
