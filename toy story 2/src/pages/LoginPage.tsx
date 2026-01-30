@@ -6,7 +6,7 @@ import { loginSchema, LoginFormData, toLoginDto } from '../types/Auth'
 import { login } from '../services/authService'
 import { ROUTES } from '../routes/routePaths'
 
-const imgImage11 = "https://www.figma.com/api/mcp/asset/85994e85-ec79-4a37-8966-0df73005c709"
+import imgImage11 from "@/assets/login/image11.png"
 const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"
 
 const LoginPage: React.FC = () => {

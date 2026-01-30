@@ -3,8 +3,8 @@
  * API service for brand-related operations matching .NET backend
  */
 
-import { apiGet } from './apiClient'
-import type { ViewBrandDto } from '../types/BrandDTO'
+import { apiGet, apiPostForm, apiPutForm } from './apiClient'
+import type { ViewBrandDto, CreateBrandDto, UpdateBrandDto } from '../types/BrandDTO'
 
 /**
  * Get active brands (public endpoint)
@@ -35,6 +35,42 @@ export const filterBrands = async (params?: {
 
   const endpoint = `/brand/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewBrandDto[]>(endpoint)
+  return response.data
+}
+
+/**
+ * Create brand (Admin only)
+ * POST /api/brand
+ * multipart/form-data: Name, imageFile
+ */
+export const createBrand = async (data: CreateBrandDto, imageFile?: File): Promise<{ message: string }> => {
+  const form = new FormData()
+  if (data.name) form.append('Name', data.name)
+  if (imageFile) form.append('imageFile', imageFile)
+  const response = await apiPostForm<{ message: string }>('/brand', form)
+  return response.data
+}
+
+/**
+ * Update brand (Admin only)
+ * PUT /api/brand/{brandId}
+ * multipart/form-data: Name, imageFile
+ */
+export const updateBrand = async (brandId: number, data: UpdateBrandDto, imageFile?: File): Promise<{ message: string }> => {
+  const form = new FormData()
+  if (data.name) form.append('Name', data.name as string)
+  if (imageFile) form.append('imageFile', imageFile)
+  const response = await apiPutForm<{ message: string }>(`/brand/${brandId}`, form)
+  return response.data
+}
+
+/**
+ * Change brand status (toggle Active/Inactive) (Admin only)
+ * PUT /api/brand/change-status/{brandId}
+ */
+export const changeBrandStatus = async (brandId: number): Promise<{ message: string }> => {
+  const form = new FormData()
+  const response = await apiPutForm<{ message: string }>(`/brand/change-status/${brandId}`, form)
   return response.data
 }
 

@@ -12,7 +12,8 @@ if (!baseURL) {
   )
 }
 
-if (!baseURL.startsWith('https://')) {
+// Allow both http and https for local development
+if (!/^https?:\/\//.test(baseURL)) {
   throw new Error(`Invalid VITE_API_BASE_URL: ${baseURL}`)
 }
 

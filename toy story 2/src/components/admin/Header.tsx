@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, User, Bell } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../routes/routePaths';
 
 const Header: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+
+  const isProducts = location.pathname.startsWith(ROUTES.ADMIN_PRODUCTS);
+  const isBrands = location.pathname.startsWith(ROUTES.ADMIN_BRANDS);
+  const placeholder = isProducts
+    ? 'Search products...'
+    : isBrands
+    ? 'Search brands...'
+    : 'Search...';
+
+  const handleSearch = () => {
+    const q = query.trim();
+    if (!q) return;
+    const params = new URLSearchParams({ q }).toString();
+    if (isProducts) {
+      navigate(`${ROUTES.ADMIN_PRODUCTS}?${params}`);
+      return;
+    }
+    if (isBrands) {
+      navigate(`${ROUTES.ADMIN_BRANDS}?${params}`);
+      return;
+    }
+  };
+
   return (
     <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0">
       <h1 className="text-2xl font-semibold text-gray-800">Overview</h1>
@@ -10,13 +38,15 @@ const Header: React.FC = () => {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search toys, employee or order..."
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSearch();
+            }}
             className="w-full h-10 pl-10 pr-4 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition-shadow"
           />
         </div>
-        <button className="flex items-center gap-2 bg-red-600 text-white font-medium py-2 px-4 rounded-md hover:bg-red-700 transition-colors">
-          + Add Toy
-        </button>
         <div className="flex items-center gap-4">
           <button className="relative text-gray-500 hover:text-gray-700">
             <Bell size={24} />

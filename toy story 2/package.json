@@ -12,6 +12,7 @@
     "generate-types": "openapi-typescript https://toy-story-xwni.onrender.com/swagger/v1/swagger.json --output src/types/generated.ts"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.9.1",
     "framer-motion": "^11.11.17",
     "lucide-react": "^0.468.0",

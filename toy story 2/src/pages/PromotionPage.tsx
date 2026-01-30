@@ -32,10 +32,10 @@ export const PromotionPage: React.FC = () => {
         // Fetch products for each promotion (skip first banner)
         const productFetches = promos.slice(1).map(async (promo) => {
           try {
-            const prods = await filterProducts({ promotionId: promo.promotionId })
-            return { promoId: promo.promotionId!, products: prods.slice(0, 4) }
+            const prods = await filterProducts({ promotionId: promo.promotionId as number })
+            return { promoId: promo.promotionId as number, products: prods.slice(0, 4) }
           } catch {
-            return { promoId: promo.promotionId!, products: [] }
+            return { promoId: (promo.promotionId as number) || 0, products: [] }
           }
         })
         const results = await Promise.all(productFetches)
@@ -96,7 +96,7 @@ export const PromotionPage: React.FC = () => {
 
         {/* Promotion Sections */}
         {promotions.slice(1).map((promo) => {
-          const products = productsByPromo[promo.promotionId] || []
+          const products = productsByPromo[(promo.promotionId as number) || 0] || []
           
           return (
             <section key={promo.promotionId} className="mb-16">
@@ -138,7 +138,7 @@ export const PromotionPage: React.FC = () => {
                         <SkeletonCard />
                       </>
                     ) : products.length > 0 ? (
-                      products.slice(0, 3).map((product) => (
+                      products.slice(0, 3).map((product: ViewProductDto) => (
                         <ProductCard
                           key={product.productId}
                           product={product}

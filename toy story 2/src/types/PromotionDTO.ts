@@ -17,3 +17,33 @@ export type ViewPromotionSummaryDto = components['schemas']['ViewPromotionSummar
 
 // Alias for backward compatibility
 export type PromotionDTO = ViewPromotionDto
+
+export type DiscountType = components['schemas']['DiscountType']
+
+export interface CreatePromotionDto {
+  Name: string
+  Description?: string
+  DiscountType: DiscountType
+  DiscountValue: number
+  MinimumQuantity?: number
+  MinimumAmount?: number
+  BrandId?: number
+  CategoryId?: number
+  ProductId?: number
+  StartDate?: string
+  EndDate?: string
+}
+
+export interface UpdatePromotionDto {
+  Name?: string
+  Description?: string
+  DiscountType?: DiscountType
+  DiscountValue?: number
+  MinimumQuantity?: number
+  MinimumAmount?: number
+  BrandId?: number
+  CategoryId?: number
+  ProductId?: number
+  StartDate?: string
+  EndDate?: string
+}

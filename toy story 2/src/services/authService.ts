@@ -12,20 +12,26 @@ import { UserRole } from '../types/AccountDTO'
  * Helper to normalize role to string
  */
 const normalizeRole = (role: string | number | UserRole): string => {
-  if (typeof role === 'string') return role
+  if (typeof role === 'string') {
+    const r = role.trim()
+    if (r.toLowerCase() === 'admin' || r === 'Quản trị viên') return 'Admin'
+    if (r.toLowerCase() === 'staff' || r === 'Nhân viên') return 'Staff'
+    if (r.toLowerCase() === 'member' || r === 'Người dùng') return 'Member'
+    return r
+  }
   
   // Map numeric roles to string names
-  // Assuming 0=Admin, 1=Staff, 2=Member based on common conventions
+  // Backend enum: Member=0, Admin=1, Staff=2
   switch (role) {
-    case UserRole.Admin:
+    case UserRole.Member:
     case 0:
+      return 'Member'
+    case UserRole.Admin:
+    case 1:
       return 'Admin'
     case UserRole.Staff:
-    case 1:
-      return 'Staff'
-    case UserRole.Member:
     case 2:
-      return 'Member'
+      return 'Staff'
     default:
       return String(role)
   }

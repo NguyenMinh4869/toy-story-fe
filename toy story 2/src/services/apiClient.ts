@@ -26,10 +26,16 @@ async function apiRequest<T>(
 ): Promise<ApiResponse<T>> {
   const url = getApiUrl(endpoint)
   
+  const baseHeaders: Record<string, string> = { ...API_CONFIG.headers }
+  // If sending FormData, let the browser set Content-Type with boundary
+  if (options.body instanceof FormData) {
+    delete baseHeaders['Content-Type']
+  }
+
   const config: RequestInit = {
     ...options,
     headers: {
-      ...API_CONFIG.headers,
+      ...baseHeaders,
       ...options.headers,
       // Add auth token if available
       ...(localStorage.getItem('token') && {
@@ -103,6 +109,35 @@ export const apiPost = <T>(
   })
 }
 
+/**
+ * POST multipart/form-data request
+ */
+export const apiPostForm = <T>(
+  endpoint: string,
+  formData: FormData,
+  options?: RequestInit
+): Promise<ApiResponse<T>> => {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'POST',
+    body: formData
+  })
+}
+
+/**
+ * PUT multipart/form-data request
+ */
+export const apiPutForm = <T>(
+  endpoint: string,
+  formData: FormData,
+  options?: RequestInit
+): Promise<ApiResponse<T>> => {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'PUT',
+    body: formData
+  })
+}
 /**
  * PUT request
  */

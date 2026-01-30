@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductSection from '../components/ProductSection'
-import type { ViewProductDto } from '../types/ProductDTO'
+import type { ProductDTO } from '../types/ProductDTO'
 import { ProductCard } from '../types/ProductCard'
 import { formatPrice, formatDiscount } from '../utils/formatPrice'
 import { useCart } from '../context/CartContext'
@@ -14,7 +14,7 @@ const ProductDetail: React.FC = () => {
   const { addToCart } = useCart()
 
   // Mock data - structure ready for API call with useEffect
-  const product: ViewProductDto = {
+  const product: ProductDTO = {
     id: id || '1',
     name: 'Mô Hình Đồ Chơi Xe Tập Đi Đa Năng Có Nhạc Và Đèn Cho Bé VTECH 80-505600',
     price: 1245300,
@@ -253,7 +253,7 @@ Lợi ích nổi bật cho bé
       <div className="max-w-[1800px] mx-auto my-10 px-5">
         <h2 className="font-tilt-warp text-[15px] text-black mb-5">Mô tả sản phẩm</h2>
         <div className="font-red-hat text-[13px] text-black leading-[1.8] max-[480px]:text-xs">
-          {product.description.split('\n').map((paragraph, index) => (
+          {(product.description || '').split('\n').map((paragraph, index) => (
             <p key={index} className="m-2.5_0">{paragraph}</p>
           ))}
         </div>

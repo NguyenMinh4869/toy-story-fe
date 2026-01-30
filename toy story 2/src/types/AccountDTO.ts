@@ -47,9 +47,9 @@ export type LoginDto = components['schemas']['LoginDto']
  * Maps numeric roles from backend to readable names
  */
 export enum UserRole {
-  Admin = 0,
-  Staff = 1,
-  Member = 2
+  Member = 0,
+  Admin = 1,
+  Staff = 2
 }
 
 /**

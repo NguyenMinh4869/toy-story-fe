@@ -3,8 +3,9 @@
  * API service for product-related operations matching .NET backend
  */
 
-import { apiGet } from './apiClient'
+import { apiGet, apiPostForm, apiPutForm } from './apiClient'
 import type { ViewProductDto } from '../types/ProductDTO'
+import type { CreateProductDto, UpdateProductDto } from '../types/ProductDTO'
 
 /**
  * Get active products (public endpoint)
@@ -34,6 +35,7 @@ export const filterProducts = async (params?: {
   categoryId?: number
   brandId?: number
   status?: 'Active' | 'Inactive' | 'OutOfStock'
+  promotionId?: number
 }): Promise<ViewProductDto[]> => {
   const queryParams = new URLSearchParams()
   if (params?.name) queryParams.append('name', params.name)
@@ -44,6 +46,7 @@ export const filterProducts = async (params?: {
   if (params?.categoryId) queryParams.append('categoryId', params.categoryId.toString())
   if (params?.brandId) queryParams.append('brandId', params.brandId.toString())
   if (params?.status) queryParams.append('status', params.status)
+  if (params?.promotionId) queryParams.append('promotionId', params.promotionId.toString())
 
   const endpoint = `/product/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewProductDto[]>(endpoint)
@@ -69,5 +72,44 @@ export const getProductsByBrandId = async (brandId: number): Promise<ViewProduct
  */
 export const searchProducts = async (searchTerm: string): Promise<ViewProductDto[]> => {
   return filterProducts({ name: searchTerm, status: 'Active' })
+}
+
+/**
+ * Create product (Admin only)
+ * POST /api/product
+ * multipart/form-data with fields aligned to backend DTO
+ */
+export const createProduct = async (data: CreateProductDto, imageFile?: File): Promise<{ message: string }> => {
+  const form = new FormData()
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) form.append(key, String(value))
+  })
+  if (imageFile) form.append('imageFile', imageFile)
+  const response = await apiPostForm<{ message: string }>('/product', form)
+  return response.data
+}
+
+/**
+ * Update product (Admin only)
+ * PUT /api/product/{productId}
+ */
+export const updateProduct = async (productId: number, data: UpdateProductDto, imageFile?: File): Promise<{ message: string }> => {
+  const form = new FormData()
+  Object.entries(data).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) form.append(key, String(value))
+  })
+  if (imageFile) form.append('imageFile', imageFile)
+  const response = await apiPutForm<{ message: string }>(`/product/${productId}`, form)
+  return response.data
+}
+
+/**
+ * Change product status (Admin only)
+ * PUT /api/product/change-status/{productId}
+ */
+export const changeProductStatus = async (productId: number): Promise<{ message: string }> => {
+  const form = new FormData()
+  const response = await apiPutForm<{ message: string }>(`/product/change-status/${productId}`, form)
+  return response.data
 }
 

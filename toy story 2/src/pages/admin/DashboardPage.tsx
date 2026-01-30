@@ -1,6 +1,5 @@
 import React from 'react';
 import StatCard from '../../components/admin/StatCard';
-import ProductListTable from '../../components/admin/ProductListTable';
 import { DollarSign, Package, Users } from 'lucide-react';
 
 const DashboardPage: React.FC = () => {
@@ -27,7 +26,7 @@ const DashboardPage: React.FC = () => {
             Low Stock
           </button>
         </div>
-        <ProductListTable />
+        <div className="text-sm text-gray-600">No product list preview in dashboard. Use Product Management page.</div>
       </div>
     </div>
   );

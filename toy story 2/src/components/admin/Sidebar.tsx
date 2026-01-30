@@ -1,14 +1,18 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { LayoutDashboard, ShoppingBag, Users, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Users, Tag, Percent, Layers, Ticket, Warehouse } from 'lucide-react';
 import { ROUTES } from '../../routes/routePaths';
 
 const Sidebar: React.FC = () => {
   const navLinks = [
     { to: ROUTES.ADMIN_DASHBOARD, icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
     { to: ROUTES.ADMIN_PRODUCTS, icon: <ShoppingBag size={20} />, label: 'Products' },
-    { to: ROUTES.ADMIN_STAFF, icon: <Users size={20} />, label: 'Staff Management' },
-    { to: ROUTES.ADMIN_ORDERS, icon: <ClipboardList size={20} />, label: 'Orders' },
+    { to: ROUTES.ADMIN_BRANDS, icon: <Tag size={20} />, label: 'Brands' },
+    { to: ROUTES.ADMIN_SETS, icon: <Layers size={20} />, label: 'Sets' },
+    { to: ROUTES.ADMIN_WAREHOUSE, icon: <Warehouse size={20} />, label: 'Warehouse' },
+    { to: ROUTES.ADMIN_STAFF, icon: <Users size={20} />, label: 'Staff' },
+    { to: ROUTES.ADMIN_VOUCHERS, icon: <Ticket size={20} />, label: 'Vouchers' },
+    { to: ROUTES.ADMIN_PROMOTIONS, icon: <Percent size={20} />, label: 'Promotions' },
   ];
 
   return (
