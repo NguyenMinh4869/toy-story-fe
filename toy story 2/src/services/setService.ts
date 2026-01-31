@@ -6,6 +6,15 @@ export const getSets = async (): Promise<ViewSetDto[]> => {
   return response.data
 }
 
+/**
+ * Get sets using customer-filter endpoint (no auth required)
+ * Use this for staff/public access
+ */
+export const getSetsCustomerFilter = async (): Promise<ViewSetDto[]> => {
+  const response = await apiGet<ViewSetDto[]>('/set/customer-filter')
+  return response.data
+}
+
 export const getSetById = async (id: number): Promise<ViewSetDto> => {
   const response = await apiGet<ViewSetDto>(`/set/${id}`)
   return response.data
