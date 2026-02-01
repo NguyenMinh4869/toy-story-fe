@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, LoginFormData, toLoginDto } from '../types/Auth'
 import { login } from '../services/authService'
 import { getDashboardByRole } from '../routes/ProtectedRoute'
-import { ROUTES } from '../routes/routePaths'
 
 import imgImage11 from "@/assets/login/image11.png"
 const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"

@@ -45,7 +45,7 @@ const DashboardPage: React.FC = () => {
         icon: <DollarSign className="text-red-500" />,
       },
       {
-        title: 'Total Products',
+        title: 'Inventory Products',
         value: `${summary?.totalProducts ?? 0} items`,
         icon: <Package className="text-red-500" />,
       },
