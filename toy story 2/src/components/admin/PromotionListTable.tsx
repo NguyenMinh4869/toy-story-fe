@@ -1,22 +1,20 @@
 import React from 'react';
 import type { ViewPromotionSummaryDto } from '../../types/PromotionDTO';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Edit, Power, PowerOff } from 'lucide-react';
 
 interface PromotionListTableProps {
   promotions: ViewPromotionSummaryDto[];
   onEdit: (promotion: ViewPromotionSummaryDto) => void;
-  onDelete: (id: number) => void;
   onStatusChange: (id: number) => void;
 }
 
 const PromotionListTable: React.FC<PromotionListTableProps> = ({
   promotions,
   onEdit,
-  onDelete,
   onStatusChange,
 }) => {
   return (
-    <div className="overflow-x-auto bg-white rounded-lg shadow">
+    <div className="bg-white rounded-lg shadow">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -75,17 +73,25 @@ const PromotionListTable: React.FC<PromotionListTableProps> = ({
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <div className="flex justify-end space-x-2">
-                  <button
+                  <button 
                     onClick={() => onEdit(promotion)}
-                    className="text-indigo-600 hover:text-indigo-900"
+                    className="text-blue-600 hover:text-blue-900 text-xs font-medium flex items-center gap-1"
                   >
-                    <PencilSquareIcon className="h-5 w-5" />
+                    <Edit size={14} /> EDIT
                   </button>
                   <button
-                    onClick={() => promotion.promotionId && onDelete(promotion.promotionId)}
-                    className="text-red-600 hover:text-red-900"
+                    onClick={() => promotion.promotionId && onStatusChange(promotion.promotionId)}
+                    className={`text-xs font-medium flex items-center gap-1 ${
+                      promotion.isActive
+                        ? 'text-yellow-600 hover:text-yellow-900'
+                        : 'text-green-600 hover:text-green-900'
+                    }`}
                   >
-                    <TrashIcon className="h-5 w-5" />
+                    {promotion.isActive ? (
+                      <><PowerOff size={14} /> DISABLE</>
+                    ) : (
+                      <><Power size={14} /> ENABLE</>
+                    )}
                   </button>
                 </div>
               </td>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import BrandListTable from '../../components/admin/BrandListTable';
 import Modal from '../../components/ui/Modal';
@@ -9,20 +9,35 @@ import {
   changeBrandStatus, 
   filterBrands 
 } from '../../services/brandService';
+import Pagination from '../../components/ui/Pagination';
 import type { ViewBrandDto, CreateBrandDto, UpdateBrandDto } from '../../types/BrandDTO';
+
+const PAGE_SIZE = 10;
 
 const BrandManagementPage: React.FC = () => {
   const [brands, setBrands] = useState<ViewBrandDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const page = Math.max(1, Number(searchParams.get('page') || '1'));
+  const pageSize = Math.max(1, Number(searchParams.get('pageSize') || String(PAGE_SIZE)));
+
+  const paginatedBrands = useMemo(() => {
+    const start = (page - 1) * pageSize;
+    return brands.slice(start, start + pageSize);
+  }, [brands, page, pageSize]);
+
+  const totalPages = Math.ceil(brands.length / pageSize);
   
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentBrand, setCurrentBrand] = useState<ViewBrandDto | null>(null);
   
   // Form State
   const [formData, setFormData] = useState<Partial<CreateBrandDto>>({
-    Name: ''
+    name: ''
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -79,9 +94,9 @@ const BrandManagementPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    // Assuming delete or status change. Here we use status change as per service
+  const handleStatusChange = async (id: number) => {
     try {
+      setError(null);
       await changeBrandStatus(id);
       fetchData();
     } catch (err) {
@@ -92,7 +107,7 @@ const BrandManagementPage: React.FC = () => {
 
   const openCreateModal = () => {
     setCurrentBrand(null);
-    setFormData({ Name: '' });
+    setFormData({ name: '' });
     setImageFile(null);
     setIsModalOpen(true);
   };
@@ -100,7 +115,7 @@ const BrandManagementPage: React.FC = () => {
   const openEditModal = (brand: ViewBrandDto) => {
     setCurrentBrand(brand);
     setFormData({
-      Name: brand.name || ''
+      name: brand.name || ''
     });
     setImageFile(null);
     setIsModalOpen(true);
@@ -129,11 +144,22 @@ const BrandManagementPage: React.FC = () => {
         <div className="text-center py-10">Loading...</div>
       ) : (
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <BrandListTable 
-            brands={brands} 
-            onEdit={openEditModal} 
-            onChangeStatus={handleDelete}
-          />
+          <>
+            <BrandListTable 
+              brands={paginatedBrands} 
+              onEdit={openEditModal} 
+              onChangeStatus={handleStatusChange}
+            />
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={(nextPage) => {
+                const next = new URLSearchParams(location.search)
+                next.set('page', String(nextPage))
+                navigate(`${location.pathname}?${next.toString()}`)
+              }}
+            />
+          </>
         </div>
       )}
 
@@ -147,8 +173,8 @@ const BrandManagementPage: React.FC = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Brand Name</label>
             <input
               type="text"
-              name="Name"
-              value={formData.Name}
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required

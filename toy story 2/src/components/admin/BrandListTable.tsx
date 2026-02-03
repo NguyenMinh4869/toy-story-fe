@@ -1,5 +1,5 @@
 import React from 'react';
-import { Edit } from 'lucide-react';
+import { Edit, Power, PowerOff } from 'lucide-react';
 import type { ViewBrandDto } from '../../types/BrandDTO';
 
 interface BrandListTableProps {
@@ -26,7 +26,7 @@ const BrandListTable: React.FC<BrandListTableProps> = ({ brands, onEdit, onChang
                 <div className="flex items-center">
                   <img 
                     className="w-10 h-10 rounded-md object-cover mr-4" 
-                    src={brand.imageUrl || 'https://via.placeholder.com/40'} 
+                    src={brand.imageUrl || '/favicon.ico'} 
                     alt={brand.name || 'Brand'} 
                   />
                   <div>
@@ -54,7 +54,20 @@ const BrandListTable: React.FC<BrandListTableProps> = ({ brands, onEdit, onChang
                   >
                     <Edit size={14} /> EDIT
                   </button>
-                  {/* Assuming delete is soft delete or not allowed if used, but let's keep it if needed or use status change */}
+                  <button
+                    onClick={() => brand.brandId && onChangeStatus(brand.brandId)}
+                    className={`text-xs font-medium flex items-center gap-1 ${
+                      (brand.status?.toLowerCase() === 'active' || brand.status?.toLowerCase() === 'đang hoạt động')
+                        ? 'text-yellow-600 hover:text-yellow-900'
+                        : 'text-green-600 hover:text-green-900'
+                    }`}
+                  >
+                    {(brand.status?.toLowerCase() === 'active' || brand.status?.toLowerCase() === 'đang hoạt động') ? (
+                      <><PowerOff size={14} /> DISABLE</>
+                    ) : (
+                      <><Power size={14} /> ENABLE</>
+                    )}
+                  </button>
                 </div>
               </td>
             </tr>

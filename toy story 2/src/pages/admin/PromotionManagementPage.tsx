@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import PromotionListTable from '../../components/admin/PromotionListTable';
 import Modal from '../../components/ui/Modal';
@@ -7,7 +8,6 @@ import {
   getPromotionById,
   createPromotion,
   updatePromotion,
-  deletePromotion,
   changePromotionStatus,
 } from '../../services/promotionService';
 import { getActiveBrands } from '../../services/brandService';
@@ -19,9 +19,13 @@ import type {
   UpdatePromotionDto,
   DiscountType,
 } from '../../types/PromotionDTO';
+import { runAsync } from '../../utils/runAsync';
 import type { ViewBrandDto } from '../../types/BrandDTO';
 import type { ViewCategoryDto } from '../../types/CategoryDTO';
 import type { ViewProductDto } from '../../types/ProductDTO';
+import Pagination from '../../components/ui/Pagination';
+
+const PAGE_SIZE = 10;
 
 const PromotionManagementPage: React.FC = () => {
   const [promotions, setPromotions] = useState<ViewPromotionSummaryDto[]>([]);
@@ -31,6 +35,26 @@ const PromotionManagementPage: React.FC = () => {
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const page = Math.max(1, Number(searchParams.get('page') || '1'));
+  const q = searchParams.get('q') || '';
+
+  const filteredPromotions = useMemo(() => {
+    if (!q) return promotions;
+    return promotions.filter(p => 
+        p.name?.toLowerCase().includes(q.toLowerCase())
+    );
+  }, [promotions, q]);
+
+  const paginatedPromotions = useMemo(() => {
+      const start = (page - 1) * PAGE_SIZE;
+      return filteredPromotions.slice(start, start + PAGE_SIZE);
+  }, [filteredPromotions, page]);
+
+  const totalPages = Math.ceil(filteredPromotions.length / PAGE_SIZE);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -151,25 +175,12 @@ const PromotionManagementPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this promotion?')) return;
-    try {
-      await deletePromotion(id);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      setError('Failed to delete promotion');
-    }
-  };
 
   const handleStatusChange = async (id: number) => {
-    try {
+    await runAsync(async () => {
       await changePromotionStatus(id);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      setError('Failed to update status');
-    }
+      await fetchData();
+    }, setError, 'Failed to update status');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -190,7 +201,6 @@ const PromotionManagementPage: React.FC = () => {
     }
   };
 
-  if (loading && !promotions.length) return <div>Loading...</div>;
 
   return (
     <div className="space-y-6">
@@ -215,12 +225,28 @@ const PromotionManagementPage: React.FC = () => {
         </div>
       )}
 
-      <PromotionListTable
-        promotions={promotions}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onStatusChange={handleStatusChange}
-      />
+      {loading ? (
+        <div className="text-center py-10">Loading...</div>
+      ) : paginatedPromotions.length === 0 ? (
+        <div className="text-center py-10 text-gray-600">No promotions found.</div>
+      ) : (
+        <>
+          <PromotionListTable
+            promotions={paginatedPromotions}
+            onEdit={handleEdit}
+            onStatusChange={handleStatusChange}
+          />
+          <Pagination 
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(nextPage) => {
+              const next = new URLSearchParams(location.search);
+              next.set('page', String(nextPage));
+              navigate(`${location.pathname}?${next.toString()}`);
+            }}
+          />
+        </>
+      )}
 
       <Modal
         isOpen={isModalOpen}
@@ -261,8 +287,8 @@ const PromotionManagementPage: React.FC = () => {
               >
                 <option value={0}>Percentage</option>
                 <option value={1}>Fixed Amount</option>
-                <option value={2}>Type 2</option>
-                <option value={3}>Type 3</option>
+                <option value={2}>Free Shipping</option>
+                <option value={3}>Buy X Get Y</option>
               </select>
             </div>
             <div>

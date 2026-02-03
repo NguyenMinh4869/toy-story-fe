@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import VoucherListTable from '../../components/admin/VoucherListTable';
 import Modal from '../../components/ui/Modal';
@@ -7,7 +8,6 @@ import {
   getVoucherById,
   createVoucher,
   updateVoucher,
-  deleteVoucher,
   changeVoucherStatus,
 } from '../../services/voucherService';
 import type {
@@ -16,11 +16,35 @@ import type {
   UpdateVoucherDto,
   DiscountType,
 } from '../../types/VoucherDTO';
+import Pagination from '../../components/ui/Pagination';
+
+const PAGE_SIZE = 10;
 
 const VoucherManagementPage: React.FC = () => {
   const [vouchers, setVouchers] = useState<ViewVoucherSummaryDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const page = Math.max(1, Number(searchParams.get('page') || '1'));
+  const q = searchParams.get('q') || '';
+
+  const filteredVouchers = useMemo(() => {
+    if (!q) return vouchers;
+    return vouchers.filter(v => 
+        v.name?.toLowerCase().includes(q.toLowerCase()) ||
+        v.code?.toLowerCase().includes(q.toLowerCase())
+    );
+  }, [vouchers, q]);
+
+  const paginatedVouchers = useMemo(() => {
+      const start = (page - 1) * PAGE_SIZE;
+      return filteredVouchers.slice(start, start + PAGE_SIZE);
+  }, [filteredVouchers, page]);
+
+  const totalPages = Math.ceil(filteredVouchers.length / PAGE_SIZE);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -125,21 +149,12 @@ const VoucherManagementPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    if (!window.confirm('Are you sure you want to delete this voucher?')) return;
-    try {
-      await deleteVoucher(id);
-      fetchData();
-    } catch (err) {
-      console.error(err);
-      setError('Failed to delete voucher');
-    }
-  };
 
   const handleStatusChange = async (id: number) => {
     try {
+      setError(null);
       await changeVoucherStatus(id);
-      fetchData();
+      await fetchData();
     } catch (err) {
       console.error(err);
       setError('Failed to update status');
@@ -165,8 +180,6 @@ const VoucherManagementPage: React.FC = () => {
     }
   };
 
-  if (loading && !vouchers.length) return <div>Loading...</div>;
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -190,12 +203,28 @@ const VoucherManagementPage: React.FC = () => {
         </div>
       )}
 
-      <VoucherListTable
-        vouchers={vouchers}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onStatusChange={handleStatusChange}
-      />
+      {loading ? (
+        <div className="text-center py-10">Loading...</div>
+      ) : paginatedVouchers.length === 0 ? (
+        <div className="text-center py-10 text-gray-600">No vouchers found.</div>
+      ) : (
+        <>
+          <VoucherListTable
+            vouchers={paginatedVouchers}
+            onEdit={handleEdit}
+            onStatusChange={handleStatusChange}
+          />
+          <Pagination 
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(nextPage) => {
+              const next = new URLSearchParams(location.search);
+              next.set('page', String(nextPage));
+              navigate(`${location.pathname}?${next.toString()}`);
+            }}
+          />
+        </>
+      )}
 
       <Modal
         isOpen={isModalOpen}
@@ -248,8 +277,8 @@ const VoucherManagementPage: React.FC = () => {
               >
                 <option value={0}>Percentage</option>
                 <option value={1}>Fixed Amount</option>
-                <option value={2}>Type 2</option>
-                <option value={3}>Type 3</option>
+                <option value={2}>Free Shipping</option>
+                <option value={3}>Buy X Get Y</option>
               </select>
             </div>
             <div>

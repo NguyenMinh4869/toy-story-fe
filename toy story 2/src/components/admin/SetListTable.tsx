@@ -1,13 +1,14 @@
 import React from 'react';
-import { Edit } from 'lucide-react';
-import type { ViewSetDto } from '../../types/SetDTO';
+import { Edit, Trash2 } from 'lucide-react';
+import type { ViewSetDetailDto } from '../../types/SetDTO';
 
 interface SetListTableProps {
-  sets: ViewSetDto[];
-  onEdit: (set: ViewSetDto) => void;
+  sets: ViewSetDetailDto[];
+  onEdit: (set: ViewSetDetailDto) => void;
+  onDelete: (set: ViewSetDetailDto) => void;
 }
 
-const SetListTable: React.FC<SetListTableProps> = ({ sets, onEdit }) => {
+const SetListTable: React.FC<SetListTableProps> = ({ sets, onEdit, onDelete }) => {
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-sm text-left text-gray-500">
@@ -68,7 +69,12 @@ const SetListTable: React.FC<SetListTableProps> = ({ sets, onEdit }) => {
                   >
                     <Edit size={14} /> EDIT
                   </button>
-                  {/* Delete functionality might be needed if API supports it, though usually soft delete */}
+                  <button
+                    onClick={() => onDelete(set)}
+                    className="text-red-600 hover:text-red-900 text-xs font-medium flex items-center gap-1"
+                  >
+                    <Trash2 size={14} /> DELETE
+                  </button>
                 </div>
               </td>
             </tr>

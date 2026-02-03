@@ -249,10 +249,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    email?: string;
-                    name?: string;
-                    phoneNumber?: string;
-                    address?: string;
+                    searchTerm?: string;
                     status?: components["schemas"]["AccountStatus"];
                 };
                 header?: never;
@@ -912,6 +909,78 @@ export interface paths {
                 };
             };
         };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Dashboard/low-stock": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    threshold?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["LowStockItemDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Dashboard/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DashboardSummaryDto"];
+                    };
+                };
+            };
+        };
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -1593,7 +1662,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Product/filter": {
+    "/api/Product/admin-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -1603,14 +1672,55 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    name?: string;
-                    origin?: string;
-                    material?: string;
+                    searchTerm?: string;
                     genderTarget?: components["schemas"]["GenderTarget"];
                     ageRange?: components["schemas"]["AgeRange"];
                     categoryId?: number;
                     brandId?: number;
                     status?: components["schemas"]["ProductStatus"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewProductDto"][];
+                        "application/json": components["schemas"]["ViewProductDto"][];
+                        "text/json": components["schemas"]["ViewProductDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Product/customer-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    searchTerm?: string;
+                    genderTarget?: components["schemas"]["GenderTarget"];
+                    ageRange?: components["schemas"]["AgeRange"];
+                    categoryId?: number;
+                    brandId?: number;
                 };
                 header?: never;
                 path?: never;
@@ -1838,6 +1948,95 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Promotion/customer-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    discountType?: components["schemas"]["DiscountType"];
+                    productId?: number;
+                    categoryId?: number;
+                    brandId?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewPromotionDto"][];
+                        "application/json": components["schemas"]["ViewPromotionDto"][];
+                        "text/json": components["schemas"]["ViewPromotionDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Promotion/admin-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    discountType?: components["schemas"]["DiscountType"];
+                    productId?: number;
+                    categoryId?: number;
+                    brandId?: number;
+                    startDate?: string;
+                    endDate?: string;
+                    isActive?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewPromotionDto"][];
+                        "application/json": components["schemas"]["ViewPromotionDto"][];
+                        "text/json": components["schemas"]["ViewPromotionDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Set": {
         parameters: {
             query?: never;
@@ -1860,9 +2059,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["ViewSetDto"][];
-                        "application/json": components["schemas"]["ViewSetDto"][];
-                        "text/json": components["schemas"]["ViewSetDto"][];
+                        "text/plain": components["schemas"]["ViewSetDetailDto"][];
+                        "application/json": components["schemas"]["ViewSetDetailDto"][];
+                        "text/json": components["schemas"]["ViewSetDetailDto"][];
                     };
                 };
             };
@@ -1888,12 +2087,27 @@ export interface paths {
                 };
             };
             responses: {
-                /** @description OK */
-                200: {
+                /** @description Created */
+                201: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["CreateSetResponseDto"];
+                        "application/json": components["schemas"]["CreateSetResponseDto"];
+                        "text/json": components["schemas"]["CreateSetResponseDto"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
                 };
             };
         };
@@ -1927,9 +2141,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["ViewSetDto"];
-                        "application/json": components["schemas"]["ViewSetDto"];
-                        "text/json": components["schemas"]["ViewSetDto"];
+                        "text/plain": components["schemas"]["ViewSetDetailDto"];
+                        "application/json": components["schemas"]["ViewSetDetailDto"];
+                        "text/json": components["schemas"]["ViewSetDetailDto"];
                     };
                 };
             };
@@ -1955,6 +2169,62 @@ export interface paths {
                     };
                 };
             };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Set/change-status/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: {
+                    status?: components["schemas"]["ProductStatus"];
+                };
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
             responses: {
                 /** @description OK */
                 200: {
@@ -2021,7 +2291,29 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put?: never;
+        put: {
+            parameters: {
+                query?: {
+                    quantity?: number;
+                };
+                header?: never;
+                path: {
+                    setId: number;
+                    productId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         post?: never;
         delete: {
             parameters: {
@@ -2044,6 +2336,85 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Set/customer-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewSetDetailDto"][];
+                        "application/json": components["schemas"]["ViewSetDetailDto"][];
+                        "text/json": components["schemas"]["ViewSetDetailDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Set/admin-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    status?: components["schemas"]["ProductStatus"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewSetDetailDto"][];
+                        "application/json": components["schemas"]["ViewSetDetailDto"][];
+                        "text/json": components["schemas"]["ViewSetDetailDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2263,6 +2634,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Staff/filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    searchTerm?: string;
+                    status?: components["schemas"]["AccountStatus"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewStaffDto"][];
+                        "application/json": components["schemas"]["ViewStaffDto"][];
+                        "text/json": components["schemas"]["ViewStaffDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Voucher": {
         parameters: {
             query?: never;
@@ -2452,6 +2863,87 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Voucher/customer-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    type?: components["schemas"]["DiscountType"];
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewVoucherSummaryDto"][];
+                        "application/json": components["schemas"]["ViewVoucherSummaryDto"][];
+                        "text/json": components["schemas"]["ViewVoucherSummaryDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Voucher/admin-filter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    name?: string;
+                    type?: components["schemas"]["DiscountType"];
+                    isActive?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewVoucherSummaryDto"][];
+                        "application/json": components["schemas"]["ViewVoucherSummaryDto"][];
+                        "text/json": components["schemas"]["ViewVoucherSummaryDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Warehouse": {
         parameters: {
             query?: never;
@@ -2494,16 +2986,33 @@ export interface paths {
                     "multipart/form-data": {
                         Name: string;
                         Location: string;
+                        /** Format: int32 */
+                        LowStockThreshold?: number;
                     };
                 };
             };
             responses: {
-                /** @description OK */
-                200: {
+                /** @description Created */
+                201: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["CreateWarehouseResponseDto"];
+                        "application/json": components["schemas"]["CreateWarehouseResponseDto"];
+                        "text/json": components["schemas"]["CreateWarehouseResponseDto"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
                 };
             };
         };
@@ -2592,6 +3101,65 @@ export interface paths {
                 };
             };
         };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Warehouse/{warehouseId}/low-stock-threshold": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    warehouseId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["UpdateLowStockThresholdDto"];
+                    "text/json": components["schemas"]["UpdateLowStockThresholdDto"];
+                    "application/*+json": components["schemas"]["UpdateLowStockThresholdDto"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -2722,9 +3290,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    name?: string;
-                    origin?: string;
-                    material?: string;
+                    searchTerm?: string;
                     genderTarget?: components["schemas"]["GenderTarget"];
                     ageRange?: components["schemas"]["AgeRange"];
                     categoryId?: number;
@@ -2743,9 +3309,9 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": components["schemas"]["ViewProductDto"][];
-                        "application/json": components["schemas"]["ViewProductDto"][];
-                        "text/json": components["schemas"]["ViewProductDto"][];
+                        "text/plain": components["schemas"]["ViewWarehouseProductDto"][];
+                        "application/json": components["schemas"]["ViewWarehouseProductDto"][];
+                        "text/json": components["schemas"]["ViewWarehouseProductDto"][];
                     };
                 };
             };
@@ -2817,6 +3383,11 @@ export interface components {
             /** Format: int32 */
             quantity?: number;
         };
+        CreateSetResponseDto: {
+            /** Format: int32 */
+            setId?: number;
+            message?: string | null;
+        };
         CreateStaffDto: {
             email: string;
             password: string;
@@ -2841,6 +3412,23 @@ export interface components {
             /** Format: int32 */
             quantity: number;
         };
+        CreateWarehouseResponseDto: {
+            /** Format: int32 */
+            warehouseId?: number;
+            message?: string | null;
+        };
+        DashboardSummaryDto: {
+            /** Format: int32 */
+            totalWarehouses?: number;
+            /** Format: int32 */
+            totalStaff?: number;
+            /** Format: int32 */
+            totalInventoryQty?: number;
+            /** Format: int32 */
+            lowStockCount?: number;
+            /** Format: int32 */
+            totalProducts?: number;
+        };
         /**
          * Format: int32
          * @enum {integer}
@@ -2854,6 +3442,23 @@ export interface components {
         LoginDto: {
             email: string;
             password: string;
+        };
+        LowStockItemDto: {
+            /** Format: int32 */
+            warehouseId?: number;
+            warehouseName?: string | null;
+            /** Format: int32 */
+            productId?: number;
+            productName?: string | null;
+            /** Format: int32 */
+            productWarehouseId?: number;
+            /** Format: int32 */
+            quantity?: number;
+            /** Format: int32 */
+            thresholdUsed?: number;
+            imageUrl?: string | null;
+            /** Format: double */
+            price?: number;
         };
         OrderDetailDto: {
             /** Format: int32 */
@@ -2922,6 +3527,16 @@ export interface components {
             virtualAccountNumber?: string | null;
             signature?: string | null;
         };
+        ProblemDetails: {
+            type?: string | null;
+            title?: string | null;
+            /** Format: int32 */
+            status?: number | null;
+            detail?: string | null;
+            instance?: string | null;
+        } & {
+            [key: string]: unknown;
+        };
         /**
          * Format: int32
          * @enum {integer}
@@ -2938,6 +3553,10 @@ export interface components {
             imageUrl?: string | null;
             /** Format: double */
             price?: number;
+        };
+        UpdateLowStockThresholdDto: {
+            /** Format: int32 */
+            threshold?: number;
         };
         UpdateStaffDto: {
             email?: string | null;
@@ -2996,6 +3615,8 @@ export interface components {
             material?: string | null;
             gender?: string | null;
             ageRange?: string | null;
+            genderTarget?: components["schemas"]["GenderTarget"];
+            ageRangeValue?: components["schemas"]["AgeRange"];
             status?: string | null;
             /** Format: int32 */
             categoryId?: number;
@@ -3041,7 +3662,7 @@ export interface components {
             endDate?: string | null;
             isActive?: boolean;
         };
-        ViewSetDto: {
+        ViewSetDetailDto: {
             /** Format: int32 */
             setId?: number;
             name?: string | null;
@@ -3050,12 +3671,23 @@ export interface components {
             discountPercent?: number;
             imageUrl?: string | null;
             status?: components["schemas"]["ProductStatus"];
-            /** Format: int32 */
-            totalItems?: number;
             /** Format: double */
             price?: number;
             /** Format: double */
             savings?: number;
+            /** Format: int32 */
+            totalItems?: number;
+            products?: components["schemas"]["ViewSetProductDto"][] | null;
+        };
+        ViewSetProductDto: {
+            /** Format: int32 */
+            productId?: number;
+            productName?: string | null;
+            imageUrl?: string | null;
+            /** Format: double */
+            unitPrice?: number;
+            /** Format: int32 */
+            quantity?: number;
         };
         ViewStaffDto: {
             /** Format: int32 */
@@ -3067,7 +3699,7 @@ export interface components {
             role?: string | null;
             status?: string | null;
             /** Format: int32 */
-            warehouseId?: number;
+            warehouseId?: number | null;
             warehouseName?: string | null;
             warehouseLocation?: string | null;
         };
@@ -3118,11 +3750,41 @@ export interface components {
             validTo?: string | null;
             isActive?: boolean;
         };
+        ViewWarehouseProductDto: {
+            /** Format: int32 */
+            productId?: number;
+            name?: string | null;
+            description?: string | null;
+            /** Format: double */
+            price?: number;
+            imageUrl?: string | null;
+            origin?: string | null;
+            material?: string | null;
+            gender?: string | null;
+            ageRange?: string | null;
+            genderTarget?: components["schemas"]["GenderTarget"];
+            ageRangeValue?: components["schemas"]["AgeRange"];
+            status?: string | null;
+            /** Format: int32 */
+            categoryId?: number;
+            categoryName?: string | null;
+            /** Format: int32 */
+            brandId?: number;
+            brandName?: string | null;
+            /** Format: int32 */
+            productWarehouseId?: number;
+            /** Format: int32 */
+            warehouseId?: number;
+            /** Format: int32 */
+            totalQuantity?: number;
+        };
         WarehouseDetailDto: {
             /** Format: int32 */
             warehouseId?: number;
             name?: string | null;
             location?: string | null;
+            /** Format: int32 */
+            lowStockThreshold?: number;
             products?: components["schemas"]["ProductStockDto"][] | null;
             /** Format: int32 */
             totalProducts?: number;
