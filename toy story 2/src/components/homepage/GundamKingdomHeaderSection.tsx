@@ -1,8 +1,6 @@
 import React from "react";
 import { SectionTitle } from "./SectionTitle";
-
-// Figma MCP Asset URLs
-const image12 = "https://www.figma.com/api/mcp/asset/90b57607-01f4-436a-84b7-bf19c8142dc8";
+import { SECTION_ICON, DECOR_TET_PANEL } from "../../constants/imageAssets";
 
 export const GundamKingdomHeaderSection = (): React.JSX.Element => {
   return (
@@ -11,11 +9,17 @@ export const GundamKingdomHeaderSection = (): React.JSX.Element => {
       <img
         className="absolute top-[1073px] left-[382px] w-[53px] h-[53px] aspect-[1] object-cover"
         alt="Section icon"
-        src={image12}
+        src={SECTION_ICON}
       />
       <SectionTitle top="1193px" left="368px">
         GUNDAM KINGDOM
       </SectionTitle>
+      {/* Panel trang trí "Vui đón TẾT" bên trái (theo Figma) */}
+      <img
+        className="absolute top-[1230px] left-[134px] w-[220px] h-[280px] object-cover object-center rounded-xl overflow-hidden"
+        alt="Vui đón Tết"
+        src={DECOR_TET_PANEL}
+      />
     </section>
   );
 };

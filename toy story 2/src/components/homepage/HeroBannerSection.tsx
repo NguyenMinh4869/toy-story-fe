@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
+import { DECOR_FIRECRACKERS_CLOUD, DECOR_FANS_INGOTS } from "../../constants/imageAssets";
 
-// Figma MCP Asset URLs
+// Figma MCP Asset URL (hero slide)
 const image36 = "https://www.figma.com/api/mcp/asset/16661e53-92cf-4ab5-9f06-7c063eda908a";
-const decorImageSlider11 = "https://www.figma.com/api/mcp/asset/e5fe30ab-bbfd-4bcc-9888-c3aa41d1059f";
-const decorImageSlider21 = "https://www.figma.com/api/mcp/asset/7d376ed9-b011-4185-980e-795c277b1fdb";
 
 interface HeroBannerSectionProps {
   page?: number;
@@ -45,15 +44,17 @@ export const HeroBannerSection = ({
         </div>
       </div>
 
+      {/* Trang trí trái: pháo + mây vàng */}
       <img
-        className="absolute top-[143px] left-[65px] w-[248px] h-[248px] aspect-[1] object-cover"
-        alt="Decorative slider element"
-        src={decorImageSlider11}
+        className="absolute top-[120px] left-[40px] w-[220px] h-[280px] object-contain object-top-left"
+        alt="Trang trí pháo và mây vàng"
+        src={DECOR_FIRECRACKERS_CLOUD}
       />
+      {/* Trang trí phải: quạt + mây + thỏi vàng */}
       <img
-        className="absolute top-[343px] left-[850px] w-[296px] h-[148px] aspect-[2] object-cover"
-        alt="Decorative slider element"
-        src={decorImageSlider21}
+        className="absolute top-[280px] left-[820px] w-[280px] h-[200px] object-contain object-bottom-right"
+        alt="Trang trí quạt, mây và thỏi vàng"
+        src={DECOR_FANS_INGOTS}
       />
     </section>
   );

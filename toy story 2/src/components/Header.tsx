@@ -5,6 +5,7 @@ import { Search, User, ShoppingBag, ChevronDown, LogOut, UserCircle } from 'luci
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../hooks/useAuth'
 import ProductsDropdown from './ProductsDropdown'
+import { LOGO_TOY_STORY } from '../constants/imageAssets'
 
 const Header: React.FC = () => {
   const { getTotalItems, openCart } = useCart()
@@ -44,8 +45,8 @@ const Header: React.FC = () => {
       <div className="max-w-[1800px] mx-auto flex items-center justify-between mb-[30px]">
         <Link to="/" className="relative h-[47px] flex items-center no-underline text-inherit">
           <img 
-            src="https://www.figma.com/api/mcp/asset/a3292b82-feb6-483d-a4f2-619ec8b796dd" 
-            alt="Logo" 
+            src={LOGO_TOY_STORY} 
+            alt="TOY STORY Logo" 
             className="h-[47px] w-auto"
             onError={handleImageError}
           />

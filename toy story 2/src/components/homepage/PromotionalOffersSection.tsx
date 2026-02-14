@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import type { ViewProductDto } from "../../types/ProductDTO";
 import { ProductCard } from "../ProductCard";
-import { PRODUCT_IMAGE_87, DECOR_TOP_PRODUCT_CARD } from "../../constants/imageAssets";
+import { PRODUCT_IMAGE_87, DECOR_RED_ENVELOPE } from "../../constants/imageAssets";
 
 // Figma MCP Asset URL for decorative line
 const decorativeLine = "https://www.figma.com/api/mcp/asset/d3ec4de9-3478-4971-9327-7ad41ea78b50";
@@ -66,14 +66,14 @@ export const PromotionalOffersSection = ({
           style={{ transform: `translateX(-${safePage * 100}%)` }}
         >
           {pages.map((pageProducts, pageIndex) => (
-            <div key={`promo-page-${pageIndex}`} className="w-full shrink-0 h-full">
-              <div className="pt-[100px] px-[21px] flex gap-x-[34px]">
+            <div key={`promo-page-${pageIndex}`} className="w-full shrink-0 h-full flex items-center justify-center">
+              <div className="pt-[100px] px-[21px] grid grid-cols-4 gap-x-[34px] w-[991px] justify-items-center">
                 {pageProducts.map((product) => (
-                  <article key={product.productId} className="relative w-[203px] h-[309px]">
+                  <article key={product.productId} className="relative w-[203px] h-[309px] shrink-0">
                     <img
-                      className="absolute top-0 left-[23px] w-[157px] h-[53px] aspect-[2.95] object-cover z-10"
-                      alt="Decorative element"
-                      src={DECOR_TOP_PRODUCT_CARD}
+                      className="absolute top-0 left-1/2 -translate-x-1/2 w-[80px] h-[70px] object-contain z-10"
+                      alt=""
+                      src={DECOR_RED_ENVELOPE}
                     />
                     <ProductCard
                       product={product}
@@ -81,6 +81,7 @@ export const PromotionalOffersSection = ({
                       style={{ top: "24px", left: "0" }}
                       backgroundImage={PRODUCT_IMAGE_87}
                       decorativeLine={decorativeLine}
+                      discount={30}
                     />
                   </article>
                 ))}

@@ -2,9 +2,10 @@ import React from "react";
 import type { ViewBrandDto } from "../../types/BrandDTO";
 import { SectionHeader } from "./SectionHeader";
 import { SectionTitle } from "./SectionTitle";
+import { Link } from "react-router-dom";
+import { SECTION_ICON, POLYGON_ARROW } from "../../constants/imageAssets";
+import { ROUTES } from "../../routes/routePaths";
 
-// Figma MCP Asset URLs
-const image132 = "https://www.figma.com/api/mcp/asset/90b57607-01f4-436a-84b7-bf19c8142dc8";
 const image24 = "https://www.figma.com/api/mcp/asset/bc780d28-b30d-4701-8754-4995225b004d";
 
 interface BrandsSectionProps {
@@ -29,7 +30,7 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
   return (
     <section aria-label="Thương hiệu uy tín">
       <SectionHeader 
-        iconSrc={image132}
+        iconSrc={SECTION_ICON}
         top="2019px"
         left="409px"
       />
@@ -59,6 +60,14 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
               src={logo.src}
             />
           ))}
+
+          <Link
+            to={ROUTES.BRANDS}
+            className="absolute top-[2380px] left-[514px] w-[172px] h-[54px] flex items-center justify-center rounded-[34px] bg-[linear-gradient(180deg,rgba(254,246,204,1)_3%,rgba(243,212,51,1)_100%)] hover:opacity-90 no-underline text-[#c40029] font-tilt-warp text-[15px]"
+          >
+            Xem Thêm
+            <img className="w-2 h-2.5 ml-2 object-contain" alt="" src={POLYGON_ARROW} />
+          </Link>
         </>
       ) : !isLoading && (
         <div className="absolute top-[2193px] left-[132px] w-[800px] text-center">
