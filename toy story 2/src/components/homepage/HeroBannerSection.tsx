@@ -1,8 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { DECOR_FIRECRACKERS_CLOUD, DECOR_FANS_INGOTS } from "../../constants/imageAssets";
+import { HomeCarousel, type CarouselSlide } from "./HomeCarousel";
 
 // Figma MCP Asset URL (hero slide)
 const image36 = "https://www.figma.com/api/mcp/asset/16661e53-92cf-4ab5-9f06-7c063eda908a";
+
+const paroselImagesModules = import.meta.glob("../../assets/parosel/*.{png,jpg,jpeg,webp,gif,svg}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+const paroselImages = Object.entries(paroselImagesModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, src]) => src);
 
 interface HeroBannerSectionProps {
   page?: number;
@@ -13,49 +23,47 @@ interface HeroBannerSectionProps {
 export const HeroBannerSection = ({
   page = 0,
   onPageChange,
-  maxPages = 3,
+  maxPages,
 }: HeroBannerSectionProps): React.JSX.Element => {
-  // NOTE: Only one hero image is currently available in the repo.
-  // We still implement the carousel so you can later swap in real slide images.
-  const slides = Array.from({ length: Math.max(1, maxPages) }).map(() => image36);
-  const pageCount = slides.length;
-  const safePage = Math.max(0, Math.min(page, pageCount - 1));
+  const sourceImages = paroselImages.length > 0 ? paroselImages : [image36];
+  const limit =
+    typeof maxPages === "number" ? Math.max(1, Math.min(maxPages, sourceImages.length)) : sourceImages.length;
+  const carouselSlides: CarouselSlide[] = sourceImages.slice(0, limit).map((src, i) => ({
+    id: `parosel-${i + 1}`,
+    image: src,
+  }));
 
-  useEffect(() => {
-    if (safePage !== page) onPageChange?.(safePage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [safePage]);
+  const safePage = Math.max(0, Math.min(page, carouselSlides.length - 1));
 
   return (
-    <section aria-label="Hero banner">
-      <div className="absolute top-[165px] left-[111px] w-[994px] h-[306px] rounded-[20px] overflow-hidden">
-        <div
-          className="flex h-full transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${safePage * 100}%)` }}
-        >
-          {slides.map((src, i) => (
-            <img
-              key={`hero-slide-${i}`}
-              className="w-full h-full shrink-0 object-cover"
-              alt={`Main banner ${i + 1}`}
-              src={src}
-            />
-          ))}
+    <section aria-label="Hero banner" className="relative">
+      {/* Banner wrapper so decorations align with banner */}
+      <div className="absolute top-[120px] left-0 w-full">
+        <div className="relative w-full">
+          {/* Main Carousel */}
+          <HomeCarousel
+            slides={carouselSlides}
+            autoPlay={true}
+            autoPlayInterval={5000}
+            currentSlide={safePage}
+            onSlideChange={onPageChange}
+            heightClassName="h-[420px]"
+          />
+
+          {/* Trang trí trái trên: pháo + mây vàng (góc trên trái của carousel) */}
+          <img
+            className="absolute left-0 top-0 -translate-x-[-10px] -translate-y-[40px] w-[240px] h-[280px] object-contain z-20 pointer-events-none"
+            alt="Trang trí pháo và mây vàng"
+            src={DECOR_FIRECRACKERS_CLOUD}
+          />
+          {/* Trang trí phải dưới: quạt + mây + thỏi vàng (góc dưới phải của carousel) */}
+          <img
+            className="absolute right-0 bottom-0 translate-x-[-10px] translate-y-[50px] w-[300px] h-[220px] object-contain z-20 pointer-events-none"
+            alt="Trang trí quạt, mây và thỏi vàng"
+            src={DECOR_FANS_INGOTS}
+          />
         </div>
       </div>
-
-      {/* Trang trí trái: pháo + mây vàng */}
-      <img
-        className="absolute top-[120px] left-[40px] w-[220px] h-[280px] object-contain object-top-left"
-        alt="Trang trí pháo và mây vàng"
-        src={DECOR_FIRECRACKERS_CLOUD}
-      />
-      {/* Trang trí phải: quạt + mây + thỏi vàng */}
-      <img
-        className="absolute top-[280px] left-[820px] w-[280px] h-[200px] object-contain object-bottom-right"
-        alt="Trang trí quạt, mây và thỏi vàng"
-        src={DECOR_FANS_INGOTS}
-      />
     </section>
   );
 };
