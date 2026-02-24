@@ -107,6 +107,7 @@ const FilterCheckbox = ({ id, label, count, checked, onChange, disabled = false 
 
 
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({
+  onCategoryChange,
   onPriceChange,
   onAgeChange,
   onBrandChange,
