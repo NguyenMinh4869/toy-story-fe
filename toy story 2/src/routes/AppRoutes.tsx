@@ -9,6 +9,8 @@ import CamNangPage from '../pages/CamNangPage'
 import CamNangDetailPage from '../pages/CamNangDetailPage'
 import { ROUTES } from './routePaths'
 import PromotionPage from '../pages/PromotionPage'
+import VoucherPage from '../pages/VoucherPage'
+import SetPage from '../pages/SetPage'
 import DashboardLayout from '../layouts/DashboardLayout'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -28,6 +30,12 @@ import StaffBrandManagementPage from '../pages/staff/StaffBrandManagementPage'
 import StaffSetManagementPage from '../pages/staff/StaffSetManagementPage'
 import StaffPromotionManagementPage from '../pages/staff/StaffPromotionManagementPage'
 import StaffWarehouseManagementPage from '../pages/staff/StaffWarehouseManagementPage'
+
+// User Pages
+import ProfilePage from '../pages/ProfilePage'
+import OrderHistoryPage from '../pages/OrderHistoryPage'
+import WishlistPage from '../pages/WishlistPage'
+import ChangePasswordPage from '../pages/ChangePasswordPage'
 
 const AppRoutes: React.FC = () => {
   return (
@@ -57,6 +65,14 @@ const AppRoutes: React.FC = () => {
         <Route path={ROUTES.STAFF_WAREHOUSE} element={<DashboardLayout mode="staff"><StaffWarehouseManagementPage /></DashboardLayout>} />
       </Route>
 
+      {/* Member/User Routes - All authenticated users */}
+      <Route element={<ProtectedRoute allowedRoles={['Admin', 'Staff', 'Member']} />}>
+        <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
+        <Route path={ROUTES.PROFILE_ORDERS} element={<OrderHistoryPage />} />
+        <Route path={ROUTES.PROFILE_WISHLIST} element={<WishlistPage />} />
+        <Route path={ROUTES.PROFILE_CHANGE_PASSWORD} element={<ChangePasswordPage />} />
+      </Route>
+
       {/* Auth Routes */}
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
       {/* <Route path={ROUTES.REGISTER} element={<RegisterPage />} /> */}
@@ -72,6 +88,12 @@ const AppRoutes: React.FC = () => {
 
       {/* Promotion Route */}
       <Route path="/promotion" element={<PromotionPage />} />
+
+      {/* Voucher Route (FR-3: customer-filter) */}
+      <Route path={ROUTES.VOUCHERS} element={<VoucherPage />} />
+
+      {/* Set Route (FR-5: customer-filter) */}
+      <Route path={ROUTES.SETS} element={<SetPage />} />
       
       {/* Other Pages */}
       <Route path={ROUTES.CAM_NANG} element={<CamNangPage />} />

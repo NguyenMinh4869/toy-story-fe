@@ -4,9 +4,9 @@ import type { components } from '../types/generated'
 
 type UpdateLowStockThresholdDto = components['schemas']['UpdateLowStockThresholdDto']
 
+export type WarehouseProductDto = components['schemas']['ProductStockDto']
 export type ProductStockDto = components['schemas']['ProductStockDto']
-
-type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto']
+export type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto']
 
 export const getWarehouses = async (): Promise<WarehouseSummaryDto[]> => {
   const response = await apiGet<WarehouseSummaryDto[]>('/warehouses')
@@ -67,21 +67,37 @@ export const getWarehouseProductsWithDetails = async (warehouseId: number): Prom
   return (warehouseDetail.products || []) as ProductStockDto[]
 }
 
+/**
+ * GET /api/warehouses/staff
+ * Returns products in the current staff member's warehouse (requires Staff auth)
+ */
 export const getWarehouseProductsForStaff = async (): Promise<components['schemas']['ViewWarehouseProductDto'][]> => {
   const response = await apiGet<components['schemas']['ViewWarehouseProductDto'][]>('/warehouses/staff')
   return response.data
 }
 
+/**
+ * PUT /api/warehouses/{productWarehouseId}/product
+ * Update quantity of a product in a warehouse
+ */
 export const updateWarehouseProduct = async (productWarehouseId: number, quantity: number): Promise<{ message: string }> => {
   const response = await apiPut<{ message: string }>(`/warehouses/${productWarehouseId}/product`, quantity)
   return response.data
 }
 
+/**
+ * POST /api/warehouses/product
+ * Add a product to a warehouse
+ */
 export const addWarehouseProduct = async (data: CreateWarehouseProductDto): Promise<{ message: string }> => {
   const response = await apiPost<{ message: string }>('/warehouses/product', data)
   return response.data
 }
 
+/**
+ * DELETE /api/warehouses/{productWarehouseId}/product
+ * Remove a product from a warehouse
+ */
 export const removeWarehouseProduct = async (productWarehouseId: number): Promise<{ message: string }> => {
   const response = await apiDelete<{ message: string }>(`/warehouses/${productWarehouseId}/product`)
   return response.data

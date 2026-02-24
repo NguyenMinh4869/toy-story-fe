@@ -1,10 +1,9 @@
 /**
  * Promotion Service
  * API service for promotion-related operations matching .NET backend
- * 
- * NOTE: PromotionController requires Admin authorization.
- * If you need public access to active promotions, consider adding a public endpoint
- * like [HttpGet("active")] in your PromotionController.
+ *
+ * NOTE: PromotionController requires Admin authorization for most endpoints.
+ * customer-filter is public.
  */
 
 import { apiGet, apiPostForm, apiPutForm } from './apiClient'
@@ -20,11 +19,26 @@ export const getPromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
 }
 
 /**
- * Get promotions using customer-filter endpoint (no auth required)
- * Use this for staff/public access
+ * Get promotions for customer listing (public endpoint)
+ * GET /api/promotions/customer-filter
+ * Optional query: name, discountType, productId, categoryId, brandId
  */
-export const getPromotionsCustomerFilter = async (): Promise<ViewPromotionSummaryDto[]> => {
-  const response = await apiGet<ViewPromotionSummaryDto[]>('/promotions/customer-filter')
+export const getPromotionsCustomerFilter = async (params?: {
+  name?: string
+  discountType?: number
+  productId?: number
+  categoryId?: number
+  brandId?: number
+}): Promise<ViewPromotionDto[]> => {
+  const queryParams = new URLSearchParams()
+  if (params?.name) queryParams.append('name', params.name)
+  if (params?.discountType !== undefined) queryParams.append('discountType', String(params.discountType))
+  if (params?.productId !== undefined) queryParams.append('productId', String(params.productId))
+  if (params?.categoryId !== undefined) queryParams.append('categoryId', String(params.categoryId))
+  if (params?.brandId !== undefined) queryParams.append('brandId', String(params.brandId))
+
+  const endpoint = `/promotions/customer-filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+  const response = await apiGet<ViewPromotionDto[]>(endpoint)
   return response.data
 }
 
@@ -37,12 +51,7 @@ export const getPromotionById = async (promotionId: number): Promise<ViewPromoti
 }
 
 /**
- * Get active promotions (Admin only - requires authentication)
- * 
- * NOTE: This filters client-side. For better performance, consider adding
- * a public endpoint in your backend like:
- * [HttpGet("active")]
- * public async Task<ActionResult<List<ViewPromotionSummaryDto>>> GetActivePromotionsAsync()
+ * Get active promotions — filters client-side from all promotions
  */
 export const getActivePromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
   const allPromotions = await getPromotions()
@@ -51,7 +60,7 @@ export const getActivePromotions = async (): Promise<ViewPromotionSummaryDto[]> 
 
 /**
  * Create promotion (Admin only)
- * POST /api/promotion
+ * POST /api/promotions
  */
 export const createPromotion = async (data: CreatePromotionDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -65,7 +74,7 @@ export const createPromotion = async (data: CreatePromotionDto, imageFile?: File
 
 /**
  * Update promotion (Admin only)
- * PUT /api/promotion/{promotionId}
+ * PUT /api/promotions/{promotionId}
  */
 export const updatePromotion = async (promotionId: number, data: UpdatePromotionDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -79,7 +88,7 @@ export const updatePromotion = async (promotionId: number, data: UpdatePromotion
 
 /**
  * Change promotion status (Admin only)
- * PUT /api/promotion/change-status/{promotionId}
+ * PUT /api/promotions/status/{promotionId}
  */
 export const changePromotionStatus = async (promotionId: number): Promise<{ message: string }> => {
   const form = new FormData()
@@ -89,9 +98,7 @@ export const changePromotionStatus = async (promotionId: number): Promise<{ mess
 
 /**
  * Delete promotion (alias to change-status to deactivate)
- * Backend does not expose delete, so we toggle status
  */
 export const deletePromotion = async (promotionId: number): Promise<{ message: string }> => {
   return changePromotionStatus(promotionId)
 }
-

@@ -3,11 +3,10 @@ import type { ViewProductDto } from "../../types/ProductDTO";
 import { SectionHeader } from "./SectionHeader";
 import { SectionTitle } from "./SectionTitle";
 
+import { SECTION_ICON, DECOR_RED_ENVELOPE } from "../../constants/imageAssets";
+
 // Figma MCP Asset URLs
-const image13 = "https://www.figma.com/api/mcp/asset/90b57607-01f4-436a-84b7-bf19c8142dc8";
-const decorDynamicBrand21 = "https://www.figma.com/api/mcp/asset/c18966b1-02ef-44dc-b6e0-7ce67b29570f";
 const image20 = "https://www.figma.com/api/mcp/asset/f8d42236-59cd-4852-bcb7-126b11fed0d1";
-// Decorative frame overlay that sits on top of the product photo (transparent center)
 const favoriteCardFrame = "https://www.figma.com/api/mcp/asset/65922a4e-cf15-4803-971c-a52562301534";
 
 interface FavoriteProductsSectionProps {
@@ -49,7 +48,7 @@ export const FavoriteProductsSection = ({
   return (
     <section aria-label="Đồ chơi yêu thích">
       <SectionHeader 
-        iconSrc={image13}
+        iconSrc={SECTION_ICON}
         top="1588px"
         left="391px"
       />
@@ -71,11 +70,11 @@ export const FavoriteProductsSection = ({
               >
                 {pageProducts.map((product) => (
                   <div key={product.productId} className="relative w-[220px] h-[240px]">
-                    {/* Decorative banner */}
+                    {/* Trang trí lì xì trên thẻ (theo Figma) */}
                     <img
-                      className="absolute top-0 left-1/2 -translate-x-1/2 w-[217px] h-9 object-cover z-20"
-                      alt="Brand decoration"
-                      src={decorDynamicBrand21}
+                      className="absolute top-0 left-1/2 -translate-x-1/2 w-[70px] h-[75px] object-contain z-20"
+                      alt="Trang trí lì xì"
+                      src={DECOR_RED_ENVELOPE}
                     />
                     {/* Product image (underlay) */}
                     <img

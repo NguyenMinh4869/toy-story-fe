@@ -5,14 +5,16 @@
 import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getPromotionsCustomerFilter } from '../../services/promotionService';
-import type { ViewPromotionDto as ViewPromotionSummaryDto } from '../../types/PromotionDTO';
+import type { ViewPromotionDto } from '../../types/PromotionDTO';
 import Modal from '../../components/ui/Modal';
 
 const StaffPromotionManagementPage: React.FC = () => {
-  const [promotions, setPromotions] = useState<ViewPromotionSummaryDto[]>([]);
+  const [promotions, setPromotions] = useState<ViewPromotionDto[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPromotion, setSelectedPromotion] = useState<ViewPromotionSummaryDto | null>(null);
+  const [selectedPromotion, setSelectedPromotion] = useState<ViewPromotionDto | null>(null);
+
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const StaffPromotionManagementPage: React.FC = () => {
     }
   };
 
-  const handleView = (promotion: ViewPromotionSummaryDto) => {
+  const handleView = (promotion: ViewPromotionDto) => {
     setSelectedPromotion(promotion);
     setIsViewModalOpen(true);
   };
@@ -93,10 +95,10 @@ const StaffPromotionManagementPage: React.FC = () => {
                   <tr key={promotion.promotionId} className="bg-white border-b hover:bg-gray-50">
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                       <div className="flex items-center">
-                        <img 
-                          className="w-10 h-10 rounded-md object-cover mr-4" 
-                          src={promotion.imageUrl || 'https://via.placeholder.com/40'} 
-                          alt={promotion.name || 'Promotion'} 
+                        <img
+                          className="w-10 h-10 rounded-md object-cover mr-4"
+                          src={promotion.imageUrl || 'https://via.placeholder.com/40'}
+                          alt={promotion.name || 'Promotion'}
                         />
                         <div>
                           <div className="font-semibold">{promotion.name}</div>
@@ -108,7 +110,7 @@ const StaffPromotionManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-semibold text-red-600">
-                        {promotion.discountType === 0 
+                        {promotion.discountType === 0
                           ? `${promotion.discountValue}%`
                           : `${promotion.discountValue?.toLocaleString()} VND`
                         }
@@ -124,11 +126,10 @@ const StaffPromotionManagementPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        promotion.isActive 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${promotion.isActive
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-gray-100 text-gray-800'
+                        }`}>
                         {promotion.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
@@ -163,6 +164,7 @@ const StaffPromotionManagementPage: React.FC = () => {
                 alt={selectedPromotion.name ?? 'Promotion'}
                 className="w-48 h-48 rounded-lg object-cover"
               />
+
             </div>
             <div className="space-y-3">
               <div>
@@ -206,11 +208,10 @@ const StaffPromotionManagementPage: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
-                <span className={`inline-block mt-1 px-3 py-1 text-sm font-semibold rounded-full ${
-                  selectedPromotion.isActive
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-800'
-                }`}>
+                <span className={`inline-block mt-1 px-3 py-1 text-sm font-semibold rounded-full ${selectedPromotion.isActive
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-gray-100 text-gray-800'
+                  }`}>
                   {selectedPromotion.isActive ? 'Active' : 'Inactive'}
                 </span>
               </div>

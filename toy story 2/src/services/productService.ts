@@ -29,17 +29,17 @@ export const getProductById = async (productId: number): Promise<ViewProductDto>
  */
 export const filterProductsPublic = async (params?: {
   searchTerm?: string
-  genderTarget?: 'Boy' | 'Girl' | 'Unisex'
-  ageRange?: 'ZeroToSixMonths' | 'SixToTwelveMonths' | 'OneToThreeYears' | 'ThreeToSixYears' | 'AboveSixYears'
+  genderTarget?: 'Boy' | 'Girl' | 'Unisex' | number
+  ageRange?: 'ZeroToSixMonths' | 'SixToTwelveMonths' | 'OneToThreeYears' | 'ThreeToSixYears' | 'AboveSixYears' | number
   categoryId?: number
   brandId?: number
 }): Promise<ViewProductDto[]> => {
   const queryParams = new URLSearchParams()
   if (params?.searchTerm) queryParams.append('searchTerm', params.searchTerm)
-  if (params?.genderTarget) queryParams.append('genderTarget', params.genderTarget)
-  if (params?.ageRange) queryParams.append('ageRange', params.ageRange)
-  if (params?.categoryId) queryParams.append('categoryId', params.categoryId.toString())
-  if (params?.brandId) queryParams.append('brandId', params.brandId.toString())
+  if (params?.genderTarget !== undefined) queryParams.append('genderTarget', String(params.genderTarget))
+  if (params?.ageRange !== undefined) queryParams.append('ageRange', String(params.ageRange))
+  if (params?.categoryId !== undefined) queryParams.append('categoryId', String(params.categoryId))
+  if (params?.brandId !== undefined) queryParams.append('brandId', String(params.brandId))
 
   const endpoint = `/products/customer-filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewProductDto[]>(endpoint)
@@ -57,6 +57,7 @@ export const filterProducts = async (params?: {
   categoryId?: number
   brandId?: number
   status?: 'Active' | 'Inactive' | 'OutOfStock'
+  promotionId?: number
 }): Promise<ViewProductDto[]> => {
   const queryParams = new URLSearchParams()
   if (params?.searchTerm) queryParams.append('searchTerm', params.searchTerm)
@@ -65,11 +66,18 @@ export const filterProducts = async (params?: {
   if (params?.categoryId) queryParams.append('categoryId', params.categoryId.toString())
   if (params?.brandId) queryParams.append('brandId', params.brandId.toString())
   if (params?.status) queryParams.append('status', params.status)
+  if (params?.promotionId) queryParams.append('promotionId', params.promotionId.toString())
 
   const endpoint = `/products/admin-filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewProductDto[]>(endpoint)
   return response.data
 }
+
+/**
+ * Alias for filterProductsPublic — for backward compatibility.
+ * Use filterProductsPublic directly in new code.
+ */
+export const getCustomerFilterProducts = filterProductsPublic
 
 /**
  * Get products by category ID (public - no auth required)
@@ -94,7 +102,7 @@ export const searchProducts = async (searchTerm: string): Promise<ViewProductDto
 
 /**
  * Create product (Admin only)
- * POST /api/product
+ * POST /api/products
  * multipart/form-data with fields aligned to backend DTO
  */
 export const createProduct = async (data: CreateProductDto, imageFile?: File): Promise<{ message: string }> => {
@@ -109,7 +117,7 @@ export const createProduct = async (data: CreateProductDto, imageFile?: File): P
 
 /**
  * Update product (Admin only)
- * PUT /api/product/{productId}
+ * PUT /api/products/{productId}
  */
 export const updateProduct = async (productId: number, data: UpdateProductDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -123,7 +131,7 @@ export const updateProduct = async (productId: number, data: UpdateProductDto, i
 
 /**
  * Change product status (Admin only)
- * PUT /api/product/change-status/{productId}
+ * PUT /api/products/status/{productId}
  */
 export const changeProductStatus = async (productId: number): Promise<{ message: string }> => {
   const form = new FormData()

@@ -14,6 +14,7 @@ export const getCategories = async (): Promise<ViewCategoryDto[]> => {
   return response.data
 }
 
+
 /**
  * Get category by ID (public endpoint)
  */

@@ -85,7 +85,7 @@ const StaffVoucherManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-semibold text-red-600">
-                        {voucher.discountType === 0 
+                        {voucher.discountType === 0
                           ? `${voucher.discountValue}%`
                           : `${voucher.discountValue?.toLocaleString()} VND`
                         }
@@ -105,8 +105,8 @@ const StaffVoucherManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        voucher.isActive 
-                          ? 'bg-green-100 text-green-800' 
+                        voucher.isActive
+                          ? 'bg-green-100 text-green-800'
                           : 'bg-gray-100 text-gray-800'
                       }`}>
                         {voucher.isActive ? 'Active' : 'Inactive'}

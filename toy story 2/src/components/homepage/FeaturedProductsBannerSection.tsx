@@ -1,43 +1,23 @@
 import React from "react";
-
-const LC2000WebTop1 = "https://www.figma.com/api/mcp/asset/095730ed-dfd3-46e4-8510-9a4f5cea6f1b";
-const decorTopProductCard = "https://www.figma.com/api/mcp/asset/cb65df8d-ab94-4273-904d-f9d409106b68";
+import { BANNER_LC2000, DECOR_LANTERNS_ENVELOPES } from "../../constants/imageAssets";
 
 export const FeaturedProductsBannerSection = (): React.JSX.Element => {
   return (
-    <section aria-label="Featured products">
+    <section aria-label="Cơ hội cuối">
       <img
-        className="absolute top-[584px] left-[111px] w-[991px] h-[149px] aspect-[6.67] object-cover"
-        alt="Promotional banner"
-        src={LC2000WebTop1}
+        className="absolute top-[584px] left-[111px] w-[991px] h-[149px] object-contain object-center"
+        alt="Cơ hội cuối - Mua nhanh kẻo lỡ"
+        src={BANNER_LC2000}
       />
-
-      {/* First card decoration - ADD THIS */}
       <img
-        className="absolute top-[748px] left-[161px] w-[157px] h-[53px] aspect-[2.95] object-cover"
-        alt="Product card decoration"
-        src={decorTopProductCard}
+        className="absolute top-[560px] left-[80px] w-[120px] h-[100px] object-contain opacity-90"
+        alt=""
+        src={DECOR_LANTERNS_ENVELOPES}
       />
-
-      {/* Second card decoration */}
       <img
-        className="absolute top-[748px] left-[406px] w-[157px] h-[53px] aspect-[2.95] object-cover"
-        alt="Product card decoration"
-        src={decorTopProductCard}
-      />
-
-      {/* Third card decoration */}
-      <img
-        className="absolute top-[742px] left-[651px] w-[157px] h-[53px] aspect-[2.95] object-cover"
-        alt="Product card decoration"
-        src={decorTopProductCard}
-      />
-
-      {/* Fourth card decoration */}
-      <img
-        className="absolute top-[742px] left-[885px] w-[157px] h-[53px] aspect-[2.95] object-cover"
-        alt="Product card decoration"
-        src={decorTopProductCard}
+        className="absolute top-[560px] left-[1000px] w-[120px] h-[100px] object-contain object-right opacity-90 scale-x-[-1]"
+        alt=""
+        src={DECOR_LANTERNS_ENVELOPES}
       />
     </section>
   );

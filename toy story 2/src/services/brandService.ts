@@ -14,6 +14,7 @@ export const getActiveBrands = async (): Promise<ViewBrandDto[]> => {
   return response.data
 }
 
+
 /**
  * Get brand by ID
  */
@@ -21,6 +22,7 @@ export const getBrandById = async (brandId: number): Promise<ViewBrandDto> => {
   const response = await apiGet<ViewBrandDto>(`/brands/${brandId}`)
   return response.data
 }
+
 
 /**
  * Filter brands (public endpoint with query parameters)
@@ -38,6 +40,7 @@ export const filterBrands = async (params?: {
   return response.data
 }
 
+
 /**
  * Create brand (Admin only)
  * POST /api/brand
@@ -50,6 +53,7 @@ export const createBrand = async (data: CreateBrandDto, imageFile?: File): Promi
   const response = await apiPostForm<{ message: string }>('/brands', form)
   return response.data
 }
+
 
 /**
  * Update brand (Admin only)
@@ -64,6 +68,7 @@ export const updateBrand = async (brandId: number, data: UpdateBrandDto, imageFi
   return response.data
 }
 
+
 /**
  * Change brand status (toggle Active/Inactive) (Admin only)
  * PUT /api/brand/change-status/{brandId}
@@ -73,4 +78,5 @@ export const changeBrandStatus = async (brandId: number): Promise<{ message: str
   const response = await apiPutForm<{ message: string }>(`/brands/status/${brandId}`, form)
   return response.data
 }
+
 

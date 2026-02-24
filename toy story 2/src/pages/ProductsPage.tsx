@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FilterSidebar, ProductGrid, Pagination } from '../components/productpage'
 import { BreadcrumbHeader } from '../components/BreadcrumbHeader'
-import { getActiveProducts } from '../services/productService'
+import { getCustomerFilterProducts } from '../services/productService'
 import type { ViewProductDto } from '../types/ProductDTO'
 
 // Breadcrumb items for the products page
@@ -16,13 +16,19 @@ export const ProductsPage: React.FC = () => {
   const [filteredProducts, setFilteredProducts] = useState<ViewProductDto[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
-  
+
   // View and sort state
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [sortBy, setSortBy] = useState('default')
+
+  // Filter criteria state
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<string[]>([])
+  const [selectedAgeRanges, setSelectedAgeRanges] = useState<string[]>([])
+  const [selectedBrandIds, setSelectedBrandIds] = useState<string[]>([])
+
 
   // Fetch products on mount
   useEffect(() => {
@@ -30,7 +36,7 @@ export const ProductsPage: React.FC = () => {
       try {
         setIsLoading(true)
         setError(null)
-        const data = await getActiveProducts()
+        const data = await getCustomerFilterProducts()
         setProducts(data)
         setFilteredProducts(data)
       } catch (err) {
@@ -44,32 +50,70 @@ export const ProductsPage: React.FC = () => {
     fetchProducts()
   }, [])
 
-  // Sort products when sortBy changes
+  // filter and sort products when criteria or sortBy changes
   useEffect(() => {
-    let sorted = [...filteredProducts]
-    
+    let result = [...products]
+
+    // 1. Filter by Price
+    if (selectedPriceRanges.length > 0) {
+      result = result.filter(product => {
+        const price = product.price || 0
+        return selectedPriceRanges.some(range => {
+          if (range === 'under-200k') return price < 200000
+          if (range === '200k-500k') return price >= 200000 && price <= 500000
+          if (range === '500k-1m') return price >= 500000 && price <= 1000000
+          if (range === '1m-2m') return price >= 1000000 && price <= 2000000
+          if (range === 'above-2m') return price > 2000000
+          return true
+        })
+      })
+    }
+
+    // 2. Filter by Age
+    if (selectedAgeRanges.length > 0) {
+      result = result.filter(product => {
+        const age = product.ageRangeValue // 0 | 1 | 2 | 3 | 4
+        return selectedAgeRanges.some(range => {
+          if (range === '0-12-months') return age === 0 || age === 1
+          if (range === '1-3') return age === 2
+          if (range === '3-6') return age === 3
+          if (range === '6-12') return age === 4
+          if (range === '12-plus') return age === 4 // Backend limit
+          return true
+        })
+      })
+    }
+
+    // 3. Filter by Brand
+    if (selectedBrandIds.length > 0) {
+      result = result.filter(product => {
+        return selectedBrandIds.includes(String(product.brandId))
+      })
+    }
+
+    // 4. Sort
     switch (sortBy) {
       case 'price-asc':
-        sorted.sort((a, b) => (a.price ?? 0) - (b.price ?? 0))
+        result.sort((a, b) => (a.price ?? 0) - (b.price ?? 0))
         break
       case 'price-desc':
-        sorted.sort((a, b) => (b.price ?? 0) - (a.price ?? 0))
+        result.sort((a, b) => (b.price ?? 0) - (a.price ?? 0))
         break
       case 'name-asc':
-        sorted.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
+        result.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''))
         break
       case 'name-desc':
-        sorted.sort((a, b) => (b.name ?? '').localeCompare(a.name ?? ''))
+        result.sort((a, b) => (b.name ?? '').localeCompare(a.name ?? ''))
         break
       default:
-        // Keep original order
-        sorted = [...products]
+        // Keep as is or add default sorting
         break
     }
-    
-    setFilteredProducts(sorted)
-    setCurrentPage(1) // Reset to first page when sorting changes
-  }, [sortBy])
+
+    setFilteredProducts(result)
+    setCurrentPage(1)
+  }, [products, sortBy, selectedPriceRanges, selectedAgeRanges, selectedBrandIds])
+
 
   // Calculate pagination
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
@@ -84,19 +128,17 @@ export const ProductsPage: React.FC = () => {
   }
 
   const handlePriceChange = (priceRanges: string[]) => {
-    console.log('Price ranges:', priceRanges)
-    // TODO: Implement price filtering
+    setSelectedPriceRanges(priceRanges)
   }
 
   const handleAgeChange = (ageRanges: string[]) => {
-    console.log('Age ranges:', ageRanges)
-    // TODO: Implement age filtering
+    setSelectedAgeRanges(ageRanges)
   }
 
   const handleBrandChange = (brands: string[]) => {
-    console.log('Brands:', brands)
-    // TODO: Implement brand filtering
+    setSelectedBrandIds(brands)
   }
+
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)

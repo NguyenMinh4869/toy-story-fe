@@ -15,6 +15,15 @@ import { POLYGON_RIGHT, POLYGON_LEFT, POLYGON_CENTER } from "../constants/imageA
 import type { ViewProductDto } from "../types/ProductDTO";
 import type { ViewBrandDto } from "../types/BrandDTO";
 
+const heroParoselModules = import.meta.glob("../assets/parosel/*.{png,jpg,jpeg,webp,gif,svg}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+const HERO_PAROSEL_IMAGES = Object.entries(heroParoselModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, src]) => src);
+
 export const Homepage = (): React.JSX.Element => {
   const [promotionalProducts, setPromotionalProducts] = useState<ViewProductDto[]>([]);
   const [gundamProducts, setGundamProducts] = useState<ViewProductDto[]>([]);
@@ -89,7 +98,7 @@ export const Homepage = (): React.JSX.Element => {
       promotionsPageCount <= 1 ? 0 : (p - 1 + promotionsPageCount) % promotionsPageCount
     );
 
-  const heroPageCount = 3;
+  const heroPageCount = Math.max(1, HERO_PAROSEL_IMAGES.length || 0);
   const goHeroNext = () => setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p + 1) % heroPageCount));
   const goHeroPrev = () =>
     setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p - 1 + heroPageCount) % heroPageCount));
@@ -116,8 +125,6 @@ export const Homepage = (): React.JSX.Element => {
     { top: "1890px", left: "1105px", polygon: POLYGON_RIGHT, direction: "right", onClick: goFavoritesNext },
     // Promotions carousel (right)
     { top: "881px", left: "1112px", polygon: POLYGON_CENTER, direction: "right", onClick: goPromotionsNext },
-    // Hero carousel (right)
-    { top: "277px", left: "1116px", polygon: POLYGON_CENTER, direction: "right", onClick: goHeroNext },
   ];
 
   const navigationButtonsLeft: NavigationButtonConfig[] = [
@@ -127,8 +134,6 @@ export const Homepage = (): React.JSX.Element => {
     { top: "1890px", left: "54px", polygon: POLYGON_LEFT, direction: "left", onClick: goFavoritesPrev },
     // Promotions carousel (left)
     { top: "886px", left: "44px", polygon: POLYGON_LEFT, direction: "left", onClick: goPromotionsPrev },
-    // Hero carousel (left)
-    { top: "292px", left: "39px", polygon: POLYGON_LEFT, direction: "left", onClick: goHeroPrev },
   ];
 
   return (
@@ -141,7 +146,7 @@ export const Homepage = (): React.JSX.Element => {
             </div>
           )}
 
-          <HeroBannerSection page={heroPage} onPageChange={setHeroPage} maxPages={3} />
+          <HeroBannerSection page={heroPage} onPageChange={setHeroPage} />
 
           <PromotionalOffersSection
             products={promotionalProducts}
