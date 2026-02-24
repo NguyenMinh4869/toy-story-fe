@@ -10,12 +10,12 @@ export type ProductStockDto = components['schemas']['ProductStockDto']
 type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto']
 
 export const getWarehouses = async (): Promise<WarehouseSummaryDto[]> => {
-  const response = await apiGet<WarehouseSummaryDto[]>('/Warehouse')
+  const response = await apiGet<WarehouseSummaryDto[]>('/warehouses')
   return response.data
 }
 
 export const getWarehouseById = async (warehouseId: number): Promise<WarehouseDetailDto> => {
-  const response = await apiGet<WarehouseDetailDto>(`/Warehouse/${warehouseId}`)
+  const response = await apiGet<WarehouseDetailDto>(`/warehouses/${warehouseId}`)
   return response.data
 }
 
@@ -26,7 +26,7 @@ export const createWarehouse = async (data: CreateWarehouseDto): Promise<CreateW
   if (typeof data.LowStockThreshold === 'number') {
     form.append('LowStockThreshold', String(data.LowStockThreshold))
   }
-  const response = await apiPostForm<CreateWarehouseResponseDto>('/Warehouse', form)
+  const response = await apiPostForm<CreateWarehouseResponseDto>('/warehouses', form)
   return response.data
 }
 
@@ -40,7 +40,7 @@ export const updateWarehouse = async (warehouseId: number, data: UpdateWarehouse
     form.append('LowStockThreshold', String(data.LowStockThreshold))
   }
 
-  const response = await apiPutForm<{ message: string }>(`/Warehouse/${warehouseId}`, form)
+  const response = await apiPutForm<{ message: string }>(`/warehouses/${warehouseId}`, form)
   return response.data
 }
 
@@ -49,17 +49,17 @@ export const updateWarehouseLowStockThreshold = async (
   threshold: number
 ): Promise<{ message: string }> => {
   const dto: UpdateLowStockThresholdDto = { threshold }
-  const response = await apiPut<{ message: string }>(`/Warehouse/${warehouseId}/low-stock-threshold`, dto)
+  const response = await apiPut<{ message: string }>(`/warehouses/${warehouseId}/low-stock-threshold`, dto)
   return response.data
 }
 
 export const deleteWarehouse = async (warehouseId: number): Promise<{ message: string }> => {
-  const response = await apiDelete<{ message: string }>(`/Warehouse/${warehouseId}`)
+  const response = await apiDelete<{ message: string }>(`/warehouses/${warehouseId}`)
   return response.data
 }
 
 export const getWarehouseProducts = async (warehouseId: number): Promise<WarehouseDetailDto> => {
-  const response = await apiGet<WarehouseDetailDto>(`/Warehouse/${warehouseId}`)
+  const response = await apiGet<WarehouseDetailDto>(`/warehouses/${warehouseId}`)
   return response.data
 }
 
@@ -69,21 +69,22 @@ export const getWarehouseProductsWithDetails = async (warehouseId: number): Prom
 }
 
 export const getWarehouseProductsForStaff = async (): Promise<components['schemas']['ViewWarehouseProductDto'][]> => {
-  const response = await apiGet<components['schemas']['ViewWarehouseProductDto'][]>('/Warehouse/get-product-from-staff')
+  const response = await apiGet<components['schemas']['ViewWarehouseProductDto'][]>('/warehouses/get-product-from-staff')
   return response.data
 }
 
 export const updateWarehouseProduct = async (productWarehouseId: number, quantity: number): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>(`/Warehouse/update-product/${productWarehouseId}`, quantity)
+  const response = await apiPut<{ message: string }>(`/warehouses/update-product/${productWarehouseId}`, quantity)
   return response.data
 }
 
 export const addWarehouseProduct = async (data: CreateWarehouseProductDto): Promise<{ message: string }> => {
-  const response = await apiPost<{ message: string }>('/Warehouse/add-product', data)
+  const response = await apiPost<{ message: string }>('/warehouses/add-product', data)
   return response.data
 }
 
 export const removeWarehouseProduct = async (productWarehouseId: number): Promise<{ message: string }> => {
-  const response = await apiDelete<{ message: string }>(`/Warehouse/remove-product/${productWarehouseId}`)
+  const response = await apiDelete<{ message: string }>(`/warehouses/remove-product/${productWarehouseId}`)
   return response.data
 }
+

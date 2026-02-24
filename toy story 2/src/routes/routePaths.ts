@@ -37,6 +37,8 @@ export const ROUTES = {
   CATEGORY: '/category/:category',
   BRANDS: '/brands',
   BRAND_DETAIL: '/brands/:id',
+  VOUCHERS: '/vouchers',
+  SETS: '/sets',
   
   // Cart & Checkout
   CART: '/cart',
@@ -44,6 +46,10 @@ export const ROUTES = {
   
   // User
   PROFILE: '/profile',
+  PROFILE_ORDERS: '/profile/orders',
+  PROFILE_WISHLIST: '/profile/wishlist',
+  PROFILE_ADDRESSES: '/profile/addresses',
+  PROFILE_CHANGE_PASSWORD: '/profile/change-password',
   ORDERS: '/orders',
   
   // Other
