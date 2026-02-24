@@ -7,10 +7,10 @@ import { useLocation } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import ProductListTable from '../../components/admin/ProductListTable';
 import Modal from '../../components/ui/Modal';
-import { 
-  createProduct, 
-  updateProduct, 
-  filterProducts 
+import {
+  createProduct,
+  updateProduct,
+  filterProducts
 } from '../../services/productService';
 import { getActiveBrands } from '../../services/brandService';
 import { getCategories } from '../../services/categoryService';
@@ -25,16 +25,15 @@ const StaffProductManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const location = useLocation();
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<ViewProductDto | null>(null);
-  
+
   // Form State
   const [formData, setFormData] = useState<Partial<CreateProductDto>>({
     Name: '',
     Description: '',
     Price: 0,
-    Stock: 0,
     Origin: '',
     Material: '',
     Gender: 0 as GenderTarget,
@@ -42,6 +41,7 @@ const StaffProductManagementPage: React.FC = () => {
     CategoryId: 0,
     BrandId: 0
   });
+
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -57,8 +57,8 @@ const StaffProductManagementPage: React.FC = () => {
       ]);
       const q = new URLSearchParams(location.search).get('q') || '';
       const allProducts = q.trim()
-        ? await filterProducts({ name: q.trim() })
-        : await filterProducts({}); 
+        ? await filterProducts({ searchTerm: q.trim() })
+        : await filterProducts({});
       setProducts(allProducts);
       setBrands(brandsData);
       setCategories(categoriesData);
@@ -74,10 +74,11 @@ const StaffProductManagementPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'Price' || name === 'Stock' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange' 
-        ? Number(value) 
+      [name]: name === 'Price' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange'
+        ? Number(value)
         : value
     }));
+
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +113,6 @@ const StaffProductManagementPage: React.FC = () => {
       Name: product.name || '',
       Description: product.description || '',
       Price: product.price || 0,
-      Stock: 0, // Stock not available in ViewProductDto
       Origin: product.origin || '',
       Material: product.material || '',
       Gender: (product.gender as unknown as GenderTarget) || 0,
@@ -120,6 +120,7 @@ const StaffProductManagementPage: React.FC = () => {
       CategoryId: product.categoryId || 0,
       BrandId: product.brandId || 0
     });
+
     setIsModalOpen(true);
   };
 
@@ -134,7 +135,6 @@ const StaffProductManagementPage: React.FC = () => {
       Name: '',
       Description: '',
       Price: 0,
-      Stock: 0,
       Origin: '',
       Material: '',
       Gender: 0 as GenderTarget,
@@ -142,6 +142,7 @@ const StaffProductManagementPage: React.FC = () => {
       CategoryId: 0,
       BrandId: 0
     });
+
     setImageFile(null);
   };
 
@@ -175,8 +176,9 @@ const StaffProductManagementPage: React.FC = () => {
         <ProductListTable
           products={products}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onStatusChange={handleDelete}
         />
+
       </div>
 
       <Modal
@@ -224,17 +226,7 @@ const StaffProductManagementPage: React.FC = () => {
                 required
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-              <input
-                type="number"
-                name="Stock"
-                value={formData.Stock || 0}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                required
-              />
-            </div>
+
           </div>
 
           <div className="grid grid-cols-2 gap-4">

@@ -15,15 +15,6 @@ import { POLYGON_RIGHT, POLYGON_LEFT, POLYGON_CENTER } from "../constants/imageA
 import type { ViewProductDto } from "../types/ProductDTO";
 import type { ViewBrandDto } from "../types/BrandDTO";
 
-const heroParoselModules = import.meta.glob("../assets/parosel/*.{png,jpg,jpeg,webp,gif,svg}", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
-
-const HERO_PAROSEL_IMAGES = Object.entries(heroParoselModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src);
-
 export const Homepage = (): React.JSX.Element => {
   const [promotionalProducts, setPromotionalProducts] = useState<ViewProductDto[]>([]);
   const [gundamProducts, setGundamProducts] = useState<ViewProductDto[]>([]);
@@ -44,7 +35,7 @@ export const Homepage = (): React.JSX.Element => {
 
         // Fetch active products
         const allProducts = await getActiveProducts();
-        
+
         // Fetch promotional products
         // TODO: Replace with actual promotional products endpoint when available
         // For now, take up to 3 "pages" (4 per page) so the carousel can paginate.
@@ -55,18 +46,18 @@ export const Homepage = (): React.JSX.Element => {
         // Fetch Gundam products by filtering
         // First, get categories to find GUNDAM categoryId
         const categories = await getCategories();
-        const gundamCategory = categories.find(c => 
-          c.name?.toUpperCase().includes('GUNDAM') || 
+        const gundamCategory = categories.find(c =>
+          c.name?.toUpperCase().includes('GUNDAM') ||
           c.name?.toUpperCase().includes('GUNDAM KINGDOM')
         );
-        
+
         // Filter products by categoryId if found, otherwise by name
-        const gundam = gundamCategory 
+        const gundam = gundamCategory
           ? allProducts.filter(p => p.categoryId === gundamCategory.categoryId).slice(0, 9)
-          : allProducts.filter(p => 
-              p.name?.toUpperCase().includes('GUNDAM') || 
-              p.categoryName?.toUpperCase().includes('GUNDAM')
-            ).slice(0, 9);
+          : allProducts.filter(p =>
+            p.name?.toUpperCase().includes('GUNDAM') ||
+            p.categoryName?.toUpperCase().includes('GUNDAM')
+          ).slice(0, 9);
         setGundamProducts(gundam.length > 0 ? gundam : (allProducts.length > 0 ? allProducts.slice(0, 9) : []));
 
         // Fetch favorite products (top products or featured)
@@ -98,10 +89,8 @@ export const Homepage = (): React.JSX.Element => {
       promotionsPageCount <= 1 ? 0 : (p - 1 + promotionsPageCount) % promotionsPageCount
     );
 
-  const heroPageCount = Math.max(1, HERO_PAROSEL_IMAGES.length || 0);
-  const goHeroNext = () => setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p + 1) % heroPageCount));
-  const goHeroPrev = () =>
-    setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p - 1 + heroPageCount) % heroPageCount));
+
+
 
   const gundamPageCount = Math.max(1, Math.min(3, Math.ceil(gundamProducts.length / 3)));
   const goGundamNext = () =>

@@ -50,15 +50,16 @@ const ProductDetail: React.FC = () => {
   // Related products from current product (single item placeholder when no API)
   const relatedProducts: ProductCard[] = product
     ? [
-        {
-          image: product.imageUrl ?? undefined,
-          name: product.name ?? '',
-          price: formatPrice(product.price),
-          originalPrice: product.originalPrice != null ? formatPrice(product.originalPrice) : formatPrice(product.price),
-          discount: product.discount != null ? formatDiscount(product.discount) : '-',
-        },
-      ]
+      {
+        image: product.imageUrl || '',
+        name: product.name ?? '',
+        price: formatPrice(product.price || 0),
+        originalPrice: product.originalPrice != null ? formatPrice(product.originalPrice) : formatPrice(product.price || 0),
+        discount: product.discount != null ? formatDiscount(product.discount) : '-',
+      },
+    ]
     : []
+
 
   const handleQuantityChange = (change: number): void => {
     setQuantity(prev => Math.max(1, prev + change))
@@ -138,7 +139,7 @@ const ProductDetail: React.FC = () => {
         {/* Product Info */}
         <div className="flex flex-col gap-5">
           <h1 className="font-rowdies text-xl leading-[1.4] text-black m-0 max-md:text-base max-[480px]:text-sm">{product.name}</h1>
-          
+
           <div className="flex items-center gap-[15px] text-[15px] flex-wrap max-md:text-[13px]">
             <span className="font-red-hat text-[#454040]">Thương hiệu</span>
             <span className="font-rowdies text-[#1500b1]">{product.brandName ?? '-'}</span>
@@ -153,7 +154,8 @@ const ProductDetail: React.FC = () => {
           <div className="flex flex-col gap-2.5">
             <span className="font-red-hat text-xl text-[#454040]">Giá Bán:</span>
             <div className="flex items-center gap-5">
-              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price)}</span>
+              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price || 0)}</span>
+
               {product.originalPrice != null && (
                 <span className="font-red-hat text-lg text-black line-through max-md:text-sm">{formatPrice(product.originalPrice)}</span>
               )}
@@ -176,7 +178,7 @@ const ProductDetail: React.FC = () => {
             <div className="font-tilt-warp text-[15px] text-black">Số lượng</div>
             <div className="flex gap-[15px] items-center max-md:flex-col max-md:w-full">
               <div className="bg-[#f2f2f2] rounded-lg flex items-center w-[199px] h-10 justify-between px-[13px] max-md:w-full">
-                <button 
+                <button
                   className="bg-none border-none font-tilt-warp text-[15px] cursor-pointer py-[5px] px-2.5 text-black"
                   onClick={() => handleQuantityChange(-1)}
                   aria-label="Decrease quantity"
@@ -184,7 +186,7 @@ const ProductDetail: React.FC = () => {
                   -
                 </button>
                 <span className="font-tilt-warp text-[15px] text-black min-w-[30px] text-center">{quantity}</span>
-                <button 
+                <button
                   className="bg-none border-none font-tilt-warp text-[15px] cursor-pointer py-[5px] px-2.5 text-black"
                   onClick={() => handleQuantityChange(1)}
                   aria-label="Increase quantity"
@@ -305,7 +307,7 @@ const ProductDetail: React.FC = () => {
       </div>
 
       {/* Related Products */}
-      <ProductSection 
+      <ProductSection
         title="Sản phẩm liên quan"
         products={relatedProducts}
       />
