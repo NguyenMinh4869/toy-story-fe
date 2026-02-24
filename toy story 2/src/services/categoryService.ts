@@ -10,7 +10,7 @@ import type { ViewCategoryDto } from '../types/CategoryDTO'
  * Get all categories (public endpoint)
  */
 export const getCategories = async (): Promise<ViewCategoryDto[]> => {
-  const response = await apiGet<ViewCategoryDto[]>('/category')
+  const response = await apiGet<ViewCategoryDto[]>('/categories')
   return response.data
 }
 
@@ -18,7 +18,7 @@ export const getCategories = async (): Promise<ViewCategoryDto[]> => {
  * Get category by ID (public endpoint)
  */
 export const getCategoryById = async (categoryId: number): Promise<ViewCategoryDto> => {
-  const response = await apiGet<ViewCategoryDto>(`/category/${categoryId}`)
+  const response = await apiGet<ViewCategoryDto>(`/categories/${categoryId}`)
   return response.data
 }
 

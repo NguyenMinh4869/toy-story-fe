@@ -5,10 +5,10 @@
 import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getVouchers } from '../../services/voucherService';
-import type { ViewVoucherSummaryDto } from '../../types/VoucherDTO';
+import type { ViewVoucherDto } from '../../types/VoucherDTO';
 
 const StaffVoucherManagementPage: React.FC = () => {
-  const [vouchers, setVouchers] = useState<ViewVoucherSummaryDto[]>([]);
+  const [vouchers, setVouchers] = useState<ViewVoucherDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -93,7 +93,7 @@ const StaffVoucherManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-xs">
-                        <div>Used: {voucher.usageCount || 0} / {voucher.maxUsage || '∞'}</div>
+                        <div>Used: {voucher.usedCount || 0} / {voucher.maxUsage || '∞'}</div>
                         <div>Per User: {voucher.maxUsagePerCustomer || '∞'}</div>
                       </div>
                     </td>
@@ -105,11 +105,11 @@ const StaffVoucherManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        voucher.status === 'Active' 
+                        voucher.isActive 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {voucher.status || 'Unknown'}
+                        {voucher.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </td>
                     <td className="px-6 py-4">

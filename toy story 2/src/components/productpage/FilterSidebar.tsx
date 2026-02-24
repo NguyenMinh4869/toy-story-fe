@@ -83,7 +83,6 @@ const FilterCheckbox: React.FC<{
 )
 
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({
-  onCategoryChange,
   onPriceChange,
   onAgeChange,
   onBrandChange,

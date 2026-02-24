@@ -56,31 +56,31 @@ Lợi ích nổi bật cho bé
   // Mock related products - convert ProductDTO to ProductCard format
   const relatedProducts: ProductCard[] = [
     {
-      image: product.imageUrl,
-      name: product.name,
-      price: formatPrice(product.price),
-      originalPrice: formatPrice(product.originalPrice),
+      image: product.imageUrl ?? '',
+      name: product.name ?? '',
+      price: formatPrice(product.price ?? 0),
+      originalPrice: formatPrice(product.originalPrice ?? 0),
       discount: product.discount ? formatDiscount(product.discount) : '-30%'
     },
     {
-      image: product.imageUrl,
-      name: product.name,
-      price: formatPrice(product.price),
-      originalPrice: formatPrice(product.originalPrice),
+      image: product.imageUrl ?? '',
+      name: product.name ?? '',
+      price: formatPrice(product.price ?? 0),
+      originalPrice: formatPrice(product.originalPrice ?? 0),
       discount: product.discount ? formatDiscount(product.discount) : '-30%'
     },
     {
-      image: product.imageUrl,
-      name: product.name,
-      price: formatPrice(product.price),
-      originalPrice: formatPrice(product.originalPrice),
+      image: product.imageUrl ?? '',
+      name: product.name ?? '',
+      price: formatPrice(product.price ?? 0),
+      originalPrice: formatPrice(product.originalPrice ?? 0),
       discount: product.discount ? formatDiscount(product.discount) : '-30%'
     },
     {
-      image: product.imageUrl,
-      name: product.name,
-      price: formatPrice(product.price),
-      originalPrice: formatPrice(product.originalPrice),
+      image: product.imageUrl ?? '',
+      name: product.name ?? '',
+      price: formatPrice(product.price ?? 0),
+      originalPrice: formatPrice(product.originalPrice ?? 0),
       discount: product.discount ? formatDiscount(product.discount) : '-30%'
     }
   ]
@@ -117,8 +117,8 @@ Lợi ích nổi bật cho bé
         <div className="relative max-xl:w-full">
           <div className="w-[524px] h-[524px] rounded-xl overflow-hidden mb-5 max-xl:w-full max-xl:h-auto max-xl:aspect-square">
             <img 
-              src={(product.images || [product.imageUrl])[selectedImageIndex]} 
-              alt={product.name}
+              src={(product.images || [product.imageUrl ?? ''])[selectedImageIndex]} 
+              alt={product.name ?? 'Product'}
               className="w-full h-full object-cover"
             />
           </div>
@@ -126,7 +126,7 @@ Lợi ích nổi bật cho bé
             <button className="bg-none border-none cursor-pointer p-2 text-[#333] transition-colors hover:text-[#ca002a]" aria-label="Previous image">
               <ChevronLeft size={24} stroke="currentColor" strokeWidth={2} />
             </button>
-            {(product.images || [product.imageUrl]).map((img, index) => (
+            {(product.images || [product.imageUrl ?? '']).map((img, index) => (
               <div 
                 key={index}
                 className={`w-[120px] h-[120px] rounded-lg overflow-hidden cursor-pointer transition-opacity opacity-50 hover:opacity-100 ${selectedImageIndex === index ? 'opacity-100' : ''} max-md:w-20 max-md:h-20 max-[480px]:w-[60px] max-[480px]:h-[60px]`}
@@ -155,8 +155,8 @@ Lợi ích nổi bật cho bé
           <div className="flex flex-col gap-2.5">
             <span className="font-red-hat text-xl text-[#454040]">Giá Bán:</span>
             <div className="flex items-center gap-5">
-              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price)}</span>
-              <span className="font-red-hat text-lg text-black line-through max-md:text-sm">{formatPrice(product.originalPrice)}</span>
+              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price ?? 0)}</span>
+              <span className="font-red-hat text-lg text-black line-through max-md:text-sm">{formatPrice(product.originalPrice ?? 0)}</span>
             </div>
           </div>
 

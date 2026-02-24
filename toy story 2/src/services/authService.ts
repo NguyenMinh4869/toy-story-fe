@@ -43,7 +43,7 @@ const normalizeRole = (role: string | number | UserRole): string => {
  * Automatically fetches user details after successful login
  */
 export const login = async (credentials: LoginDto): Promise<LoginResponse & { user?: ViewUserDto }> => {
-  const response = await apiPost<LoginResponse>('/account/login', credentials)
+  const response = await apiPost<LoginResponse>('/auth/login', credentials)
   
   // Store token and role in localStorage
   if (response.data.token) {
@@ -78,7 +78,7 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
  * POST /api/account
  */
 export const register = async (userData: CreateUserDto): Promise<{ message: string }> => {
-  const response = await apiPost<{ message: string }>('/account', userData)
+  const response = await apiPost<{ message: string }>('/auth/signup', userData)
   return response.data
 }
 
@@ -88,7 +88,7 @@ export const register = async (userData: CreateUserDto): Promise<{ message: stri
  * Requires: Authorization
  */
 export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
-  const response = await apiGet<ViewUserDto>(`/account/${accountId}`)
+  const response = await apiGet<ViewUserDto>(`/accounts/${accountId}`)
   return response.data
 }
 
@@ -98,7 +98,7 @@ export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
  * Requires: Authorization
  */
 export const getCurrentUser = async (): Promise<ViewUserDto> => {
-  const response = await apiGet<ViewUserDto>('/account/me')
+  const response = await apiGet<ViewUserDto>('/accounts/me')
   
   // Normalize role in user object if present
   if (response.data && response.data.role !== undefined) {
@@ -126,7 +126,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
  * Requires: Authorization, Member role
  */
 export const updateUser = async (userData: UpdateUserDto): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>('/account', userData)
+  const response = await apiPut<{ message: string }>('/accounts', userData)
   return response.data
 }
 
@@ -136,7 +136,7 @@ export const updateUser = async (userData: UpdateUserDto): Promise<{ message: st
  * Requires: Authorization
  */
 export const changePassword = async (passwordData: ChangePasswordDto): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>('/account/change-password', passwordData)
+  const response = await apiPut<{ message: string }>('/accounts/password', passwordData)
   return response.data
 }
 
@@ -152,7 +152,7 @@ export const filterUsers = async (filter: FilterUserDto): Promise<ViewUserDto[]>
   if (filter.address) queryParams.append('address', filter.address)
   if (filter.status) queryParams.append('status', filter.status)
 
-  const endpoint = `/account/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+  const endpoint = `/accounts/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewUserDto[]>(endpoint)
   return response.data
 }

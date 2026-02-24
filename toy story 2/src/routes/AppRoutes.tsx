@@ -85,8 +85,14 @@ const AppRoutes: React.FC = () => {
       {/* <Route path={ROUTES.PROFILE} element={<ProfilePage />} /> */}
       {/* <Route path={ROUTES.ORDERS} element={<OrdersPage />} /> */}
       
-      {/* 404 - Keep at the end */}
-      {/* <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} /> */}
+      {/* 404 - catch-all for unmatched routes */}
+      <Route path="*" element={
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+          <h1 className="text-6xl font-bold text-gray-300 mb-4">404</h1>
+          <p className="text-xl text-gray-600 mb-6">Page not found</p>
+          <a href="/" className="text-red-600 hover:underline">← Back to Home</a>
+        </div>
+      } />
     </Routes>
   )
 }

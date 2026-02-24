@@ -11,8 +11,6 @@ interface ProductGridCardProps {
 
 // Product image placeholder
 const PRODUCT_PLACEHOLDER = "https://www.figma.com/api/mcp/asset/298b739b-7401-4df7-acd0-41acee837979"
-// Wishlist icon 
-const WISHLIST_ICON = "https://www.figma.com/api/mcp/asset/8e8b001d-481c-4b48-b32b-55408d2ebd98"
 
 export const ProductGridCard: React.FC<ProductGridCardProps> = ({ 
   product,

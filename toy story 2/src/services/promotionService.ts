@@ -15,7 +15,7 @@ import type { CreatePromotionDto, UpdatePromotionDto } from '../types/PromotionD
  * Get all promotions (Admin only - requires authentication)
  */
 export const getPromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
-  const response = await apiGet<ViewPromotionSummaryDto[]>('/Promotion')
+  const response = await apiGet<ViewPromotionSummaryDto[]>('/promotions')
   return response.data
 }
 
@@ -24,7 +24,7 @@ export const getPromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
  * Use this for staff/public access
  */
 export const getPromotionsCustomerFilter = async (): Promise<ViewPromotionSummaryDto[]> => {
-  const response = await apiGet<ViewPromotionSummaryDto[]>('/Promotion/customer-filter')
+  const response = await apiGet<ViewPromotionSummaryDto[]>('/promotions/customer-filter')
   return response.data
 }
 
@@ -32,7 +32,7 @@ export const getPromotionsCustomerFilter = async (): Promise<ViewPromotionSummar
  * Get promotion by ID (Admin only - requires authentication)
  */
 export const getPromotionById = async (promotionId: number): Promise<ViewPromotionDto> => {
-  const response = await apiGet<ViewPromotionDto>(`/Promotion/${promotionId}`)
+  const response = await apiGet<ViewPromotionDto>(`/promotions/${promotionId}`)
   return response.data
 }
 
@@ -59,7 +59,7 @@ export const createPromotion = async (data: CreatePromotionDto, imageFile?: File
     if (value !== undefined && value !== null) form.append(key, String(value))
   })
   if (imageFile) form.append('imageFile', imageFile)
-  const response = await apiPostForm<{ message: string }>('/Promotion', form)
+  const response = await apiPostForm<{ message: string }>('/promotions', form)
   return response.data
 }
 
@@ -73,7 +73,7 @@ export const updatePromotion = async (promotionId: number, data: UpdatePromotion
     if (value !== undefined && value !== null) form.append(key, String(value))
   })
   if (imageFile) form.append('imageFile', imageFile)
-  const response = await apiPutForm<{ message: string }>(`/Promotion/${promotionId}`, form)
+  const response = await apiPutForm<{ message: string }>(`/promotions/${promotionId}`, form)
   return response.data
 }
 
@@ -83,7 +83,7 @@ export const updatePromotion = async (promotionId: number, data: UpdatePromotion
  */
 export const changePromotionStatus = async (promotionId: number): Promise<{ message: string }> => {
   const form = new FormData()
-  const response = await apiPutForm<{ message: string }>(`/Promotion/change-status/${promotionId}`, form)
+  const response = await apiPutForm<{ message: string }>(`/promotions/status/${promotionId}`, form)
   return response.data
 }
 

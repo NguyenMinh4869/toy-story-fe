@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getPromotionsCustomerFilter } from '../../services/promotionService';
-import type { ViewPromotionSummaryDto } from '../../types/PromotionDTO';
+import type { ViewPromotionDto as ViewPromotionSummaryDto } from '../../types/PromotionDTO';
 import Modal from '../../components/ui/Modal';
 
 const StaffPromotionManagementPage: React.FC = () => {
@@ -159,8 +159,8 @@ const StaffPromotionManagementPage: React.FC = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <img
-                src={selectedPromotion.imageUrl || 'https://via.placeholder.com/200'}
-                alt={selectedPromotion.name}
+                src={selectedPromotion.imageUrl ?? 'https://via.placeholder.com/200'}
+                alt={selectedPromotion.name ?? 'Promotion'}
                 className="w-48 h-48 rounded-lg object-cover"
               />
             </div>
