@@ -31,6 +31,18 @@ dist-ssr
 *.sln
 *.sw?
 
-# Agent / IDE skill folders
+# Agent / IDE tool folders (local only, not for version control)
 .agent/
 .windsurf/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.vs/
