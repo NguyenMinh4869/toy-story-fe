@@ -5,9 +5,11 @@ import type { components } from '../types/generated'
 type CreateWarehouseResponseDto = components['schemas']['CreateWarehouseResponseDto']
 type UpdateLowStockThresholdDto = components['schemas']['UpdateLowStockThresholdDto']
 
+export type WarehouseProductDto = components['schemas']['ProductStockDto']
 export type ProductStockDto = components['schemas']['ProductStockDto']
+export type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto']
 
-type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto']
+
 
 export const getWarehouses = async (): Promise<WarehouseSummaryDto[]> => {
   const response = await apiGet<WarehouseSummaryDto[]>('/warehouses')

@@ -5,13 +5,13 @@ import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 
 const CartPopup: React.FC = () => {
-  const { 
-    cartItems, 
-    removeFromCart, 
-    updateQuantity, 
-    getTotalPrice, 
-    isCartOpen, 
-    closeCart 
+  const {
+    cartItems,
+    removeFromCart,
+    updateQuantity,
+    getTotalPrice,
+    isCartOpen,
+    closeCart
   } = useCart()
 
   if (!isCartOpen) return null
@@ -19,11 +19,11 @@ const CartPopup: React.FC = () => {
   return (
     <>
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black bg-opacity-30 z-40"
         onClick={closeCart}
       />
-      
+
       {/* Cart Popup - Small Modal positioned near header */}
       <div className="fixed top-[120px] right-8 w-[429px] max-h-[500px] bg-white border-[0.3px] border-black z-50 overflow-y-auto rounded-[20px] shadow-2xl max-md:w-[95%] max-md:right-[2.5%] max-md:max-h-[80vh]">
         {/* Close Button */}
@@ -49,41 +49,45 @@ const CartPopup: React.FC = () => {
                   {/* Product Info */}
                   <div className="flex gap-3">
                     <img
-                      src={item.product.imageUrl}
-                      alt={item.product.name}
+                      src={item.product.imageUrl || undefined}
+                      alt={item.product.name || 'Product'}
                       className="w-[88px] h-[88px] rounded-xl object-cover flex-shrink-0"
                     />
+
                     <div className="flex-1 min-w-0">
                       <h3 className="font-red-hat text-[14px] text-black leading-tight mb-2 line-clamp-2 pr-6">
                         {item.product.name}
                       </h3>
-                      
+
                       {/* Quantity Controls */}
                       <div className="flex items-center gap-3 mb-2">
                         <div className="flex items-center border border-[#c6bfbf] rounded-[5px] overflow-hidden h-[26px]">
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity - 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
+
                             -
                           </button>
                           <span className="px-3 h-full flex items-center justify-center min-w-[40px] text-black font-red-hat text-[14px] border-l border-r border-[#c6bfbf]">
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity + 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
+
                             +
                           </button>
                         </div>
 
                         {/* Delete Button */}
                         <button
-                          onClick={() => removeFromCart(item.product.id)}
+                          onClick={() => item.product.id && removeFromCart(item.product.id)}
                           className="p-1.5 hover:bg-red-50 rounded transition-colors"
                           aria-label="Remove item"
                         >
+
                           <Trash2 size={16} className="text-red-600" />
                         </button>
                       </div>
@@ -133,7 +137,7 @@ const CartPopup: React.FC = () => {
                     xem giỏ hàng
                   </span>
                 </Link>
-                
+
                 <Link
                   to="/checkout"
                   onClick={closeCart}

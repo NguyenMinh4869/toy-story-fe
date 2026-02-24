@@ -1,4 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getActiveBrands } from '../../services/brandService'
+import { getCategories } from '../../services/categoryService'
+import type { ViewCategoryDto } from '../../types/CategoryDTO'
+
+
 
 // Filter option types
 interface FilterOption {
@@ -14,18 +19,8 @@ interface FilterSidebarProps {
   onBrandChange?: (brands: string[]) => void
 }
 
-// Category menu items
-const categoryItems = [
-  'Tổng quan về Toy Story',
-  'Dạy con ngoan hiền',
-  'Chơi cùng con',
-  'Nuôi con khỏe',
-  'Mẹo hữu ích',
-  'Hôm nay cho con ăn gì ?',
-  'Vòng quanh thanh hóa',
-]
-
 // Price range options
+
 const priceRanges: FilterOption[] = [
   { id: 'under-200k', label: 'Dưới 200.000 Đ', count: 0 },
   { id: '200k-500k', label: '200.000 Đ - 500.000 Đ', count: 10 },
@@ -43,44 +38,73 @@ const ageRanges: FilterOption[] = [
   { id: '0-12-months', label: '0 - 12 tháng', count: 20 },
 ]
 
-// Brand options
-const brandOptions: FilterOption[] = [
-  { id: 'lego-art', label: 'LEGO ART', count: 0 },
-  { id: 'lego-ninja', label: 'LEGO NINJA', count: 10 },
-  { id: 'lego-hay', label: 'LEGO HAY', count: 10 },
-  { id: 'lego-nike', label: 'LEGO NIKE', count: 10 },
-  { id: 'lego-addidas', label: 'LEGO ADDIDDAS', count: 10 },
+// Brand options (fallback if API fails)
+const initialBrandOptions: FilterOption[] = [
+  { id: '1', label: 'LEGO ART', count: 0 },
+  { id: '2', label: 'LEGO NINJA', count: 10 },
+  { id: '3', label: 'LEGO HAY', count: 10 },
+  { id: '4', label: 'LEGO NIKE', count: 10 },
+  { id: '5', label: 'LEGO ADDIDDAS', count: 10 },
 ]
 
 // Checkbox component
-const FilterCheckbox: React.FC<{
+interface FilterCheckboxProps {
   id: string
   label: string
   count: number
   checked: boolean
   onChange: (checked: boolean) => void
   disabled?: boolean
-}> = ({ id, label, count, checked, onChange, disabled = false }) => (
-  <label 
-    className={`flex items-center gap-3 cursor-pointer py-1 ${disabled ? 'opacity-50' : ''}`}
+}
+
+const FilterCheckbox = ({ id, label, count, checked, onChange, disabled = false }: FilterCheckboxProps) => (
+
+  <label
+    className={`flex items-center gap-3 cursor-pointer py-1 group ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+
     htmlFor={id}
+    onClick={(e) => {
+      e.preventDefault()
+      onChange(!checked)
+    }}
   >
-    <input
-      type="checkbox"
-      id={id}
-      checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
-      disabled={disabled}
-      className="w-[12px] h-[11px] rounded border border-black/80 accent-[#ab0007] cursor-pointer"
-    />
-    <span className={`font-red-hat font-bold text-[12px] ${disabled || count === 0 ? 'text-[#d9d9d9]' : 'text-[#030202]'}`}>
+    {/* Custom Checkbox */}
+    <div
+      className={`w-[14px] h-[14px] rounded border flex items-center justify-center transition-all duration-200 ${checked
+        ? 'bg-[#ab0007] border-[#ab0007]'
+        : 'bg-white border-black/30 group-hover:border-[#ab0007]'
+        }`}
+    >
+      {checked && (
+        <svg
+          width="8"
+          height="6"
+          viewBox="0 0 10 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 4.5L3.5 7L9 1"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+    </div>
+
+    <span className={`font-red-hat font-bold text-[12px] transition-colors ${checked ? 'text-[#ab0007]' : (count === 0 ? 'text-[#888]' : 'text-[#030202]')
+      }`}>
       {label}
     </span>
-    <span className={`font-sansation font-bold text-[12px] ml-auto ${count === 0 ? 'text-[#d9d9d9]' : 'text-black'}`}>
+    <span className={`font-sansation font-bold text-[12px] ml-auto ${count === 0 ? 'text-[#aaa]' : 'text-black'
+      }`}>
       ({count})
     </span>
   </label>
 )
+
 
 export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   onCategoryChange,
@@ -91,9 +115,36 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   const [selectedPrices, setSelectedPrices] = useState<string[]>([])
   const [selectedAges, setSelectedAges] = useState<string[]>([])
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
+  const [brands, setBrands] = useState<FilterOption[]>(initialBrandOptions)
+  const [categories, setCategories] = useState<ViewCategoryDto[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch Brands
+        const activeBrands = await getActiveBrands()
+        if (activeBrands && activeBrands.length > 0) {
+          const dynamicBrands = activeBrands.map(b => ({
+            id: String(b.brandId),
+            label: b.name || '',
+            count: 10
+          }))
+          setBrands(dynamicBrands)
+        }
+
+        // Fetch Categories
+        const categoriesData = await getCategories()
+        setCategories(categoriesData)
+      } catch (error) {
+        console.error('Error fetching sidebar data:', error)
+      }
+    }
+    fetchData()
+  }, [])
+
 
   const handlePriceChange = (id: string, checked: boolean) => {
-    const newSelection = checked 
+    const newSelection = checked
       ? [...selectedPrices, id]
       : selectedPrices.filter(p => p !== id)
     setSelectedPrices(newSelection)
@@ -101,7 +152,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   }
 
   const handleAgeChange = (id: string, checked: boolean) => {
-    const newSelection = checked 
+    const newSelection = checked
       ? [...selectedAges, id]
       : selectedAges.filter(a => a !== id)
     setSelectedAges(newSelection)
@@ -109,7 +160,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   }
 
   const handleBrandChange = (id: string, checked: boolean) => {
-    const newSelection = checked 
+    const newSelection = checked
       ? [...selectedBrands, id]
       : selectedBrands.filter(b => b !== id)
     setSelectedBrands(newSelection)
@@ -124,16 +175,21 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           DANH MỤC
         </h2>
         <nav className="flex flex-col">
-          {categoryItems.map((item, index) => (
+          {categories.map((category) => (
             <a
-              key={index}
+              key={category.categoryId}
               href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                onCategoryChange?.([String(category.categoryId)])
+              }}
               className="font-sansation text-[12px] text-black py-2 border-b border-gray-200 hover:text-[#ab0007] transition-colors no-underline"
             >
-              {item}
+              {category.name}
             </a>
           ))}
         </nav>
+
       </section>
 
       {/* Price Filter Section */}
@@ -182,7 +238,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
           Thương Hiệu
         </h2>
         <div className="flex flex-col gap-1">
-          {brandOptions.map((option) => (
+          {brands.map((option) => (
             <FilterCheckbox
               key={option.id}
               id={`brand-${option.id}`}
