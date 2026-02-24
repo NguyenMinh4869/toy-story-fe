@@ -15,13 +15,14 @@ import type { CreatePromotionDto, UpdatePromotionDto } from '../types/PromotionD
  * Get all promotions (Admin only - requires authentication)
  */
 export const getPromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
-  const response = await apiGet<ViewPromotionSummaryDto[]>('/Promotion')
+  const response = await apiGet<ViewPromotionSummaryDto[]>('/promotions')
   return response.data
 }
 
+
 /**
  * Get promotions for customer listing (FR-4)
- * GET /api/Promotion/customer-filter
+ * GET /api/promotions/customer-filter
  * Optional query: name, discountType, productId, categoryId, brandId
  */
 export const getPromotionsCustomerFilter = async (params?: {
@@ -38,18 +39,20 @@ export const getPromotionsCustomerFilter = async (params?: {
   if (params?.categoryId !== undefined) queryParams.append('categoryId', String(params.categoryId))
   if (params?.brandId !== undefined) queryParams.append('brandId', String(params.brandId))
 
-  const endpoint = `/Promotion/customer-filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+  const endpoint = `/promotions/customer-filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewPromotionDto[]>(endpoint)
   return response.data
 }
+
 
 /**
  * Get promotion by ID (Admin only - requires authentication)
  */
 export const getPromotionById = async (promotionId: number): Promise<ViewPromotionDto> => {
-  const response = await apiGet<ViewPromotionDto>(`/Promotion/${promotionId}`)
+  const response = await apiGet<ViewPromotionDto>(`/promotions/${promotionId}`)
   return response.data
 }
+
 
 /**
  * Get active promotions (Admin only - requires authentication)
@@ -66,7 +69,7 @@ export const getActivePromotions = async (): Promise<ViewPromotionSummaryDto[]> 
 
 /**
  * Create promotion (Admin only)
- * POST /api/promotion
+ * POST /api/promotions
  */
 export const createPromotion = async (data: CreatePromotionDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -74,13 +77,14 @@ export const createPromotion = async (data: CreatePromotionDto, imageFile?: File
     if (value !== undefined && value !== null) form.append(key, String(value))
   })
   if (imageFile) form.append('imageFile', imageFile)
-  const response = await apiPostForm<{ message: string }>('/Promotion', form)
+  const response = await apiPostForm<{ message: string }>('/promotions', form)
   return response.data
 }
 
+
 /**
  * Update promotion (Admin only)
- * PUT /api/promotion/{promotionId}
+ * PUT /api/promotions/{promotionId}
  */
 export const updatePromotion = async (promotionId: number, data: UpdatePromotionDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -88,19 +92,21 @@ export const updatePromotion = async (promotionId: number, data: UpdatePromotion
     if (value !== undefined && value !== null) form.append(key, String(value))
   })
   if (imageFile) form.append('imageFile', imageFile)
-  const response = await apiPutForm<{ message: string }>(`/Promotion/${promotionId}`, form)
+  const response = await apiPutForm<{ message: string }>(`/promotions/${promotionId}`, form)
   return response.data
 }
 
+
 /**
  * Change promotion status (Admin only)
- * PUT /api/promotion/change-status/{promotionId}
+ * PUT /api/promotions/status/{promotionId}
  */
 export const changePromotionStatus = async (promotionId: number): Promise<{ message: string }> => {
   const form = new FormData()
-  const response = await apiPutForm<{ message: string }>(`/Promotion/change-status/${promotionId}`, form)
+  const response = await apiPutForm<{ message: string }>(`/promotions/status/${promotionId}`, form)
   return response.data
 }
+
 
 /**
  * Delete promotion (alias to change-status to deactivate)
