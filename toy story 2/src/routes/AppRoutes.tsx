@@ -108,12 +108,6 @@ const AppRoutes: React.FC = () => {
       {/* User Routes */}
       {/* <Route path={ROUTES.PROFILE} element={<ProfilePage />} /> */}
       {/* <Route path={ROUTES.ORDERS} element={<OrdersPage />} /> */}
-<<<<<<< HEAD
-
-      {/* 404 - Keep at the end */}
-      {/* <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} /> */}
-=======
-      
       {/* 404 - catch-all for unmatched routes */}
       <Route path="*" element={
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
@@ -122,7 +116,6 @@ const AppRoutes: React.FC = () => {
           <a href="/" className="text-red-600 hover:underline">← Back to Home</a>
         </div>
       } />
->>>>>>> d51f766f31bb03ccce0ab6defc901486321b31ef
     </Routes>
   )
 }

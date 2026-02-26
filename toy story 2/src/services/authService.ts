@@ -64,11 +64,7 @@ const decodeJwt = (token: string): any => {
  */
 export const login = async (credentials: LoginDto): Promise<LoginResponse & { user?: ViewUserDto }> => {
   const response = await apiPost<LoginResponse>('/auth/login', credentials)
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> d51f766f31bb03ccce0ab6defc901486321b31ef
   // Store token and role in localStorage
   if (response.data.token) {
     localStorage.setItem('token', response.data.token)
@@ -142,13 +138,8 @@ export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
  * Requires: Authorization
  */
 export const getCurrentUser = async (): Promise<ViewUserDto> => {
-<<<<<<< HEAD
-  const response = await apiGet<ViewUserDto>('/auth/me')
-
-=======
   const response = await apiGet<ViewUserDto>('/accounts/me')
-  
->>>>>>> d51f766f31bb03ccce0ab6defc901486321b31ef
+
   // Normalize role in user object if present
   if (response.data && response.data.role !== undefined) {
     // We need to cast to any/unknown because ViewUserDto expects string but we might get number
