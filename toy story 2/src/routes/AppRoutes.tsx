@@ -37,12 +37,14 @@ import OrderHistoryPage from '../pages/OrderHistoryPage'
 import WishlistPage from '../pages/WishlistPage'
 import ChangePasswordPage from '../pages/ChangePasswordPage'
 
+import RegisterPage from '../pages/RegisterPage'
+
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       {/* Public Routes */}
       <Route path={ROUTES.HOME} element={<HomePage />} />
-      
+
       {/* Admin Routes - Admin Only */}
       <Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
         <Route path={ROUTES.ADMIN_DASHBOARD} element={<DashboardLayout mode="admin"><DashboardPage /></DashboardLayout>} />
@@ -75,13 +77,13 @@ const AppRoutes: React.FC = () => {
 
       {/* Auth Routes */}
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-      {/* <Route path={ROUTES.REGISTER} element={<RegisterPage />} /> */}
-      
+      <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
+
       {/* Product Routes */}
       <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetailPage />} />
       <Route path={ROUTES.PRODUCTS} element={<ProductsPage />} />
       {/* <Route path={ROUTES.CATEGORY} element={<ProductListPage />} /> */}
-      
+
       {/* Brand Routes */}
       <Route path={ROUTES.BRANDS} element={<BrandPage />} />
       {/* <Route path={ROUTES.BRAND_DETAIL} element={<BrandDetailPage />} /> */}
@@ -94,19 +96,19 @@ const AppRoutes: React.FC = () => {
 
       {/* Set Route (FR-5: customer-filter) */}
       <Route path={ROUTES.SETS} element={<SetPage />} />
-      
+
       {/* Other Pages */}
       <Route path={ROUTES.CAM_NANG} element={<CamNangPage />} />
       <Route path={ROUTES.CAM_NANG_DETAIL} element={<CamNangDetailPage />} />
-      
+
       {/* Cart & Checkout */}
       {/* <Route path={ROUTES.CART} element={<CartPage />} /> */}
       {/* <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} /> */}
-      
+
       {/* User Routes */}
       {/* <Route path={ROUTES.PROFILE} element={<ProfilePage />} /> */}
       {/* <Route path={ROUTES.ORDERS} element={<OrdersPage />} /> */}
-      
+
       {/* 404 - Keep at the end */}
       {/* <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} /> */}
     </Routes>

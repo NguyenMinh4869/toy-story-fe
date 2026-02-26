@@ -19,7 +19,7 @@ const normalizeRole = (role: string | number | UserRole): string => {
     if (r.toLowerCase() === 'member' || r === 'Người dùng') return 'Member'
     return r
   }
-  
+
   // Map numeric roles to string names
   // Backend enum: Member=0, Admin=1, Staff=2
   switch (role) {
@@ -43,19 +43,19 @@ const normalizeRole = (role: string | number | UserRole): string => {
  * Automatically fetches user details after successful login
  */
 export const login = async (credentials: LoginDto): Promise<LoginResponse & { user?: ViewUserDto }> => {
-  const response = await apiPost<LoginResponse>('/account/login', credentials)
-  
+  const response = await apiPost<LoginResponse>('/auth/login', credentials)
+
   // Store token and role in localStorage
   if (response.data.token) {
     localStorage.setItem('token', response.data.token)
-    
+
     // Normalize and store role
     const normalizedRole = normalizeRole(response.data.role)
     localStorage.setItem('role', normalizedRole)
-    
+
     // Update response role to be normalized for immediate usage
     response.data.role = normalizedRole
-    
+
     // Fetch user details using /me endpoint
     try {
       const user = await getCurrentUser()
@@ -69,7 +69,7 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
       return response.data
     }
   }
-  
+
   return response.data
 }
 
@@ -99,7 +99,7 @@ export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
  */
 export const getCurrentUser = async (): Promise<ViewUserDto> => {
   const response = await apiGet<ViewUserDto>('/account/me')
-  
+
   // Normalize role in user object if present
   if (response.data && response.data.role !== undefined) {
     // We need to cast to any/unknown because ViewUserDto expects string but we might get number
@@ -108,7 +108,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
     // @ts-ignore - We are fixing the type mismatch from backend
     response.data.role = normalizedRole
   }
-  
+
   // Store user data in localStorage
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data))
@@ -116,7 +116,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
       localStorage.setItem('accountId', response.data.accountId.toString())
     }
   }
-  
+
   return response.data
 }
 
@@ -188,9 +188,9 @@ export const getStoredUser = (): ViewUserDto | null => {
 export const getStoredUserMetadata = (): { accountId?: number; role?: string } | null => {
   const accountId = localStorage.getItem('accountId')
   const role = localStorage.getItem('role')
-  
+
   if (!accountId && !role) return null
-  
+
   return {
     accountId: accountId ? parseInt(accountId, 10) : undefined,
     role: role || undefined
