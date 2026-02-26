@@ -10,7 +10,8 @@ import Modal from '../../components/ui/Modal';
 import { 
   createProduct, 
   updateProduct, 
-  filterProducts 
+  filterProducts,
+  changeProductStatus
 } from '../../services/productService';
 import { getActiveBrands } from '../../services/brandService';
 import { getCategories } from '../../services/categoryService';
@@ -34,7 +35,6 @@ const StaffProductManagementPage: React.FC = () => {
     Name: '',
     Description: '',
     Price: 0,
-    Stock: 0,
     Origin: '',
     Material: '',
     Gender: 0 as GenderTarget,
@@ -57,7 +57,7 @@ const StaffProductManagementPage: React.FC = () => {
       ]);
       const q = new URLSearchParams(location.search).get('q') || '';
       const allProducts = q.trim()
-        ? await filterProducts({ name: q.trim() })
+        ? await filterProducts({ searchTerm: q.trim() })
         : await filterProducts({}); 
       setProducts(allProducts);
       setBrands(brandsData);
@@ -74,7 +74,7 @@ const StaffProductManagementPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'Price' || name === 'Stock' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange' 
+      [name]: name === 'Price' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange' 
         ? Number(value) 
         : value
     }));
@@ -112,7 +112,6 @@ const StaffProductManagementPage: React.FC = () => {
       Name: product.name || '',
       Description: product.description || '',
       Price: product.price || 0,
-      Stock: 0, // Stock not available in ViewProductDto
       Origin: product.origin || '',
       Material: product.material || '',
       Gender: (product.gender as unknown as GenderTarget) || 0,
@@ -123,9 +122,14 @@ const StaffProductManagementPage: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (productId: number) => {
-    // Delete handler placeholder
-    console.log('Delete product:', productId);
+  const handleStatusChange = async (productId: number) => {
+    try {
+      await changeProductStatus(productId);
+      await fetchData();
+    } catch (err) {
+      console.error('Failed to toggle product status:', err);
+      setError('Failed to update product status');
+    }
   };
 
   const resetForm = () => {
@@ -134,7 +138,6 @@ const StaffProductManagementPage: React.FC = () => {
       Name: '',
       Description: '',
       Price: 0,
-      Stock: 0,
       Origin: '',
       Material: '',
       Gender: 0 as GenderTarget,
@@ -175,7 +178,7 @@ const StaffProductManagementPage: React.FC = () => {
         <ProductListTable
           products={products}
           onEdit={handleEdit}
-          onDelete={handleDelete}
+          onStatusChange={handleStatusChange}
         />
       </div>
 
@@ -220,17 +223,6 @@ const StaffProductManagementPage: React.FC = () => {
                 value={formData.Price || 0}
                 onChange={handleInputChange}
                 step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-              <input
-                type="number"
-                name="Stock"
-                value={formData.Stock || 0}
-                onChange={handleInputChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 required
               />

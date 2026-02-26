@@ -9,10 +9,13 @@ import {
   getWarehouseProductsWithDetails,
   updateWarehouseProduct,
   addWarehouseProduct,
-  removeWarehouseProduct,
-  CreateWarehouseProductDto,
-  WarehouseProductDto
+  removeWarehouseProduct
 } from '../../services/warehouseService';
+import type { components } from '../../types/generated';
+
+type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto'];
+// Combine both warehouse product shapes since the page needs fields from both DTOs
+type WarehouseProductDto = components['schemas']['ProductStockDto'] & Pick<components['schemas']['ViewWarehouseProductDto'], 'brandName' | 'categoryName' | 'name' | 'totalQuantity'>;
 import { getStoredUserMetadata } from '../../services/authService';
 import { getCurrentStaffWarehouseId } from '../../services/staffService';
 import { filterProducts } from '../../services/productService';
@@ -251,7 +254,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
     try {
       setLoading(true);
       const params: any = {};
-      if (searchTerm) params.name = searchTerm;
+      if (searchTerm) params.searchTerm = searchTerm;
       if (genderFilter) params.genderTarget = genderFilter;
       if (ageRangeFilter) params.ageRange = ageRangeFilter;
       if (categoryFilter) params.categoryId = parseInt(categoryFilter);

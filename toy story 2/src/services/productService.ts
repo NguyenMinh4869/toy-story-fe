@@ -8,14 +8,29 @@ import type { ViewProductDto } from '../types/ProductDTO'
 import type { CreateProductDto, UpdateProductDto } from '../types/ProductDTO'
 
 /**
- * Get products for customer listing (public endpoint)
- * GET /api/products/customer-filter
- * Returns only products visible to customers (e.g. "Đang bán").
+ * Get active products for public/customer usage (NO auth required)
+ * Uses the customer-filter endpoint which is open to all visitors
  */
-export const getCustomerFilterProducts = async (params?: {
+export const getActiveProducts = async (): Promise<ViewProductDto[]> => {
+  return filterProductsPublic({})
+}
+
+/**
+ * Get product by ID
+ */
+export const getProductById = async (productId: number): Promise<ViewProductDto> => {
+  const response = await apiGet<ViewProductDto>(`/products/${productId}`)
+  return response.data
+}
+
+/**
+ * Public customer filter — hits /products/customer-filter (no auth required)
+ * Only returns Active products. Use this for homepage, search, and public pages.
+ */
+export const filterProductsPublic = async (params?: {
   searchTerm?: string
-  genderTarget?: number
-  ageRange?: number
+  genderTarget?: 'Boy' | 'Girl' | 'Unisex' | number
+  ageRange?: 'ZeroToSixMonths' | 'SixToTwelveMonths' | 'OneToThreeYears' | 'ThreeToSixYears' | 'AboveSixYears' | number
   categoryId?: number
   brandId?: number
 }): Promise<ViewProductDto[]> => {
@@ -31,30 +46,12 @@ export const getCustomerFilterProducts = async (params?: {
   return response.data
 }
 
-
 /**
- * Get active products (public endpoint) - uses admin filter for backward compatibility
- */
-export const getActiveProducts = async (): Promise<ViewProductDto[]> => {
-  return filterProducts({ status: 'Active' })
-}
-
-/**
- * Get product by ID
- */
-export const getProductById = async (productId: number): Promise<ViewProductDto> => {
-  const response = await apiGet<ViewProductDto>(`/products/${productId}`)
-  return response.data
-}
-
-
-/**
- * Filter products (admin endpoint with query parameters)
+ * Admin filter — hits /products/admin-filter (requires Admin auth)
+ * Can filter by status (Active/Inactive/OutOfStock). Use in admin panels only.
  */
 export const filterProducts = async (params?: {
   searchTerm?: string
-  origin?: string
-  material?: string
   genderTarget?: 'Boy' | 'Girl' | 'Unisex'
   ageRange?: 'ZeroToSixMonths' | 'SixToTwelveMonths' | 'OneToThreeYears' | 'ThreeToSixYears' | 'AboveSixYears'
   categoryId?: number
@@ -64,8 +61,6 @@ export const filterProducts = async (params?: {
 }): Promise<ViewProductDto[]> => {
   const queryParams = new URLSearchParams()
   if (params?.searchTerm) queryParams.append('searchTerm', params.searchTerm)
-  if (params?.origin) queryParams.append('origin', params.origin)
-  if (params?.material) queryParams.append('material', params.material)
   if (params?.genderTarget) queryParams.append('genderTarget', params.genderTarget)
   if (params?.ageRange) queryParams.append('ageRange', params.ageRange)
   if (params?.categoryId) queryParams.append('categoryId', params.categoryId.toString())
@@ -78,26 +73,31 @@ export const filterProducts = async (params?: {
   return response.data
 }
 
+/**
+ * Alias for filterProductsPublic — for backward compatibility.
+ * Use filterProductsPublic directly in new code.
+ */
+export const getCustomerFilterProducts = filterProductsPublic
 
 /**
- * Get products by category ID
+ * Get products by category ID (public - no auth required)
  */
 export const getProductsByCategoryId = async (categoryId: number): Promise<ViewProductDto[]> => {
-  return filterProducts({ categoryId, status: 'Active' })
+  return filterProductsPublic({ categoryId })
 }
 
 /**
- * Get products by brand ID
+ * Get products by brand ID (public - no auth required)
  */
 export const getProductsByBrandId = async (brandId: number): Promise<ViewProductDto[]> => {
-  return filterProducts({ brandId, status: 'Active' })
+  return filterProductsPublic({ brandId })
 }
 
 /**
- * Search products by name
+ * Search products by name (public - no auth required)
  */
 export const searchProducts = async (searchTerm: string): Promise<ViewProductDto[]> => {
-  return filterProducts({ searchTerm: searchTerm, status: 'Active' })
+  return filterProductsPublic({ searchTerm })
 }
 
 /**
@@ -115,7 +115,6 @@ export const createProduct = async (data: CreateProductDto, imageFile?: File): P
   return response.data
 }
 
-
 /**
  * Update product (Admin only)
  * PUT /api/products/{productId}
@@ -130,7 +129,6 @@ export const updateProduct = async (productId: number, data: UpdateProductDto, i
   return response.data
 }
 
-
 /**
  * Change product status (Admin only)
  * PUT /api/products/status/{productId}
@@ -140,4 +138,3 @@ export const changeProductStatus = async (productId: number): Promise<{ message:
   const response = await apiPutForm<{ message: string }>(`/products/status/${productId}`, form)
   return response.data
 }
-

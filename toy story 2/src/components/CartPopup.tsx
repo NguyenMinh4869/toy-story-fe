@@ -1,6 +1,5 @@
 import React from 'react'
 import { X, Trash2, ShoppingBag } from 'lucide-react'
-import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 
@@ -45,12 +44,12 @@ const CartPopup: React.FC = () => {
           ) : (
             <>
               {cartItems.map((item) => (
-                <div key={item.product.id} className="mb-4">
+                    <div key={item.product.id ?? item.product.productId} className="mb-4">
                   {/* Product Info */}
                   <div className="flex gap-3">
                     <img
-                      src={item.product.imageUrl || undefined}
-                      alt={item.product.name || 'Product'}
+                      src={item.product.imageUrl ?? ''}
+                      alt={item.product.name ?? 'Product'}
                       className="w-[88px] h-[88px] rounded-xl object-cover flex-shrink-0"
                     />
 
@@ -63,7 +62,7 @@ const CartPopup: React.FC = () => {
                       <div className="flex items-center gap-3 mb-2">
                         <div className="flex items-center border border-[#c6bfbf] rounded-[5px] overflow-hidden h-[26px]">
                           <button
-                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.product.id ?? String(item.product.productId), item.quantity - 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
 
@@ -73,7 +72,7 @@ const CartPopup: React.FC = () => {
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.product.id ?? String(item.product.productId), item.quantity + 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
 
@@ -83,7 +82,7 @@ const CartPopup: React.FC = () => {
 
                         {/* Delete Button */}
                         <button
-                          onClick={() => item.product.id && removeFromCart(item.product.id)}
+                          onClick={() => removeFromCart(item.product.id ?? String(item.product.productId))}
                           className="p-1.5 hover:bg-red-50 rounded transition-colors"
                           aria-label="Remove item"
                         >
@@ -127,8 +126,9 @@ const CartPopup: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-4">
-                <Link
-                  to="/cart"
+                {/* TODO: Route pending - /cart page not yet implemented */}
+                <a
+                  href="/cart"
                   onClick={closeCart}
                   className="flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center gap-2 hover:bg-red-50 transition-colors no-underline"
                 >
@@ -136,17 +136,18 @@ const CartPopup: React.FC = () => {
                   <span className="font-reddit-sans text-[14px] text-[#ff2c2c] font-normal">
                     xem giỏ hàng
                   </span>
-                </Link>
+                </a>
 
-                <Link
-                  to="/checkout"
+                {/* TODO: Route pending - /checkout page not yet implemented */}
+                <a
+                  href="/checkout"
                   onClick={closeCart}
                   className="flex-1 h-[33px] bg-[#d62525] border border-[#c40000] rounded-[25px] flex items-center justify-center hover:bg-[#c41f1f] transition-colors no-underline"
                 >
                   <span className="font-reddit-sans text-[14px] text-white font-normal">
                     Thanh Toán Ngay
                   </span>
-                </Link>
+                </a>
               </div>
             </>
           )}

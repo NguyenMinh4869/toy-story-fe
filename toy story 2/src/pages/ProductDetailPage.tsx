@@ -47,14 +47,14 @@ const ProductDetail: React.FC = () => {
     fetchProduct()
   }, [id])
 
-  // Related products from current product (single item placeholder when no API)
+  // Related products from current product
   const relatedProducts: ProductCard[] = product
     ? [
         {
-          image: product.imageUrl ?? undefined,
+          image: product.imageUrl ?? '',
           name: product.name ?? '',
-          price: formatPrice(product.price),
-          originalPrice: product.originalPrice != null ? formatPrice(product.originalPrice) : formatPrice(product.price),
+          price: formatPrice(product.price ?? 0),
+          originalPrice: product.originalPrice != null ? formatPrice(product.originalPrice) : formatPrice(product.price ?? 0),
           discount: product.discount != null ? formatDiscount(product.discount) : '-',
         },
       ]
@@ -153,7 +153,7 @@ const ProductDetail: React.FC = () => {
           <div className="flex flex-col gap-2.5">
             <span className="font-red-hat text-xl text-[#454040]">Giá Bán:</span>
             <div className="flex items-center gap-5">
-              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price)}</span>
+              <span className="font-red-hat text-[22px] text-red-600 font-semibold max-md:text-lg">{formatPrice(product.price ?? 0)}</span>
               {product.originalPrice != null && (
                 <span className="font-red-hat text-lg text-black line-through max-md:text-sm">{formatPrice(product.originalPrice)}</span>
               )}

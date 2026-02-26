@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getPromotionsCustomerFilter } from '../../services/promotionService';
 import type { ViewPromotionDto } from '../../types/PromotionDTO';
-
 import Modal from '../../components/ui/Modal';
 
 const StaffPromotionManagementPage: React.FC = () => {
@@ -44,7 +43,6 @@ const StaffPromotionManagementPage: React.FC = () => {
   };
 
   const handleView = (promotion: ViewPromotionDto) => {
-
     setSelectedPromotion(promotion);
     setIsViewModalOpen(true);
   };
@@ -162,8 +160,8 @@ const StaffPromotionManagementPage: React.FC = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <img
-                src={selectedPromotion.imageUrl || 'https://via.placeholder.com/200'}
-                alt={selectedPromotion.name || 'Promotion'}
+                src={selectedPromotion.imageUrl ?? 'https://via.placeholder.com/200'}
+                alt={selectedPromotion.name ?? 'Promotion'}
                 className="w-48 h-48 rounded-lg object-cover"
               />
 

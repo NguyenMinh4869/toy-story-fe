@@ -1,10 +1,9 @@
 /**
  * Promotion Service
  * API service for promotion-related operations matching .NET backend
- * 
- * NOTE: PromotionController requires Admin authorization.
- * If you need public access to active promotions, consider adding a public endpoint
- * like [HttpGet("active")] in your PromotionController.
+ *
+ * NOTE: PromotionController requires Admin authorization for most endpoints.
+ * customer-filter is public.
  */
 
 import { apiGet, apiPostForm, apiPutForm } from './apiClient'
@@ -19,9 +18,8 @@ export const getPromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
   return response.data
 }
 
-
 /**
- * Get promotions for customer listing (FR-4)
+ * Get promotions for customer listing (public endpoint)
  * GET /api/promotions/customer-filter
  * Optional query: name, discountType, productId, categoryId, brandId
  */
@@ -44,7 +42,6 @@ export const getPromotionsCustomerFilter = async (params?: {
   return response.data
 }
 
-
 /**
  * Get promotion by ID (Admin only - requires authentication)
  */
@@ -53,14 +50,8 @@ export const getPromotionById = async (promotionId: number): Promise<ViewPromoti
   return response.data
 }
 
-
 /**
- * Get active promotions (Admin only - requires authentication)
- * 
- * NOTE: This filters client-side. For better performance, consider adding
- * a public endpoint in your backend like:
- * [HttpGet("active")]
- * public async Task<ActionResult<List<ViewPromotionSummaryDto>>> GetActivePromotionsAsync()
+ * Get active promotions — filters client-side from all promotions
  */
 export const getActivePromotions = async (): Promise<ViewPromotionSummaryDto[]> => {
   const allPromotions = await getPromotions()
@@ -81,7 +72,6 @@ export const createPromotion = async (data: CreatePromotionDto, imageFile?: File
   return response.data
 }
 
-
 /**
  * Update promotion (Admin only)
  * PUT /api/promotions/{promotionId}
@@ -96,7 +86,6 @@ export const updatePromotion = async (promotionId: number, data: UpdatePromotion
   return response.data
 }
 
-
 /**
  * Change promotion status (Admin only)
  * PUT /api/promotions/status/{promotionId}
@@ -107,12 +96,9 @@ export const changePromotionStatus = async (promotionId: number): Promise<{ mess
   return response.data
 }
 
-
 /**
  * Delete promotion (alias to change-status to deactivate)
- * Backend does not expose delete, so we toggle status
  */
 export const deletePromotion = async (promotionId: number): Promise<{ message: string }> => {
   return changePromotionStatus(promotionId)
 }
-

@@ -2,23 +2,23 @@ import { apiGet, apiPost, apiPut, apiPutForm } from './apiClient'
 import type { ViewStaffDto, CreateStaffDto, UpdateStaffDto } from '../types/StaffDTO'
 
 export const getAllStaff = async (): Promise<ViewStaffDto[]> => {
-  const response = await apiGet<ViewStaffDto[]>('/Staff')
+  const response = await apiGet<ViewStaffDto[]>('/staffs')
   return response.data
 }
 
 export const createStaff = async (data: CreateStaffDto): Promise<{ message: string }> => {
-  const response = await apiPost<{ message: string }>('/Staff', data)
+  const response = await apiPost<{ message: string }>('/staffs', data)
   return response.data
 }
 
 export const updateStaff = async (accountId: number, data: UpdateStaffDto): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>(`/Staff/${accountId}`, data)
+  const response = await apiPut<{ message: string }>(`/staffs/${accountId}`, data)
   return response.data
 }
 
 export const changeStaffStatus = async (accountId: number): Promise<{ message: string }> => {
   const form = new FormData();
-  const response = await apiPutForm<{ message: string }>(`/Staff/change-status/${accountId}`, form);
+  const response = await apiPutForm<{ message: string }>(`/staffs/status/${accountId}`, form);
   return response.data;
 }
 
@@ -35,7 +35,7 @@ export interface StaffDetailDto {
 }
 
 export const getStaffByAccountId = async (accountId: number): Promise<StaffDetailDto> => {
-  const response = await apiGet<StaffDetailDto>(`/staff/${accountId}`)
+  const response = await apiGet<StaffDetailDto>(`/staffs/${accountId}`)
   return response.data
 }
 

@@ -15,14 +15,6 @@ import { POLYGON_RIGHT, POLYGON_LEFT, POLYGON_CENTER } from "../constants/imageA
 import type { ViewProductDto } from "../types/ProductDTO";
 import type { ViewBrandDto } from "../types/BrandDTO";
 
-const heroParoselModules = import.meta.glob("../assets/parosel/*.{png,jpg,jpeg,webp,gif,svg}", {
-  eager: true,
-  import: "default",
-}) as Record<string, string>;
-
-const HERO_PAROSEL_IMAGES = Object.entries(heroParoselModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, src]) => src);
 
 export const Homepage = (): React.JSX.Element => {
   const [promotionalProducts, setPromotionalProducts] = useState<ViewProductDto[]>([]);
@@ -98,10 +90,7 @@ export const Homepage = (): React.JSX.Element => {
       promotionsPageCount <= 1 ? 0 : (p - 1 + promotionsPageCount) % promotionsPageCount
     );
 
-  const heroPageCount = Math.max(1, HERO_PAROSEL_IMAGES.length || 0);
-  const goHeroNext = () => setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p + 1) % heroPageCount));
-  const goHeroPrev = () =>
-    setHeroPage((p) => (heroPageCount <= 1 ? 0 : (p - 1 + heroPageCount) % heroPageCount));
+
 
   const gundamPageCount = Math.max(1, Math.min(3, Math.ceil(gundamProducts.length / 3)));
   const goGundamNext = () =>
