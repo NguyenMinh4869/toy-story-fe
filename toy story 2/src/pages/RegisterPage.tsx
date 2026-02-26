@@ -9,8 +9,11 @@ import { ROUTES } from '../routes/routePaths'
 import imgImage11 from "@/assets/login/image11.png"
 const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"
 
+import { useAuth } from '../hooks/useAuth'
+
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate()
+    const { refreshUser } = useAuth()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
@@ -41,6 +44,9 @@ const RegisterPage: React.FC = () => {
 
             console.log('Registration successful:', response.message)
             setSuccess('Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...')
+
+            // Refresh auth state if the backend returns login data (optional but good practice)
+            // refreshUser() 
 
             // Navigate to login after a short delay
             setTimeout(() => {

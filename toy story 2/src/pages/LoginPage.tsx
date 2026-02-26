@@ -10,8 +10,11 @@ import { ROUTES } from '../routes/routePaths'
 import imgImage11 from "@/assets/login/image11.png"
 const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"
 
+import { useAuth } from '../hooks/useAuth'
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate()
+  const { refreshUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -40,6 +43,10 @@ const LoginPage: React.FC = () => {
 
       // Login successful - token, role, and user data are stored automatically
       console.log('Login successful:', response.message)
+
+      // Refresh global auth state to update UI (Header, etc.)
+      refreshUser()
+
       if (response.user) {
         console.log('User data loaded:', response.user)
       }

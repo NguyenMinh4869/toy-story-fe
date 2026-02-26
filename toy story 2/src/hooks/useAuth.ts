@@ -4,16 +4,11 @@
  * Provides real-time auth status, user data, and auth actions
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { 
-  isAuthenticated, 
-  getStoredUser, 
-  getUserRole,
-  logout as authServiceLogout 
-} from '../services/authService'
-import type { ViewUserDto } from '../types/AccountDTO'
+import { useAuthContext } from '../context/AuthContext'
 import { ROUTES } from '../routes/routePaths'
+import type { ViewUserDto } from '../types/AccountDTO'
 
 interface UseAuthReturn {
   /** Whether user is currently authenticated */
@@ -31,82 +26,31 @@ interface UseAuthReturn {
 }
 
 /**
- * Hook to manage authentication state with auto-refresh on storage changes
+ * Hook to manage authentication state using AuthContext
  * 
- * Features:
- * - Auto-detects authentication status from localStorage
- * - Provides user data and role
- * - Listens for storage changes (e.g., login in another tab)
- * - Provides logout function with navigation
- * 
- * @example
- * ```tsx
- * const { isAuthenticated, user, role, logout } = useAuth()
- * 
- * if (isAuthenticated) {
- *   return <div>Xin chào, {user?.name}</div>
- * }
- * ```
+ * Provides a convenient interface for components to interact with auth state.
  */
 export const useAuth = (): UseAuthReturn => {
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
-  const [authenticated, setAuthenticated] = useState(false)
-  const [user, setUser] = useState<ViewUserDto | null>(null)
-  const [role, setRole] = useState<string | null>(null)
-
-  /**
-   * Check and update authentication state
-   */
-  const checkAuth = useCallback(() => {
-    const isAuth = isAuthenticated()
-    const userData = getStoredUser()
-    const userRole = getUserRole()
-
-    setAuthenticated(isAuth)
-    setUser(userData)
-    setRole(userRole)
-    setIsLoading(false)
-  }, [])
+  const {
+    isAuthenticated,
+    user,
+    role,
+    isLoading,
+    logout: contextLogout,
+    refreshAuth: refreshUser
+  } = useAuthContext()
 
   /**
    * Handle logout - clear auth state and redirect to home
    */
   const logout = useCallback(() => {
-    authServiceLogout()
-    setAuthenticated(false)
-    setUser(null)
-    setRole(null)
+    contextLogout()
     navigate(ROUTES.HOME)
-  }, [navigate])
-
-  /**
-   * Manually refresh user data from localStorage
-   * Useful after profile updates
-   */
-  const refreshUser = useCallback(() => {
-    checkAuth()
-  }, [checkAuth])
-
-  // Initial auth check on mount
-  useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
-
-  // Listen for storage changes (e.g., login/logout in another tab)
-  useEffect(() => {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'token' || e.key === 'user' || e.key === 'role') {
-        checkAuth()
-      }
-    }
-
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
-  }, [checkAuth])
+  }, [contextLogout, navigate])
 
   return {
-    isAuthenticated: authenticated,
+    isAuthenticated,
     user,
     role,
     isLoading,

@@ -38,8 +38,28 @@ const normalizeRole = (role: string | number | UserRole): string => {
 }
 
 /**
+ * Simple JWT decoder to extract claims without external library
+ */
+const decodeJwt = (token: string): any => {
+  try {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    )
+    return JSON.parse(jsonPayload)
+  } catch (error) {
+    console.warn('Failed to decode JWT:', error)
+    return null
+  }
+}
+
+/**
  * Login user
- * POST /api/account/login
+ * POST /api/auth/login
  * Automatically fetches user details after successful login
  */
 export const login = async (credentials: LoginDto): Promise<LoginResponse & { user?: ViewUserDto }> => {
@@ -56,7 +76,11 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
     // Update response role to be normalized for immediate usage
     response.data.role = normalizedRole
 
-    // Fetch user details using /me endpoint
+    // Decode token to get user name immediately
+    const decoded = decodeJwt(response.data.token)
+    const displayName = decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || normalizedRole
+
+    // Fetch user details using /auth/me endpoint
     try {
       const user = await getCurrentUser()
       return {
@@ -64,9 +88,25 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
         user
       }
     } catch (error) {
-      // If /me fails, still return login response
-      console.warn('Failed to fetch user details after login:', error)
-      return response.data
+      // If /me fails, create a minimal user object so UI still shows authenticated state
+      console.warn('Failed to fetch user details after login, using token data:', error)
+
+      const minimalUser: ViewUserDto = {
+        accountId: decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+          ? parseInt(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], 10)
+          : 0,
+        email: decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || credentials.email,
+        name: displayName,
+        role: normalizedRole as any,
+        status: 'Active' as any
+      }
+
+      localStorage.setItem('user', JSON.stringify(minimalUser))
+
+      return {
+        ...response.data,
+        user: minimalUser
+      }
     }
   }
 
@@ -78,7 +118,7 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
  * POST /api/account
  */
 export const register = async (userData: CreateUserDto): Promise<{ message: string }> => {
-  const response = await apiPost<{ message: string }>('/account', userData)
+  const response = await apiPost<{ message: string }>('/auth/signup', userData)
   return response.data
 }
 
@@ -98,7 +138,7 @@ export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
  * Requires: Authorization
  */
 export const getCurrentUser = async (): Promise<ViewUserDto> => {
-  const response = await apiGet<ViewUserDto>('/account/me')
+  const response = await apiGet<ViewUserDto>('/auth/me')
 
   // Normalize role in user object if present
   if (response.data && response.data.role !== undefined) {

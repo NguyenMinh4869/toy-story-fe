@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false)
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
   const userDropdownRef = useRef<HTMLDivElement>(null)
-  
+
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>): void => {
     e.currentTarget.style.display = 'none'
   }
@@ -44,9 +44,9 @@ const Header: React.FC = () => {
     <header className="bg-[#ab0007] relative w-full px-[38px] py-[19px] text-white">
       <div className="max-w-[1800px] mx-auto flex items-center justify-between mb-[30px]">
         <Link to="/" className="relative h-[47px] flex items-center no-underline text-inherit">
-          <img 
-            src={LOGO_TOY_STORY} 
-            alt="TOY STORY Logo" 
+          <img
+            src={LOGO_TOY_STORY}
+            alt="TOY STORY Logo"
             className="h-[47px] w-auto"
             onError={handleImageError}
           />
@@ -55,16 +55,16 @@ const Header: React.FC = () => {
         <div className="flex-1 max-w-[440px] mx-5">
           <div className="relative bg-white border border-[#536179] rounded-[111px] h-10 flex items-center px-4">
             <Search className="w-5 h-5 mr-4 flex-shrink-0" size={20} stroke="rgba(0,0,0,0.41)" />
-            <input 
-              type="text" 
-              placeholder="Nhập đồ chơi bạn muốn" 
+            <input
+              type="text"
+              placeholder="Nhập đồ chơi bạn muốn"
               className="flex-1 border-none outline-none font-sansation text-xs text-[rgba(0,0,0,0.41)] placeholder:text-[rgba(0,0,0,0.41)]"
             />
           </div>
         </div>
         <div className="flex gap-6 items-center">
           {/* Conditional Auth UI */}
-          {isAuthenticated && user ? (
+          {isAuthenticated ? (
             // Authenticated State - User Profile Dropdown
             <div className="relative" ref={userDropdownRef}>
               <button
@@ -73,12 +73,12 @@ const Header: React.FC = () => {
               >
                 <User size={22} stroke="white" strokeWidth={2} className="w-[22px] h-[22px] flex-shrink-0" />
                 <span className="font-tilt-warp text-xs text-white">
-                  Xin chào, {user.name || 'Người dùng'}
+                  Xin chào, {user?.name || 'Thành viên'}
                 </span>
-                <ChevronDown 
-                  size={16} 
-                  stroke="white" 
-                  strokeWidth={2} 
+                <ChevronDown
+                  size={16}
+                  stroke="white"
+                  strokeWidth={2}
                   className={`w-4 h-4 flex-shrink-0 transition-transform ${isUserDropdownOpen ? 'rotate-180' : ''}`}
                 />
               </button>
@@ -117,8 +117,8 @@ const Header: React.FC = () => {
               </Link>
             </>
           )}
-          
-          <button 
+
+          <button
             onClick={openCart}
             className="flex items-center gap-2 cursor-pointer bg-transparent border-none"
           >
@@ -136,32 +136,32 @@ const Header: React.FC = () => {
           <ChevronDown size={17} stroke="white" strokeWidth={2} className="w-[17px] h-2 flex-shrink-0" />
         </a>
         <a href="#new" className="text-white no-underline flex items-center gap-2 hover:opacity-80">HÀNG MỚI</a>
-        
+
         {/* Products Dropdown Trigger */}
-        <div 
+        <div
           className="relative"
           onMouseEnter={() => setIsProductsDropdownOpen(true)}
           onMouseLeave={() => setIsProductsDropdownOpen(false)}
         >
-          <button 
+          <button
             className="text-white no-underline flex items-center gap-2 hover:opacity-80 bg-transparent border-none cursor-pointer font-tilt-warp text-xs"
             onClick={() => setIsProductsDropdownOpen(!isProductsDropdownOpen)}
           >
             SẢN PHẨM
-            <ChevronDown 
-              size={17} 
-              stroke="white" 
-              strokeWidth={2} 
+            <ChevronDown
+              size={17}
+              stroke="white"
+              strokeWidth={2}
               className={`w-[17px] h-2 flex-shrink-0 transition-transform ${isProductsDropdownOpen ? 'rotate-180' : ''}`}
             />
           </button>
-          
-          <ProductsDropdown 
-            isOpen={isProductsDropdownOpen} 
-            onClose={() => setIsProductsDropdownOpen(false)} 
+
+          <ProductsDropdown
+            isOpen={isProductsDropdownOpen}
+            onClose={() => setIsProductsDropdownOpen(false)}
           />
         </div>
-        
+
         <Link to="/promotion" className="text-white no-underline flex items-center gap-2 hover:opacity-80">KHUYẾN MÃI</Link>
         <Link to={ROUTES.BRANDS} className="text-white no-underline flex items-center gap-2 hover:opacity-80">THƯƠNG HIỆU</Link>
         <Link to={ROUTES.CAM_NANG} className="text-white no-underline flex items-center gap-2 hover:opacity-80">CẨM NANG MUA HÀNG</Link>
