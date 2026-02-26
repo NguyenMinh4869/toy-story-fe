@@ -1,11 +1,12 @@
-import React from 'react'
-import { X, Trash2, ShoppingBag } from 'lucide-react'
+import React, { useState } from 'react'
+import { X, Trash2, ShoppingBag, Check } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
 import { ROUTES } from '../routes/routePaths'
 
 const CartPopup: React.FC = () => {
+  const [isAgreed, setIsAgreed] = useState(false)
   const {
     cartItems,
     removeFromCart,
@@ -113,14 +114,14 @@ const CartPopup: React.FC = () => {
                 </div>
               </div>
 
-              {/* Terms Checkbox */}
-              <div className="flex items-start gap-2 mb-4">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  className="mt-0.5 w-[18px] h-[18px] border-[0.2px] border-black rounded-[4px] flex-shrink-0 cursor-pointer"
-                />
-                <label htmlFor="terms" className="text-[12px] text-black font-red-hat leading-tight cursor-pointer">
+              <div className="flex items-start gap-2 mb-4 group cursor-pointer" onClick={() => setIsAgreed(!isAgreed)}>
+                <div
+                  className={`mt-0.5 w-[18px] h-[18px] border border-black rounded-[4px] flex-shrink-0 flex items-center justify-center transition-all ${isAgreed ? 'bg-red-600 border-red-600' : 'bg-transparent'
+                    }`}
+                >
+                  {isAgreed && <Check size={12} className="text-white stroke-[3px]" />}
+                </div>
+                <label className="text-[12px] text-black font-red-hat leading-tight cursor-pointer select-none">
                   Tôi đã đọc và đồng ý với{' '}
                   <span className="text-red-600">Chính sách bảo mật</span> và{' '}
                   <span className="text-red-600">Điều kiện thanh toán</span>
@@ -144,10 +145,13 @@ const CartPopup: React.FC = () => {
 
                 <button
                   onClick={() => {
+                    if (!isAgreed) return
                     closeCart()
                     navigate(ROUTES.CHECKOUT)
                   }}
-                  className="flex-1 h-[33px] bg-[#d62525] border border-[#c40000] rounded-[25px] flex items-center justify-center hover:bg-[#c41f1f] transition-colors text-white cursor-pointer"
+                  disabled={!isAgreed}
+                  className={`flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center transition-colors text-white cursor-pointer ${isAgreed ? 'bg-[#d62525] hover:bg-[#c41f1f]' : 'bg-gray-400 border-gray-400 cursor-not-allowed'
+                    }`}
                 >
                   <span className="font-reddit-sans text-[14px] text-white font-normal">
                     Thanh Toán Ngay
