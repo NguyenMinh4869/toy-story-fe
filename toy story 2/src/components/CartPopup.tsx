@@ -1,7 +1,9 @@
 import React from 'react'
 import { X, Trash2, ShoppingBag } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
+import { ROUTES } from '../routes/routePaths'
 
 const CartPopup: React.FC = () => {
   const {
@@ -12,6 +14,7 @@ const CartPopup: React.FC = () => {
     isCartOpen,
     closeCart
   } = useCart()
+  const navigate = useNavigate()
 
   if (!isCartOpen) return null
 
@@ -44,7 +47,7 @@ const CartPopup: React.FC = () => {
           ) : (
             <>
               {cartItems.map((item) => (
-                    <div key={item.product.id ?? item.product.productId} className="mb-4">
+                <div key={item.product.id ?? item.product.productId} className="mb-4">
                   {/* Product Info */}
                   <div className="flex gap-3">
                     <img
@@ -126,28 +129,30 @@ const CartPopup: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-4">
-                {/* TODO: Route pending - /cart page not yet implemented */}
-                <a
-                  href="/cart"
-                  onClick={closeCart}
-                  className="flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center gap-2 hover:bg-red-50 transition-colors no-underline"
+                <button
+                  onClick={() => {
+                    closeCart()
+                    navigate(ROUTES.CART)
+                  }}
+                  className="flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center gap-2 hover:bg-red-50 transition-colors bg-transparent cursor-pointer"
                 >
                   <ShoppingBag size={14} className="text-[#ff2c2c]" />
                   <span className="font-reddit-sans text-[14px] text-[#ff2c2c] font-normal">
                     xem giỏ hàng
                   </span>
-                </a>
+                </button>
 
-                {/* TODO: Route pending - /checkout page not yet implemented */}
-                <a
-                  href="/checkout"
-                  onClick={closeCart}
-                  className="flex-1 h-[33px] bg-[#d62525] border border-[#c40000] rounded-[25px] flex items-center justify-center hover:bg-[#c41f1f] transition-colors no-underline"
+                <button
+                  onClick={() => {
+                    closeCart()
+                    navigate(ROUTES.CHECKOUT)
+                  }}
+                  className="flex-1 h-[33px] bg-[#d62525] border border-[#c40000] rounded-[25px] flex items-center justify-center hover:bg-[#c41f1f] transition-colors text-white cursor-pointer"
                 >
                   <span className="font-reddit-sans text-[14px] text-white font-normal">
                     Thanh Toán Ngay
                   </span>
-                </a>
+                </button>
               </div>
             </>
           )}

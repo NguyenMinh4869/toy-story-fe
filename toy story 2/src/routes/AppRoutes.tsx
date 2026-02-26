@@ -11,6 +11,7 @@ import { ROUTES } from './routePaths'
 import PromotionPage from '../pages/PromotionPage'
 import VoucherPage from '../pages/VoucherPage'
 import SetPage from '../pages/SetPage'
+import CheckoutPage from '../pages/CheckoutPage'
 import DashboardLayout from '../layouts/DashboardLayout'
 import ProtectedRoute from './ProtectedRoute'
 
@@ -103,11 +104,8 @@ const AppRoutes: React.FC = () => {
 
       {/* Cart & Checkout */}
       {/* <Route path={ROUTES.CART} element={<CartPage />} /> */}
-      {/* <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} /> */}
+      <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
 
-      {/* User Routes */}
-      {/* <Route path={ROUTES.PROFILE} element={<ProfilePage />} /> */}
-      {/* <Route path={ROUTES.ORDERS} element={<OrdersPage />} /> */}
       {/* 404 - catch-all for unmatched routes */}
       <Route path="*" element={
         <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">

@@ -166,7 +166,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
  * Requires: Authorization, Member role
  */
 export const updateUser = async (userData: UpdateUserDto): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>('/accounts', userData)
+  const response = await apiPut<{ message: string }>('/account', userData)
   return response.data
 }
 
@@ -176,7 +176,7 @@ export const updateUser = async (userData: UpdateUserDto): Promise<{ message: st
  * Requires: Authorization
  */
 export const changePassword = async (passwordData: ChangePasswordDto): Promise<{ message: string }> => {
-  const response = await apiPut<{ message: string }>('/accounts/password', passwordData)
+  const response = await apiPut<{ message: string }>('/account/change-password', passwordData)
   return response.data
 }
 
