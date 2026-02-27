@@ -137,7 +137,6 @@ const CheckoutPage: React.FC = () => {
                 })
             } catch (profileErr) {
                 console.warn('Profile sync failed, continuing checkout anyway:', profileErr)
-                // We continue because some backends might handle this differently
             }
 
             // 2. Synchronize cart one last time before checkout
@@ -145,28 +144,31 @@ const CheckoutPage: React.FC = () => {
                 await handleCalculate()
             }
 
-            // 3. Perform checkout
+            // 3. Perform checkout (POST /api/checkout)
             const checkoutResult = await checkout()
 
             // Handle cases where checkout might return empty body but success
             const invoiceId = checkoutResult?.invoiceId
 
             if (!invoiceId) {
-                // If no invoiceId from checkout, try to find the latest invoice for account
                 console.warn('No invoiceId returned from checkout, attempting to proceed...')
-                // fallback or more logic could go here
                 throw new Error('Không thể tạo hóa đơn thanh toán. Vui lòng liên hệ hỗ trợ.')
             }
 
-            // 4. Create payment link
+            // 4. Create payment link (POST /api/payments/create)
             const paymentResult = await createPayment(invoiceId)
 
             // 5. Clear local cart
             clearCart()
 
-            // 6. Redirect to PayOS
+            // 6. Redirect to PayOS or handle QR
             if (paymentResult?.checkoutUrl) {
+                // Redirecting to PayOS payment link
                 window.location.href = paymentResult.checkoutUrl
+            } else if (paymentResult?.qrCode) {
+                // Fallback: If no checkoutUrl but qrCode exists (unusual for redirection flow but being safe)
+                // For now, we'll just log it or we could redirect to a success page with QR
+                setError('Hệ thống đang chuẩn bị mã QR. Vui lòng chờ giây lát...')
             } else {
                 throw new Error('Không nhận được liên kết thanh toán từ PayOS.')
             }
