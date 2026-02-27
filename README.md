@@ -35,10 +35,14 @@ To get started with the project, follow these steps:
 
 ##  Project Structure
 
-- `toy story 2/`: The main React application.
-  - `src/components/`: Reusable UI components.
-  - `src/pages/`: Page-level components and routing.
-  - `src/services/`: API integration and business logic.
-  - `src/types/`: TypeScript definitions (including auto-generated).
-
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Page components
+├── routes/        # Routing configuration
+├── services/      # API services
+├── types/         # TypeScript types
+├── utils/         # Utility functions
+└── config/        # Configuration
+```
 
