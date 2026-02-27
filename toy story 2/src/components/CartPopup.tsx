@@ -1,10 +1,12 @@
-import React from 'react'
-import { X, Trash2, ShoppingBag } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { X, Trash2, ShoppingBag, Check } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { formatPrice } from '../utils/formatPrice'
+import { ROUTES } from '../routes/routePaths'
 
 const CartPopup: React.FC = () => {
+  const [isAgreed, setIsAgreed] = useState(false)
   const {
     cartItems,
     removeFromCart,
@@ -13,6 +15,7 @@ const CartPopup: React.FC = () => {
     isCartOpen,
     closeCart
   } = useCart()
+  const navigate = useNavigate()
 
   if (!isCartOpen) return null
 
@@ -45,12 +48,12 @@ const CartPopup: React.FC = () => {
           ) : (
             <>
               {cartItems.map((item) => (
-                <div key={item.product.id} className="mb-4">
+                <div key={item.product.id ?? item.product.productId} className="mb-4">
                   {/* Product Info */}
                   <div className="flex gap-3">
                     <img
-                      src={item.product.imageUrl || undefined}
-                      alt={item.product.name || 'Product'}
+                      src={item.product.imageUrl ?? ''}
+                      alt={item.product.name ?? 'Product'}
                       className="w-[88px] h-[88px] rounded-xl object-cover flex-shrink-0"
                     />
 
@@ -63,31 +66,31 @@ const CartPopup: React.FC = () => {
                       <div className="flex items-center gap-3 mb-2">
                         <div className="flex items-center border border-[#c6bfbf] rounded-[5px] overflow-hidden h-[26px]">
                           <button
-                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity - 1)}
-
+                            onClick={() => updateQuantity(item.product.id ?? String(item.product.productId), item.quantity - 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
+
                             -
                           </button>
                           <span className="px-3 h-full flex items-center justify-center min-w-[40px] text-black font-red-hat text-[14px] border-l border-r border-[#c6bfbf]">
                             {item.quantity}
                           </span>
                           <button
-                            onClick={() => item.product.id && updateQuantity(item.product.id, item.quantity + 1)}
-
+                            onClick={() => updateQuantity(item.product.id ?? String(item.product.productId), item.quantity + 1)}
                             className="w-[27px] h-full flex items-center justify-center hover:bg-gray-100 transition-colors text-black font-tilt-warp text-[14px]"
                           >
+
                             +
                           </button>
                         </div>
 
                         {/* Delete Button */}
                         <button
-                          onClick={() => item.product.id && removeFromCart(item.product.id)}
-
+                          onClick={() => removeFromCart(item.product.id ?? String(item.product.productId))}
                           className="p-1.5 hover:bg-red-50 rounded transition-colors"
                           aria-label="Remove item"
                         >
+
                           <Trash2 size={16} className="text-red-600" />
                         </button>
                       </div>
@@ -111,14 +114,14 @@ const CartPopup: React.FC = () => {
                 </div>
               </div>
 
-              {/* Terms Checkbox */}
-              <div className="flex items-start gap-2 mb-4">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  className="mt-0.5 w-[18px] h-[18px] border-[0.2px] border-black rounded-[4px] flex-shrink-0 cursor-pointer"
-                />
-                <label htmlFor="terms" className="text-[12px] text-black font-red-hat leading-tight cursor-pointer">
+              <div className="flex items-start gap-2 mb-4 group cursor-pointer" onClick={() => setIsAgreed(!isAgreed)}>
+                <div
+                  className={`mt-0.5 w-[18px] h-[18px] border border-black rounded-[4px] flex-shrink-0 flex items-center justify-center transition-all ${isAgreed ? 'bg-red-600 border-red-600' : 'bg-transparent'
+                    }`}
+                >
+                  {isAgreed && <Check size={12} className="text-white stroke-[3px]" />}
+                </div>
+                <label className="text-[12px] text-black font-red-hat leading-tight cursor-pointer select-none">
                   Tôi đã đọc và đồng ý với{' '}
                   <span className="text-red-600">Chính sách bảo mật</span> và{' '}
                   <span className="text-red-600">Điều kiện thanh toán</span>
@@ -127,26 +130,33 @@ const CartPopup: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-4">
-                <Link
-                  to="/cart"
-                  onClick={closeCart}
-                  className="flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center gap-2 hover:bg-red-50 transition-colors no-underline"
+                <button
+                  onClick={() => {
+                    closeCart()
+                    navigate(ROUTES.CART)
+                  }}
+                  className="flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center gap-2 hover:bg-red-50 transition-colors bg-transparent cursor-pointer"
                 >
                   <ShoppingBag size={14} className="text-[#ff2c2c]" />
                   <span className="font-reddit-sans text-[14px] text-[#ff2c2c] font-normal">
                     xem giỏ hàng
                   </span>
-                </Link>
+                </button>
 
-                <Link
-                  to="/checkout"
-                  onClick={closeCart}
-                  className="flex-1 h-[33px] bg-[#d62525] border border-[#c40000] rounded-[25px] flex items-center justify-center hover:bg-[#c41f1f] transition-colors no-underline"
+                <button
+                  onClick={() => {
+                    if (!isAgreed) return
+                    closeCart()
+                    navigate(ROUTES.CHECKOUT)
+                  }}
+                  disabled={!isAgreed}
+                  className={`flex-1 h-[33px] border border-[#c40000] rounded-[25px] flex items-center justify-center transition-colors text-white cursor-pointer ${isAgreed ? 'bg-[#d62525] hover:bg-[#c41f1f]' : 'bg-gray-400 border-gray-400 cursor-not-allowed'
+                    }`}
                 >
                   <span className="font-reddit-sans text-[14px] text-white font-normal">
                     Thanh Toán Ngay
                   </span>
-                </Link>
+                </button>
               </div>
             </>
           )}

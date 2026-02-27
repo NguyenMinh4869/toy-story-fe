@@ -5,8 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import StatCard from '../../components/admin/StatCard';
 import { Package, AlertTriangle, Tag, Layers, Percent } from 'lucide-react';
-
-import { getWarehouseProductsWithDetails, WarehouseProductDto } from '../../services/warehouseService';
+import { getWarehouseProductsWithDetails, type ProductStockDto } from '../../services/warehouseService';
 import { getStoredUserMetadata } from '../../services/authService';
 import { getCurrentStaffWarehouseId } from '../../services/staffService';
 import { filterBrands } from '../../services/brandService';
@@ -20,9 +19,9 @@ const StaffDashboardPage: React.FC = () => {
   const [totalBrands, setTotalBrands] = useState(0);
   const [totalSets, setTotalSets] = useState(0);
   const [activePromotions, setActivePromotions] = useState(0);
-  const [recentProducts, setRecentProducts] = useState<WarehouseProductDto[]>([]);
+  const [recentProducts, setRecentProducts] = useState<ProductStockDto[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     initializeStaffContext();
@@ -31,17 +30,16 @@ const StaffDashboardPage: React.FC = () => {
   const initializeStaffContext = async () => {
     try {
       setLoading(true);
-
+      
       // Get accountId from stored metadata
       const metadata = getStoredUserMetadata();
       if (!metadata?.accountId) {
-        console.error('No account ID found');
+        setError('No account ID found. Please log in again.');
         return;
       }
 
       // Fetch staff's warehouseId
       const staffWarehouseId = await getCurrentStaffWarehouseId(metadata.accountId);
-
 
       // Fetch all data in parallel
       const [products, brands, sets, promotions] = await Promise.all([
@@ -50,7 +48,7 @@ const StaffDashboardPage: React.FC = () => {
         getSetsCustomerFilter(),
         getPromotionsCustomerFilter()
       ]);
-
+      
       // Calculate total stock
       const totalQuantity = products.reduce((sum, product) => sum + (product.quantity || 0), 0);
       setTotalStock(totalQuantity);
@@ -58,7 +56,7 @@ const StaffDashboardPage: React.FC = () => {
       // Calculate stock status counts
       let lowStock = 0;
       let outOfStock = 0;
-
+      
       products.forEach((product) => {
         const quantity = product.quantity || 0;
         if (quantity === 0) {
@@ -83,46 +81,52 @@ const StaffDashboardPage: React.FC = () => {
       setRecentProducts(sortedProducts);
     } catch (error) {
       console.error('Failed to initialize staff context:', error);
+      setError('Failed to load dashboard data. Please refresh the page.');
     } finally {
       setLoading(false);
     }
   };
 
   const stats = [
-    {
-      title: 'Total Stock',
-      value: loading ? 'Loading...' : `${totalStock} items`,
-      icon: <Package className="text-emerald-500" />
+    { 
+      title: 'Total Stock', 
+      value: loading ? 'Loading...' : `${totalStock} items`, 
+      icon: <Package className="text-emerald-500" /> 
     },
-    {
-      title: 'Low Stock Products',
-      value: loading ? 'Loading...' : `${lowStockCount}`,
-      icon: <AlertTriangle className="text-orange-500" />
+    { 
+      title: 'Low Stock Products', 
+      value: loading ? 'Loading...' : `${lowStockCount}`, 
+      icon: <AlertTriangle className="text-orange-500" /> 
     },
-    {
-      title: 'Out of Stock',
-      value: loading ? 'Loading...' : `${outOfStockCount}`,
-      icon: <AlertTriangle className="text-red-500" />
+    { 
+      title: 'Out of Stock', 
+      value: loading ? 'Loading...' : `${outOfStockCount}`, 
+      icon: <AlertTriangle className="text-red-500" /> 
     },
-    {
-      title: 'Active Brands',
-      value: loading ? 'Loading...' : `${totalBrands}`,
-      icon: <Tag className="text-blue-500" />
+    { 
+      title: 'Active Brands', 
+      value: loading ? 'Loading...' : `${totalBrands}`, 
+      icon: <Tag className="text-blue-500" /> 
     },
-    {
-      title: 'Available Sets',
-      value: loading ? 'Loading...' : `${totalSets}`,
-      icon: <Layers className="text-purple-500" />
+    { 
+      title: 'Available Sets', 
+      value: loading ? 'Loading...' : `${totalSets}`, 
+      icon: <Layers className="text-purple-500" /> 
     },
-    {
-      title: 'Active Promotions',
-      value: loading ? 'Loading...' : `${activePromotions}`,
-      icon: <Percent className="text-pink-500" />
+    { 
+      title: 'Active Promotions', 
+      value: loading ? 'Loading...' : `${activePromotions}`, 
+      icon: <Percent className="text-pink-500" /> 
     },
   ];
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded flex items-center gap-2">
+          <span>⚠️</span> {error}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => (
           <StatCard key={index} title={stat.title} value={stat.value} icon={stat.icon} />
@@ -151,29 +155,28 @@ const StaffDashboardPage: React.FC = () => {
                 {recentProducts.map((product) => (
                   <div key={product.productWarehouseId} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center gap-3">
-                      <img
-                        src={product.imageUrl || 'https://via.placeholder.com/40'}
-                        alt={product.productName || 'Product'}
+                      <img 
+                        src={product.imageUrl ?? 'https://via.placeholder.com/40'} 
+                        alt={product.productName ?? 'Product'}
                         className="w-10 h-10 rounded object-cover"
                       />
                       <div>
-                        <p className="font-medium text-gray-900 text-sm">{product.productName || 'N/A'}</p>
-                        <p className="text-xs text-gray-500">{product.brandName || 'N/A'} - {product.categoryName || 'N/A'}</p>
+                        <p className="font-medium text-gray-900 text-sm">{product.productName}</p>
+                        <p className="text-xs text-gray-500">ID: {product.productId}</p>
                       </div>
                     </div>
-
                     <div className="text-right">
-                      <p className="font-semibold text-gray-900">{product.quantity || 0} units</p>
-                      <span className={`text-xs px-2 py-1 rounded-full ${(product.quantity || 0) === 0
-                        ? 'bg-red-100 text-red-800'
-                        : (product.quantity || 0) <= 10
+                      <p className="font-semibold text-gray-900">{product.quantity ?? 0} units</p>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        (product.quantity ?? 0) === 0 
+                          ? 'bg-red-100 text-red-800'
+                          : (product.quantity ?? 0) <= 10
                           ? 'bg-orange-100 text-orange-800'
                           : 'bg-green-100 text-green-800'
-                        }`}>
-                        {(product.quantity || 0) === 0 ? 'Out of Stock' : (product.quantity || 0) <= 10 ? 'Low Stock' : 'In Stock'}
+                      }`}>
+                        {(product.quantity ?? 0) === 0 ? 'Out of Stock' : (product.quantity ?? 0) <= 10 ? 'Low Stock' : 'In Stock'}
                       </span>
                     </div>
-
                   </div>
                 ))}
               </div>

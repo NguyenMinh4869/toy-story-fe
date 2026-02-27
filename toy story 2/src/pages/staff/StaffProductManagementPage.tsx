@@ -7,10 +7,11 @@ import { useLocation } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 import ProductListTable from '../../components/admin/ProductListTable';
 import Modal from '../../components/ui/Modal';
-import {
-  createProduct,
-  updateProduct,
-  filterProducts
+import { 
+  createProduct, 
+  updateProduct, 
+  filterProducts,
+  changeProductStatus
 } from '../../services/productService';
 import { getActiveBrands } from '../../services/brandService';
 import { getCategories } from '../../services/categoryService';
@@ -25,10 +26,10 @@ const StaffProductManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const location = useLocation();
-
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<ViewProductDto | null>(null);
-
+  
   // Form State
   const [formData, setFormData] = useState<Partial<CreateProductDto>>({
     Name: '',
@@ -41,7 +42,6 @@ const StaffProductManagementPage: React.FC = () => {
     CategoryId: 0,
     BrandId: 0
   });
-
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const StaffProductManagementPage: React.FC = () => {
       const q = new URLSearchParams(location.search).get('q') || '';
       const allProducts = q.trim()
         ? await filterProducts({ searchTerm: q.trim() })
-        : await filterProducts({});
+        : await filterProducts({}); 
       setProducts(allProducts);
       setBrands(brandsData);
       setCategories(categoriesData);
@@ -74,11 +74,10 @@ const StaffProductManagementPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'Price' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange'
-        ? Number(value)
+      [name]: name === 'Price' || name === 'CategoryId' || name === 'BrandId' || name === 'Gender' || name === 'AgeRange' 
+        ? Number(value) 
         : value
     }));
-
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,13 +119,17 @@ const StaffProductManagementPage: React.FC = () => {
       CategoryId: product.categoryId || 0,
       BrandId: product.brandId || 0
     });
-
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (productId: number) => {
-    // Delete handler placeholder
-    console.log('Delete product:', productId);
+  const handleStatusChange = async (productId: number) => {
+    try {
+      await changeProductStatus(productId);
+      await fetchData();
+    } catch (err) {
+      console.error('Failed to toggle product status:', err);
+      setError('Failed to update product status');
+    }
   };
 
   const resetForm = () => {
@@ -142,7 +145,6 @@ const StaffProductManagementPage: React.FC = () => {
       CategoryId: 0,
       BrandId: 0
     });
-
     setImageFile(null);
   };
 
@@ -176,9 +178,8 @@ const StaffProductManagementPage: React.FC = () => {
         <ProductListTable
           products={products}
           onEdit={handleEdit}
-          onStatusChange={handleDelete}
+          onStatusChange={handleStatusChange}
         />
-
       </div>
 
       <Modal
@@ -226,7 +227,6 @@ const StaffProductManagementPage: React.FC = () => {
                 required
               />
             </div>
-
           </div>
 
           <div className="grid grid-cols-2 gap-4">

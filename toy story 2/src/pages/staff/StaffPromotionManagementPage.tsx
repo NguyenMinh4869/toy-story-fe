@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getPromotionsCustomerFilter } from '../../services/promotionService';
 import type { ViewPromotionDto } from '../../types/PromotionDTO';
-
 import Modal from '../../components/ui/Modal';
 
 const StaffPromotionManagementPage: React.FC = () => {
@@ -44,7 +43,6 @@ const StaffPromotionManagementPage: React.FC = () => {
   };
 
   const handleView = (promotion: ViewPromotionDto) => {
-
     setSelectedPromotion(promotion);
     setIsViewModalOpen(true);
   };
@@ -129,8 +127,8 @@ const StaffPromotionManagementPage: React.FC = () => {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${promotion.isActive
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-gray-100 text-gray-800'
                         }`}>
                         {promotion.isActive ? 'Active' : 'Inactive'}
                       </span>
@@ -162,8 +160,8 @@ const StaffPromotionManagementPage: React.FC = () => {
           <div className="space-y-4">
             <div className="flex justify-center">
               <img
-                src={selectedPromotion.imageUrl || 'https://via.placeholder.com/200'}
-                alt={selectedPromotion.name || 'Promotion'}
+                src={selectedPromotion.imageUrl ?? 'https://via.placeholder.com/200'}
+                alt={selectedPromotion.name ?? 'Promotion'}
                 className="w-48 h-48 rounded-lg object-cover"
               />
 
@@ -211,8 +209,8 @@ const StaffPromotionManagementPage: React.FC = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Status</label>
                 <span className={`inline-block mt-1 px-3 py-1 text-sm font-semibold rounded-full ${selectedPromotion.isActive
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-gray-100 text-gray-800'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-gray-100 text-gray-800'
                   }`}>
                   {selectedPromotion.isActive ? 'Active' : 'Inactive'}
                 </span>

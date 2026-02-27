@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { Eye } from 'lucide-react';
 import { getSetsCustomerFilter } from '../../services/setService';
-import type { ViewSetDto } from '../../types/SetDTO';
+import type { ViewSetDetailDto as ViewSetDto } from '../../types/SetDTO';
 import Modal from '../../components/ui/Modal';
 
 const StaffSetManagementPage: React.FC = () => {

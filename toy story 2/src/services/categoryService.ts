@@ -19,7 +19,7 @@ export const getCategories = async (): Promise<ViewCategoryDto[]> => {
  * Get category by ID (public endpoint)
  */
 export const getCategoryById = async (categoryId: number): Promise<ViewCategoryDto> => {
-  const response = await apiGet<ViewCategoryDto>(`/category/${categoryId}`)
+  const response = await apiGet<ViewCategoryDto>(`/categories/${categoryId}`)
   return response.data
 }
 

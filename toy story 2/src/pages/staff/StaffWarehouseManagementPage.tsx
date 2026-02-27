@@ -5,14 +5,17 @@
 import React, { useEffect, useState } from 'react';
 import { Edit, AlertCircle, Trash2, Plus, Search } from 'lucide-react';
 import Modal from '../../components/ui/Modal';
-import {
+import { 
   getWarehouseProductsWithDetails,
   updateWarehouseProduct,
   addWarehouseProduct,
-  removeWarehouseProduct,
-  CreateWarehouseProductDto,
-  WarehouseProductDto
+  removeWarehouseProduct
 } from '../../services/warehouseService';
+import type { components } from '../../types/generated';
+
+type CreateWarehouseProductDto = components['schemas']['CreateWarehouseProductDto'];
+// Combine both warehouse product shapes since the page needs fields from both DTOs
+type WarehouseProductDto = components['schemas']['ProductStockDto'] & Pick<components['schemas']['ViewWarehouseProductDto'], 'brandName' | 'categoryName' | 'name' | 'totalQuantity'>;
 import { getStoredUserMetadata } from '../../services/authService';
 import { getCurrentStaffWarehouseId } from '../../services/staffService';
 import { filterProducts } from '../../services/productService';
@@ -24,7 +27,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [warehouseId, setWarehouseId] = useState<number | null>(null);
-
+  
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -52,7 +55,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
       const debounceTimer = setTimeout(() => {
         applyFilters();
       }, 300); // Debounce for 300ms to avoid too many API calls
-
+      
       return () => clearTimeout(debounceTimer);
     }
   }, [searchTerm, genderFilter, ageRangeFilter, categoryFilter, brandFilter, isAddModalOpen]);
@@ -90,7 +93,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
         setProducts([]);
         return;
       }
-
+      
       const warehouseProducts = await getWarehouseProductsWithDetails(warehouseId);
       setProducts(warehouseProducts);
     } catch (err) {
@@ -129,7 +132,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
         getCategories(),
         filterBrands({ status: 'Active' })
       ]);
-
+      
       // Filter out products already in warehouse
       const existingProductIds = products.map(p => p.productId);
       const available = allProducts.filter(p => !existingProductIds.includes(p.productId));
@@ -152,7 +155,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!currentProduct?.productWarehouseId) {
       setError('Invalid product warehouse ID');
       return;
@@ -176,7 +179,7 @@ const StaffWarehouseManagementPage: React.FC = () => {
 
   const handleAddSubmit = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
-
+    
     if (!selectedProductId || newQuantity <= 0) {
       setError('Please select a product and enter a valid quantity');
       return;
@@ -252,12 +255,11 @@ const StaffWarehouseManagementPage: React.FC = () => {
       setLoading(true);
       const params: any = {};
       if (searchTerm) params.searchTerm = searchTerm;
-
       if (genderFilter) params.genderTarget = genderFilter;
       if (ageRangeFilter) params.ageRange = ageRangeFilter;
       if (categoryFilter) params.categoryId = parseInt(categoryFilter);
       if (brandFilter) params.brandId = parseInt(brandFilter);
-
+      
       const allProducts = await filterProducts(params);
       const existingProductIds = products.map(p => p.productId);
       const available = allProducts.filter(p => !existingProductIds.includes(p.productId));
@@ -336,10 +338,10 @@ const StaffWarehouseManagementPage: React.FC = () => {
                     <tr key={product.productWarehouseId} className="bg-white border-b hover:bg-gray-50">
                       <td className="px-3 md:px-6 py-4 font-medium text-gray-900">
                         <div className="flex items-center gap-2 md:gap-4">
-                          <img
-                            className="w-8 h-8 md:w-10 md:h-10 rounded-md object-cover flex-shrink-0"
-                            src={product.imageUrl || 'https://via.placeholder.com/40'}
-                            alt={product.productName || 'Product'}
+                          <img 
+                            className="w-8 h-8 md:w-10 md:h-10 rounded-md object-cover flex-shrink-0" 
+                            src={product.imageUrl || 'https://via.placeholder.com/40'} 
+                            alt={product.productName || 'Product'} 
                           />
                           <div className="min-w-0">
                             <div className="font-semibold truncate">{product.productName || 'N/A'}</div>
@@ -351,7 +353,6 @@ const StaffWarehouseManagementPage: React.FC = () => {
                         <div className="text-gray-900 text-xs md:text-sm">{product.brandName || 'N/A'}</div>
                         <div className="text-xs text-gray-500">{product.categoryName || 'N/A'}</div>
                       </td>
-
                       <td className="px-3 md:px-6 py-4 text-emerald-600 font-semibold whitespace-nowrap">
                         {product.price?.toLocaleString()} VND
                       </td>
@@ -546,10 +547,11 @@ const StaffWarehouseManagementPage: React.FC = () => {
                 <div
                   key={product.productId}
                   onClick={() => handleSelectProduct(product.productId)}
-                  className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all ${selectedProductId === product.productId
-                    ? 'bg-emerald-50 border-2 border-emerald-500'
-                    : 'bg-white border border-gray-200 hover:bg-gray-50'
-                    }`}
+                  className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all ${
+                    selectedProductId === product.productId
+                      ? 'bg-emerald-50 border-2 border-emerald-500'
+                      : 'bg-white border border-gray-200 hover:bg-gray-50'
+                  }`}
                 >
                   {/* Product Image */}
                   <img

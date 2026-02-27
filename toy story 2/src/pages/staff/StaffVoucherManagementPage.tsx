@@ -7,10 +7,8 @@ import { Eye } from 'lucide-react';
 import { getVouchers } from '../../services/voucherService';
 import type { ViewVoucherDto } from '../../types/VoucherDTO';
 
-
 const StaffVoucherManagementPage: React.FC = () => {
   const [vouchers, setVouchers] = useState<ViewVoucherDto[]>([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -98,7 +96,6 @@ const StaffVoucherManagementPage: React.FC = () => {
                         <div>Used: {voucher.usedCount || 0} / {voucher.maxUsage || '∞'}</div>
                         <div>Per User: {voucher.maxUsagePerCustomer || '∞'}</div>
                       </div>
-
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-xs">
@@ -107,13 +104,13 @@ const StaffVoucherManagementPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${voucher.isActive
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        voucher.isActive
                           ? 'bg-green-100 text-green-800'
                           : 'bg-gray-100 text-gray-800'
-                        }`}>
+                      }`}>
                         {voucher.isActive ? 'Active' : 'Inactive'}
                       </span>
-
                     </td>
                     <td className="px-6 py-4">
                       <button

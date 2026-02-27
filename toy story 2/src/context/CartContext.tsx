@@ -40,7 +40,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const addToCart = (product: ProductDTO, quantity: number = 1): void => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(item => item.product.id === product.id)
-
+      
       if (existingItem) {
         return prevItems.map(item =>
           item.product.id === product.id
@@ -48,7 +48,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
             : item
         )
       }
-
+      
       return [...prevItems, { product, quantity }]
     })
     setIsCartOpen(true)
@@ -63,7 +63,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       removeFromCart(productId)
       return
     }
-
+    
     setCartItems(prevItems =>
       prevItems.map(item =>
         item.product.id === productId
@@ -78,8 +78,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }
 
   const getTotalPrice = (): number => {
-    return cartItems.reduce((total, item) => total + ((item.product.price || 0) * item.quantity), 0)
-
+    return cartItems.reduce((total, item) => total + ((item.product.price ?? 0) * item.quantity), 0)
   }
 
   const getTotalItems = (): number => {

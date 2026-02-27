@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/api/Account": {
+    "/api/accounts": {
         parameters: {
             query?: never;
             header?: never;
@@ -33,6 +33,61 @@ export interface paths {
                 };
             };
         };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/{accountId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    accountId: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewUserDto"];
+                        "application/json": components["schemas"]["ViewUserDto"];
+                        "text/json": components["schemas"]["ViewUserDto"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
         put: {
             parameters: {
                 query?: never;
@@ -87,46 +142,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Account/{accountId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    accountId: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["ViewUserDto"];
-                        "application/json": components["schemas"]["ViewUserDto"];
-                        "text/json": components["schemas"]["ViewUserDto"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/Account/login": {
+    "/api/account/login": {
         parameters: {
             query?: never;
             header?: never;
@@ -165,7 +181,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Account/change-password": {
+    "/api/account/password": {
         parameters: {
             query?: never;
             header?: never;
@@ -204,7 +220,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Account/change-status/{accountId}": {
+    "/api/account/status/{accountId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -239,7 +255,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Account/filter": {
+    "/api/account/filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -279,7 +295,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Account/me": {
+    "/api/account/me": {
         parameters: {
             query?: never;
             header?: never;
@@ -316,69 +332,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Brand": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["ViewBrandDto"][];
-                        "application/json": components["schemas"]["ViewBrandDto"][];
-                        "text/json": components["schemas"]["ViewBrandDto"][];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Name: string;
-                        /** Format: binary */
-                        imageFile?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/Brand/active-brands": {
+    "/api/brands": {
         parameters: {
             query?: never;
             header?: never;
@@ -415,7 +369,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Brand/{brandId}": {
+    "/api/brand/active-brands": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ViewBrandDto"][];
+                        "application/json": components["schemas"]["ViewBrandDto"][];
+                        "text/json": components["schemas"]["ViewBrandDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/brand/{brandId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -481,7 +472,48 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Brand/change-status/{brandId}": {
+    "/api/brand": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Name: string;
+                        /** Format: binary */
+                        imageFile?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/brand/status/{brandId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -516,7 +548,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Brand/filter": {
+    "/api/brand/filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -556,7 +588,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Cart": {
+    "/api/cart": {
         parameters: {
             query?: never;
             header?: never;
@@ -610,7 +642,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Cart/items": {
+    "/api/cart/items": {
         parameters: {
             query?: never;
             header?: never;
@@ -646,7 +678,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Cart/items/{productId}": {
+    "/api/cart/items/{productId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -702,7 +734,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Category": {
+    "/api/categories": {
         parameters: {
             query?: never;
             header?: never;
@@ -739,7 +771,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Category/{categoryId}": {
+    "/api/category/{categoryId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -778,7 +810,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Checkout": {
+    "/api/checkout": {
         parameters: {
             query?: never;
             header?: never;
@@ -811,7 +843,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Checkout/success/{invoiceId}": {
+    "/api/checkout/success/{invoiceId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -846,7 +878,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Checkout/cancel-invoice/{invoiceId}": {
+    "/api/checkout/cancel-invoice/{invoiceId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -881,7 +913,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Checkout/cancel-order/{orderId}": {
+    "/api/checkout/cancel-order/{orderId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -916,7 +948,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Dashboard/low-stock": {
+    "/api/dashboard/low-stock": {
         parameters: {
             query?: never;
             header?: never;
@@ -953,7 +985,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Dashboard/summary": {
+    "/api/dashboard/summary": {
         parameters: {
             query?: never;
             header?: never;
@@ -988,7 +1020,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Invoice": {
+    "/api/invoices": {
         parameters: {
             query?: never;
             header?: never;
@@ -1025,7 +1057,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Invoice/{id}": {
+    "/api/invoice/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1064,7 +1096,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Invoice/order/{orderId}": {
+    "/api/order/{orderId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1103,7 +1135,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Invoice/account": {
+    "/api/invoice/account": {
         parameters: {
             query?: never;
             header?: never;
@@ -1140,7 +1172,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Order": {
+    "/api/orders": {
         parameters: {
             query?: never;
             header?: never;
@@ -1177,7 +1209,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Order/{id}": {
+    "/api/order/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1216,7 +1248,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Order/account": {
+    "/api/order/account": {
         parameters: {
             query?: never;
             header?: never;
@@ -1253,7 +1285,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/create": {
+    "/api/payment/create": {
         parameters: {
             query?: never;
             header?: never;
@@ -1292,7 +1324,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/webhook": {
+    "/api/payment/webhook": {
         parameters: {
             query?: never;
             header?: never;
@@ -1331,7 +1363,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/status/{orderCode}": {
+    "/api/payment/status/{orderCode}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1366,7 +1398,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/cancel/{orderCode}": {
+    "/api/payment/cancel/{orderCode}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1401,7 +1433,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/success": {
+    "/api/payment/success": {
         parameters: {
             query?: never;
             header?: never;
@@ -1437,7 +1469,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Payment/cancel": {
+    "/api/payment/cancel": {
         parameters: {
             query?: never;
             header?: never;
@@ -1473,7 +1505,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Product": {
+    "/api/products": {
         parameters: {
             query?: never;
             header?: never;
@@ -1503,52 +1535,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Name: string;
-                        Description: string;
-                        /** Format: double */
-                        Price: number;
-                        /** Format: int32 */
-                        Stock?: number;
-                        Origin: string;
-                        Material?: string;
-                        Gender?: components["schemas"]["GenderTarget"];
-                        AgeRange?: components["schemas"]["AgeRange"];
-                        /** Format: int32 */
-                        CategoryId: number;
-                        /** Format: int32 */
-                        BrandId: number;
-                        /** Format: binary */
-                        imageFile?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Product/{productId}": {
+    "/api/product/{productId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1627,7 +1621,61 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Product/change-status/{productId}": {
+    "/api/product": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Name: string;
+                        Description: string;
+                        /** Format: double */
+                        Price: number;
+                        /** Format: int32 */
+                        Stock?: number;
+                        Origin: string;
+                        Material?: string;
+                        Gender?: components["schemas"]["GenderTarget"];
+                        AgeRange?: components["schemas"]["AgeRange"];
+                        /** Format: int32 */
+                        CategoryId: number;
+                        /** Format: int32 */
+                        BrandId: number;
+                        /** Format: binary */
+                        imageFile?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product/status/{productId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1662,7 +1710,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Product/admin-filter": {
+    "/api/product/admin-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -1706,7 +1754,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Product/customer-filter": {
+    "/api/product/customer-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -1749,7 +1797,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Promotion": {
+    "/api/promotions": {
         parameters: {
             query?: never;
             header?: never;
@@ -1779,57 +1827,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Name: string;
-                        Description?: string;
-                        DiscountType: components["schemas"]["DiscountType"];
-                        /** Format: double */
-                        DiscountValue: number;
-                        /** Format: int32 */
-                        MinimumQuantity?: number;
-                        /** Format: double */
-                        MinimumAmount?: number;
-                        /** Format: int32 */
-                        BrandId?: number;
-                        /** Format: int32 */
-                        CategoryId?: number;
-                        /** Format: int32 */
-                        ProductId?: number;
-                        /** Format: date */
-                        StartDate?: string;
-                        /** Format: date */
-                        EndDate?: string;
-                        /** Format: binary */
-                        imageFile?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Promotion/{promotionId}": {
+    "/api/promotion/{promotionId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1913,7 +1918,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Promotion/change-status/{promotionId}": {
+    "/api/promotion": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Name: string;
+                        Description?: string;
+                        DiscountType: components["schemas"]["DiscountType"];
+                        /** Format: double */
+                        DiscountValue: number;
+                        /** Format: int32 */
+                        MinimumQuantity?: number;
+                        /** Format: double */
+                        MinimumAmount?: number;
+                        /** Format: int32 */
+                        BrandId?: number;
+                        /** Format: int32 */
+                        CategoryId?: number;
+                        /** Format: int32 */
+                        ProductId?: number;
+                        /** Format: date */
+                        StartDate?: string;
+                        /** Format: date */
+                        EndDate?: string;
+                        /** Format: binary */
+                        imageFile?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/promotion/status{promotionId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -1948,7 +2012,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Promotion/customer-filter": {
+    "/api/promotion/customer-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -1991,7 +2055,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Promotion/admin-filter": {
+    "/api/promotion/admin-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2037,7 +2101,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set": {
+    "/api/sets": {
         parameters: {
             query?: never;
             header?: never;
@@ -2067,57 +2131,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Name?: string;
-                        Description: string;
-                        /** Format: double */
-                        DiscountPercent: number;
-                        /** Format: binary */
-                        imageFile?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CreateSetResponseDto"];
-                        "application/json": components["schemas"]["CreateSetResponseDto"];
-                        "text/json": components["schemas"]["CreateSetResponseDto"];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["ProblemDetails"];
-                        "application/json": components["schemas"]["ProblemDetails"];
-                        "text/json": components["schemas"]["ProblemDetails"];
-                    };
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Set/{id}": {
+    "/api/set/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2205,7 +2226,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set/change-status/{id}": {
+    "/api/set": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Name?: string;
+                        Description: string;
+                        /** Format: double */
+                        DiscountPercent: number;
+                        /** Format: binary */
+                        imageFile?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CreateSetResponseDto"];
+                        "application/json": components["schemas"]["CreateSetResponseDto"];
+                        "text/json": components["schemas"]["CreateSetResponseDto"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/set/{id}/status": {
         parameters: {
             query?: never;
             header?: never;
@@ -2242,7 +2322,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set/{setId}": {
+    "/api/set/{setId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2283,7 +2363,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set/{setId}/products/{productId}": {
+    "/api/set/{setId}/products/{productId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2341,7 +2421,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set/customer-filter": {
+    "/api/set/customer-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2380,7 +2460,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Set/admin-filter": {
+    "/api/set/admin-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2420,7 +2500,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Staff": {
+    "/api/staffs": {
         parameters: {
             query?: never;
             header?: never;
@@ -2450,37 +2530,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["CreateStaffDto"];
-                    "text/json": components["schemas"]["CreateStaffDto"];
-                    "application/*+json": components["schemas"]["CreateStaffDto"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Staff/{staffId}": {
+    "/api/staff/{staffId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2519,7 +2576,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Staff/warehouse/{warehouseId}": {
+    "/api/staff/warehouse/{warehouseId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2558,7 +2615,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Staff/{accountId}": {
+    "/api/staff": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "application/json": components["schemas"]["CreateStaffDto"];
+                    "text/json": components["schemas"]["CreateStaffDto"];
+                    "application/*+json": components["schemas"]["CreateStaffDto"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/staff/{accountId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2599,7 +2695,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Staff/change-status/{accountId}": {
+    "/api/staff/status/{accountId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2634,7 +2730,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Staff/filter": {
+    "/api/staff/filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2674,7 +2770,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Voucher": {
+    "/api/vouchers": {
         parameters: {
             query?: never;
             header?: never;
@@ -2704,52 +2800,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Code: string;
-                        Name: string;
-                        Description?: string;
-                        DiscountType: components["schemas"]["DiscountType"];
-                        /** Format: double */
-                        DiscountValue: number;
-                        /** Format: int32 */
-                        MaxUsage?: number;
-                        /** Format: int32 */
-                        MaxUsagePerCustomer?: number;
-                        /** Format: date */
-                        ValidFrom?: string;
-                        /** Format: date */
-                        ValidTo?: string;
-                        /** Format: binary */
-                        imageFile?: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Voucher/{voucherId}": {
+    "/api/voucher/{voucherId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2828,7 +2886,61 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Voucher/change-status/{voucherId}": {
+    "/api/voucher": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Code: string;
+                        Name: string;
+                        Description?: string;
+                        DiscountType: components["schemas"]["DiscountType"];
+                        /** Format: double */
+                        DiscountValue: number;
+                        /** Format: int32 */
+                        MaxUsage?: number;
+                        /** Format: int32 */
+                        MaxUsagePerCustomer?: number;
+                        /** Format: date */
+                        ValidFrom?: string;
+                        /** Format: date */
+                        ValidTo?: string;
+                        /** Format: binary */
+                        imageFile?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/voucher/status/{voucherId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -2863,7 +2975,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Voucher/customer-filter": {
+    "/api/voucher/customer-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2903,7 +3015,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Voucher/admin-filter": {
+    "/api/voucher/admin-filter": {
         parameters: {
             query?: never;
             header?: never;
@@ -2944,7 +3056,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse": {
+    "/api/warehouses": {
         parameters: {
             query?: never;
             header?: never;
@@ -2974,55 +3086,14 @@ export interface paths {
             };
         };
         put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "multipart/form-data": {
-                        Name: string;
-                        Location: string;
-                        /** Format: int32 */
-                        LowStockThreshold?: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description Created */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["CreateWarehouseResponseDto"];
-                        "application/json": components["schemas"]["CreateWarehouseResponseDto"];
-                        "text/json": components["schemas"]["CreateWarehouseResponseDto"];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "text/plain": components["schemas"]["ProblemDetails"];
-                        "application/json": components["schemas"]["ProblemDetails"];
-                        "text/json": components["schemas"]["ProblemDetails"];
-                    };
-                };
-            };
-        };
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse/{warehouseId}": {
+    "/api/warehouse/{warehouseId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -3106,7 +3177,64 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse/{warehouseId}/low-stock-threshold": {
+    "/api/warehouse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: {
+                content: {
+                    "multipart/form-data": {
+                        Name: string;
+                        Location: string;
+                        /** Format: int32 */
+                        LowStockThreshold?: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["CreateWarehouseResponseDto"];
+                        "application/json": components["schemas"]["CreateWarehouseResponseDto"];
+                        "text/json": components["schemas"]["CreateWarehouseResponseDto"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/warehouse/low-stock-threshold/{warehouseId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -3165,7 +3293,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse/add-product": {
+    "/api/warehouse/product": {
         parameters: {
             query?: never;
             header?: never;
@@ -3204,7 +3332,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse/update-product/{productWarehouseId}": {
+    "/api/warehouse/{productWarehouseId}/product": {
         parameters: {
             query?: never;
             header?: never;
@@ -3239,22 +3367,6 @@ export interface paths {
             };
         };
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/Warehouse/remove-product/{productWarehouseId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
         delete: {
             parameters: {
                 query?: never;
@@ -3280,7 +3392,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/Warehouse/get-product-from-staff": {
+    "/api/warehouse/staff": {
         parameters: {
             query?: never;
             header?: never;

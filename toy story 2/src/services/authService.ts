@@ -19,7 +19,7 @@ const normalizeRole = (role: string | number | UserRole): string => {
     if (r.toLowerCase() === 'member' || r === 'Người dùng') return 'Member'
     return r
   }
-  
+
   // Map numeric roles to string names
   // Backend enum: Member=0, Admin=1, Staff=2
   switch (role) {
@@ -38,25 +38,49 @@ const normalizeRole = (role: string | number | UserRole): string => {
 }
 
 /**
+ * Simple JWT decoder to extract claims without external library
+ */
+const decodeJwt = (token: string): any => {
+  try {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    )
+    return JSON.parse(jsonPayload)
+  } catch (error) {
+    console.warn('Failed to decode JWT:', error)
+    return null
+  }
+}
+
+/**
  * Login user
- * POST /api/account/login
+ * POST /api/auth/login
  * Automatically fetches user details after successful login
  */
 export const login = async (credentials: LoginDto): Promise<LoginResponse & { user?: ViewUserDto }> => {
-  const response = await apiPost<LoginResponse>('/account/login', credentials)
-  
+  const response = await apiPost<LoginResponse>('/auth/login', credentials)
+
   // Store token and role in localStorage
   if (response.data.token) {
     localStorage.setItem('token', response.data.token)
-    
+
     // Normalize and store role
     const normalizedRole = normalizeRole(response.data.role)
     localStorage.setItem('role', normalizedRole)
-    
+
     // Update response role to be normalized for immediate usage
     response.data.role = normalizedRole
-    
-    // Fetch user details using /me endpoint
+
+    // Decode token to get user name immediately
+    const decoded = decodeJwt(response.data.token)
+    const displayName = decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || normalizedRole
+
+    // Fetch user details using /auth/me endpoint
     try {
       const user = await getCurrentUser()
       return {
@@ -64,12 +88,28 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
         user
       }
     } catch (error) {
-      // If /me fails, still return login response
-      console.warn('Failed to fetch user details after login:', error)
-      return response.data
+      // If /me fails, create a minimal user object so UI still shows authenticated state
+      console.warn('Failed to fetch user details after login, using token data:', error)
+
+      const minimalUser: ViewUserDto = {
+        accountId: decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
+          ? parseInt(decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], 10)
+          : 0,
+        email: decoded?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || credentials.email,
+        name: displayName,
+        role: normalizedRole as any,
+        status: 'Active' as any
+      }
+
+      localStorage.setItem('user', JSON.stringify(minimalUser))
+
+      return {
+        ...response.data,
+        user: minimalUser
+      }
     }
   }
-  
+
   return response.data
 }
 
@@ -78,7 +118,7 @@ export const login = async (credentials: LoginDto): Promise<LoginResponse & { us
  * POST /api/account
  */
 export const register = async (userData: CreateUserDto): Promise<{ message: string }> => {
-  const response = await apiPost<{ message: string }>('/account', userData)
+  const response = await apiPost<{ message: string }>('/auth/signup', userData)
   return response.data
 }
 
@@ -88,7 +128,7 @@ export const register = async (userData: CreateUserDto): Promise<{ message: stri
  * Requires: Authorization
  */
 export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
-  const response = await apiGet<ViewUserDto>(`/account/${accountId}`)
+  const response = await apiGet<ViewUserDto>(`/accounts/${accountId}`)
   return response.data
 }
 
@@ -98,8 +138,8 @@ export const getUserById = async (accountId: number): Promise<ViewUserDto> => {
  * Requires: Authorization
  */
 export const getCurrentUser = async (): Promise<ViewUserDto> => {
-  const response = await apiGet<ViewUserDto>('/account/me')
-  
+  const response = await apiGet<ViewUserDto>('/accounts/me')
+
   // Normalize role in user object if present
   if (response.data && response.data.role !== undefined) {
     // We need to cast to any/unknown because ViewUserDto expects string but we might get number
@@ -108,7 +148,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
     // @ts-ignore - We are fixing the type mismatch from backend
     response.data.role = normalizedRole
   }
-  
+
   // Store user data in localStorage
   if (response.data) {
     localStorage.setItem('user', JSON.stringify(response.data))
@@ -116,7 +156,7 @@ export const getCurrentUser = async (): Promise<ViewUserDto> => {
       localStorage.setItem('accountId', response.data.accountId.toString())
     }
   }
-  
+
   return response.data
 }
 
@@ -152,7 +192,7 @@ export const filterUsers = async (filter: FilterUserDto): Promise<ViewUserDto[]>
   if (filter.address) queryParams.append('address', filter.address)
   if (filter.status) queryParams.append('status', filter.status)
 
-  const endpoint = `/account/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+  const endpoint = `/accounts/filter${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
   const response = await apiGet<ViewUserDto[]>(endpoint)
   return response.data
 }
@@ -188,9 +228,9 @@ export const getStoredUser = (): ViewUserDto | null => {
 export const getStoredUserMetadata = (): { accountId?: number; role?: string } | null => {
   const accountId = localStorage.getItem('accountId')
   const role = localStorage.getItem('role')
-  
+
   if (!accountId && !role) return null
-  
+
   return {
     accountId: accountId ? parseInt(accountId, 10) : undefined,
     role: role || undefined

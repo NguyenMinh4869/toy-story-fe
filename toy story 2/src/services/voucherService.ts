@@ -3,7 +3,7 @@ import type { ViewVoucherDto, ViewVoucherSummaryDto, CreateVoucherDto, UpdateVou
 
 /**
  * Get vouchers for customer listing (public endpoint)
- * GET /api/Voucher/customer-filter
+ * GET /api/vouchers/customer-filter
  * Optional query: name, type (DiscountType 0|1|2|3)
  */
 export const getCustomerFilterVouchers = async (params?: {
@@ -19,18 +19,15 @@ export const getCustomerFilterVouchers = async (params?: {
   return response.data
 }
 
-
 export const getVouchers = async (): Promise<ViewVoucherSummaryDto[]> => {
   const response = await apiGet<ViewVoucherSummaryDto[]>('/vouchers')
   return response.data
 }
 
-
 export const getVoucherById = async (voucherId: number): Promise<ViewVoucherDto> => {
   const response = await apiGet<ViewVoucherDto>(`/vouchers/${voucherId}`)
   return response.data
 }
-
 
 export const createVoucher = async (data: CreateVoucherDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
@@ -42,7 +39,6 @@ export const createVoucher = async (data: CreateVoucherDto, imageFile?: File): P
   return response.data
 }
 
-
 export const updateVoucher = async (voucherId: number, data: UpdateVoucherDto, imageFile?: File): Promise<{ message: string }> => {
   const form = new FormData()
   Object.entries(data).forEach(([key, value]) => {
@@ -53,15 +49,12 @@ export const updateVoucher = async (voucherId: number, data: UpdateVoucherDto, i
   return response.data
 }
 
-
 export const changeVoucherStatus = async (voucherId: number): Promise<{ message: string }> => {
   const form = new FormData()
   const response = await apiPutForm<{ message: string }>(`/vouchers/status/${voucherId}`, form)
   return response.data
 }
 
-
 export const deleteVoucher = async (voucherId: number): Promise<{ message: string }> => {
   return changeVoucherStatus(voucherId)
 }
-

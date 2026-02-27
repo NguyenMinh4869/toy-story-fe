@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "generate-types": "openapi-typescript https://toy-story-xwni.onrender.com/swagger/v1/swagger.json --output src/types/generated.ts"
+    "generate-types": "openapi-typescript https://localhost:7217/swagger/v1/swagger.json --output src/types/generated.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

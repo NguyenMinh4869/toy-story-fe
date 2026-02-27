@@ -11,17 +11,15 @@ interface ProductGridCardProps {
 
 // Product image placeholder
 const PRODUCT_PLACEHOLDER = "https://www.figma.com/api/mcp/asset/298b739b-7401-4df7-acd0-41acee837979"
-// Wishlist icon 
 
-
-export const ProductGridCard: React.FC<ProductGridCardProps> = ({
+export const ProductGridCard: React.FC<ProductGridCardProps> = ({ 
   product,
   className = ''
 }) => {
   const productPrice = product.price ?? 0
   const productName = product.name ?? 'Unnamed Product'
   const productImage = product.imageUrl ?? PRODUCT_PLACEHOLDER
-
+  
   // Calculate discount (30% for demo)
   const discount = 30
   const originalPrice = productPrice / (1 - discount / 100)
