@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import type { ViewProductDto } from "../../types/ProductDTO";
 import { ProductCard } from "../ProductCard";
-import { PRODUCT_IMAGE_87, DECOR_RED_ENVELOPE } from "../../constants/imageAssets";
+import { PRODUCT_IMAGE_87, DECOR_LANTERNS_ENVELOPES } from "../../constants/imageAssets";
 
 // Figma MCP Asset URL for decorative line
 const decorativeLine = "https://www.figma.com/api/mcp/asset/d3ec4de9-3478-4971-9327-7ad41ea78b50";
@@ -71,9 +71,9 @@ export const PromotionalOffersSection = ({
                 {pageProducts.map((product) => (
                   <article key={product.productId} className="relative w-[203px] h-[309px] shrink-0">
                     <img
-                      className="absolute top-0 left-1/2 -translate-x-1/2 w-[80px] h-[70px] object-contain z-10"
+                      className="absolute left-1/2 -translate-x-1/2 w-[157px] h-[53px] object-contain z-10"
                       alt=""
-                      src={DECOR_RED_ENVELOPE}
+                      src={DECOR_LANTERNS_ENVELOPES}
                     />
                     <ProductCard
                       product={product}

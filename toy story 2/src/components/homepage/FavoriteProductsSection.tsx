@@ -49,16 +49,16 @@ export const FavoriteProductsSection = ({
     <section aria-label="Đồ chơi yêu thích">
       <SectionHeader 
         iconSrc={SECTION_ICON}
-        top="1588px"
+        top="1700px"
         left="391px"
       />
 
-      <SectionTitle top="1692px" left="400">
+      <SectionTitle top="1750px" left="400px">
         Đồ chơi yêu thích
       </SectionTitle>
 
       {products.length > 0 ? (
-        <div className="absolute top-[1784px] left-[126px] w-[940px] h-[260px] overflow-hidden">
+        <div className="absolute top-[1842px] left-[126px] w-[940px] h-[260px] overflow-hidden">
           <div
             className="flex h-full transition-transform duration-500 ease-out"
             style={{ transform: `translateX(-${safePage * 100}%)` }}
@@ -95,7 +95,7 @@ export const FavoriteProductsSection = ({
           </div>
         </div>
       ) : !isLoading && (
-        <div className="absolute top-[1811px] left-[132px] w-[800px] text-center">
+        <div className="absolute top-[1869px] left-[132px] w-[800px] text-center">
           <p className="[font-family:'Tilt_Warp-Regular',Helvetica] text-white text-lg">Không có sản phẩm yêu thích</p>
         </div>
       )}

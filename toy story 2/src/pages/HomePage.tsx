@@ -111,7 +111,7 @@ export const Homepage = (): React.JSX.Element => {
     // Gundam carousel (right)
     { top: "1402px", left: "1107px", polygon: POLYGON_RIGHT, direction: "right", onClick: goGundamNext },
     // Favorites carousel (right)
-    { top: "1890px", left: "1105px", polygon: POLYGON_RIGHT, direction: "right", onClick: goFavoritesNext },
+    { top: "1948px", left: "1105px", polygon: POLYGON_RIGHT, direction: "right", onClick: goFavoritesNext },
     // Promotions carousel (right)
     { top: "881px", left: "1112px", polygon: POLYGON_CENTER, direction: "right", onClick: goPromotionsNext },
   ];
@@ -120,13 +120,13 @@ export const Homepage = (): React.JSX.Element => {
     // Gundam carousel (left)
     { top: "1413px", left: "42px", polygon: POLYGON_LEFT, direction: "left", onClick: goGundamPrev },
     // Favorites carousel (left)
-    { top: "1890px", left: "54px", polygon: POLYGON_LEFT, direction: "left", onClick: goFavoritesPrev },
+    { top: "1948px", left: "54px", polygon: POLYGON_LEFT, direction: "left", onClick: goFavoritesPrev },
     // Promotions carousel (left)
     { top: "886px", left: "44px", polygon: POLYGON_LEFT, direction: "left", onClick: goPromotionsPrev },
   ];
 
   return (
-    <div className="bg-[#ab0007] w-full min-h-[3105px] relative">
+    <div className="bg-[#ab0007] w-full min-h-[3508px] relative">
       <main className="max-w-[1800px] mx-auto relative">
         <div className="relative" style={{ width: '1200px', margin: '0 auto' }}>
           {error && (

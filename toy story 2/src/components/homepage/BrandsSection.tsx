@@ -31,11 +31,11 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
     <section aria-label="Thương hiệu uy tín">
       <SectionHeader 
         iconSrc={SECTION_ICON}
-        top="2019px"
+        top="2162px"
         left="409px"
       />
 
-      <SectionTitle top="2065px" left="371px">
+      <SectionTitle top="2208px" left="371px">
         Thương hiệu uy tín
       </SectionTitle>
 
@@ -44,7 +44,7 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
           {brandLogosRow1.map((logo, index) => (
             <img
               key={index}
-              className="absolute top-[2193px] w-[195px] h-24 aspect-[2.03] object-contain bg-white rounded-lg p-2"
+              className="absolute top-[2336px] w-[195px] h-24 aspect-[2.03] object-contain bg-white rounded-lg p-2"
               style={{ left: logo.left }}
               alt={logo.alt || "Brand logo"}
               src={logo.src}
@@ -54,7 +54,7 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
           {brandLogosRow2.map((logo, index) => (
             <img
               key={index}
-              className="absolute top-[2308px] w-[195px] h-24 aspect-[2.03] object-contain bg-white rounded-lg p-2"
+              className="absolute top-[2451px] w-[195px] h-24 aspect-[2.03] object-contain bg-white rounded-lg p-2"
               style={{ left: logo.left }}
               alt={logo.alt || "Brand logo"}
               src={logo.src}
@@ -63,10 +63,10 @@ export const BrandsSection = ({ brands, isLoading }: BrandsSectionProps): React.
 
           <Link
             to={ROUTES.BRANDS}
-            className="absolute top-[2380px] left-[514px] w-[172px] h-[54px] flex items-center justify-center rounded-[34px] bg-[linear-gradient(180deg,rgba(254,246,204,1)_3%,rgba(243,212,51,1)_100%)] hover:opacity-90 no-underline text-[#c40029] font-tilt-warp text-[15px]"
+            className="absolute top-[2273px] left-[514px] w-[172px] h-[54px] flex items-center justify-center gap-2 rounded-[34px] bg-[linear-gradient(180deg,rgba(254,246,204,1)_3%,rgba(243,212,51,1)_100%)] hover:opacity-90 no-underline text-[#c40029] font-tilt-warp text-[15px] whitespace-nowrap"
           >
             Xem Thêm
-            <img className="w-2 h-2.5 ml-2 object-contain" alt="" src={POLYGON_ARROW} />
+            <img className="w-2 h-2.5 object-contain" alt="" src={POLYGON_ARROW} />
           </Link>
         </>
       ) : !isLoading && (

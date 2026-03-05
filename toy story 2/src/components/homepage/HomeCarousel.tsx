@@ -97,19 +97,11 @@ export const HomeCarousel: React.FC<HomeCarouselProps> = ({
                 <img
                   src={slide.image}
                   alt={`Slide ${i + 1}`}
-                  className="absolute inset-0 w-full h-full object-contain bg-[#ab0007]"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
 
                 {slideHasOverlay && (
                   <>
-                    {/* Decorative Gold Pattern Overlay */}
-                    <div
-                      className="absolute inset-0"
-                      style={{
-                        backgroundImage: `radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
-                           radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%)`,
-                      }}
-                    />
 
                     {/* Slide Content */}
                     <div className="relative z-10 h-full flex flex-col px-6 py-4">

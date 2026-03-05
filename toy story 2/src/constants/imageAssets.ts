@@ -16,6 +16,7 @@ import decorTetPanel from "@/assets/6c4dec4c8dbb6339a78469d5a6be3fed4152f6ee.png
 import logoToyStory from "@/assets/7b68a93c4088c0080b43b93064aa13d55301f1be.png";
 import decorMoneyBagFans from "@/assets/87aa1172a83bb68c994ec672fa11ae695b2e7482.png";
 import storeFacade from "@/assets/e0e7adb7ab8d88ee2485aef2d9ffac986f0de223.png";
+import prdCardBg from "@/assets/PrdCardBg.png";
 
 export const STORE_FACADE = storeFacade;
 export const DECOR_COINS_CLOUDS = decorCoinsClouds;
@@ -34,7 +35,7 @@ export const BANNER_LC2000 = bannerLC2000;
 export const SECTION_ICON = "https://www.figma.com/api/mcp/asset/90b57607-01f4-436a-84b7-bf19c8142dc8";
 
 // Product Images
-export const PRODUCT_IMAGE_87 = "https://www.figma.com/api/mcp/asset/97a5f957-4de8-4424-a0fb-920de4c2e165"; // Product card background frame
+export const PRODUCT_IMAGE_87 = prdCardBg; // Product card background frame
 export const PRODUCT_IMAGE_107 = "https://www.figma.com/api/mcp/asset/874014bc-9737-4521-b8c4-90b3db0362b4"; // Favorite/wishlist icon
 
 // Decorative Elements

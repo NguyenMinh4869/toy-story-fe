@@ -17,7 +17,7 @@ export const ShoppingGuideContentSection = (): React.JSX.Element => {
   };
 
   return (
-    <article className="absolute top-[2589px] left-[649px] w-[405px] h-[393px]">
+    <article className="absolute top-[2792px] left-[649px] w-[405px] h-[393px]">
       <div className="absolute top-[29px] left-0 w-[402px] h-[364px] bg-white rounded-[49px] overflow-hidden">
         <img
           className="absolute top-0 left-[46px] w-[297px] h-[151px] aspect-[1.97] object-cover"

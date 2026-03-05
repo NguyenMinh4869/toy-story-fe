@@ -9,16 +9,6 @@ export const FeaturedProductsBannerSection = (): React.JSX.Element => {
         alt="Cơ hội cuối - Mua nhanh kẻo lỡ"
         src={BANNER_LC2000}
       />
-      <img
-        className="absolute top-[560px] left-[80px] w-[120px] h-[100px] object-contain opacity-90"
-        alt=""
-        src={DECOR_LANTERNS_ENVELOPES}
-      />
-      <img
-        className="absolute top-[560px] left-[1000px] w-[120px] h-[100px] object-contain object-right opacity-90 scale-x-[-1]"
-        alt=""
-        src={DECOR_LANTERNS_ENVELOPES}
-      />
     </section>
   );
 };

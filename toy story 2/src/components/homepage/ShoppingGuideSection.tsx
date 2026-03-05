@@ -17,7 +17,7 @@ export const ShoppingGuideSection = (): React.JSX.Element => {
   };
 
   return (
-    <article className="absolute top-[2621px] left-[149px] w-[402px] h-[364px] flex">
+    <article className="absolute top-[2824px] left-[149px] w-[402px] h-[364px] flex">
       <div className="w-[402px] h-[364px] relative bg-white rounded-[49px] overflow-hidden">
         <img
           className="absolute top-0 left-[46px] w-[297px] h-[151px] aspect-[1.97] object-cover"

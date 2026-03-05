@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ROUTES } from '../routes/routePaths'
-import { Search, User, ShoppingBag, ChevronDown, LogOut, UserCircle } from 'lucide-react'
+import { Search, User, ShoppingBag, ChevronDown, LogOut, UserCircle, LayoutDashboard } from 'lucide-react'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../hooks/useAuth'
 import ProductsDropdown from './ProductsDropdown'
@@ -9,7 +9,7 @@ import { LOGO_TOY_STORY } from '../constants/imageAssets'
 
 const Header: React.FC = () => {
   const { getTotalItems, openCart } = useCart()
-  const { isAuthenticated, user, logout } = useAuth()
+  const { isAuthenticated, user, role, logout } = useAuth()
   const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false)
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false)
   const userDropdownRef = useRef<HTMLDivElement>(null)
@@ -86,6 +86,20 @@ const Header: React.FC = () => {
               {/* User Dropdown Menu */}
               {isUserDropdownOpen && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                  {/* Management link for Admin and Staff */}
+                  {(role === 'Admin' || role === 'Staff') && (
+                    <>
+                      <Link
+                        to={role === 'Admin' ? ROUTES.ADMIN_DASHBOARD : ROUTES.STAFF_DASHBOARD}
+                        onClick={() => setIsUserDropdownOpen(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-blue-700 hover:bg-blue-50 transition-colors no-underline"
+                      >
+                        <LayoutDashboard size={18} className="flex-shrink-0" />
+                        <span className="font-tilt-warp text-sm">Quản lí</span>
+                      </Link>
+                      <div className="border-t border-gray-100 my-1" />
+                    </>
+                  )}
                   <Link
                     to={ROUTES.PROFILE}
                     onClick={() => setIsUserDropdownOpen(false)}

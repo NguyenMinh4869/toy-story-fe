@@ -36,9 +36,9 @@ export const HeroBannerSection = ({
   const safePage = Math.max(0, Math.min(page, carouselSlides.length - 1));
 
   return (
-    <section aria-label="Hero banner" className="relative">
+    <section aria-label="Hero banner" className="relative h-[480px]">
       {/* Banner wrapper so decorations align with banner */}
-      <div className="absolute top-[120px] left-0 w-full">
+      <div className="absolute top-[80px] left-[111px] w-[991px]">
         <div className="relative w-full">
           {/* Main Carousel */}
           <HomeCarousel
@@ -47,18 +47,18 @@ export const HeroBannerSection = ({
             autoPlayInterval={5000}
             currentSlide={safePage}
             onSlideChange={onPageChange}
-            heightClassName="h-[420px]"
+            heightClassName="h-[360px]"
           />
 
           {/* Trang trí trái trên: pháo + mây vàng (góc trên trái của carousel) */}
           <img
-            className="absolute left-0 top-0 -translate-x-[-10px] -translate-y-[40px] w-[240px] h-[280px] object-contain z-20 pointer-events-none"
+            className="absolute -left-[50px] -top-[50px] w-[200px] h-[240px] object-contain z-20 pointer-events-none"
             alt="Trang trí pháo và mây vàng"
             src={DECOR_FIRECRACKERS_CLOUD}
           />
           {/* Trang trí phải dưới: quạt + mây + thỏi vàng (góc dưới phải của carousel) */}
           <img
-            className="absolute right-0 bottom-0 translate-x-[-10px] translate-y-[50px] w-[300px] h-[220px] object-contain z-20 pointer-events-none"
+            className="absolute -right-[60px] -bottom-[40px] w-[260px] h-[180px] object-contain z-20 pointer-events-none"
             alt="Trang trí quạt, mây và thỏi vàng"
             src={DECOR_FANS_INGOTS}
           />
