@@ -1,8 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import type { ViewProductDto } from "../types/ProductDTO";
 import { formatPrice } from "../utils/formatPrice";
-import { PRODUCT_IMAGE_87, PRODUCT_IMAGE_107, DECOR_LINE_15 } from "../constants/imageAssets";
+import { PRODUCT_IMAGE_87 } from "../constants/imageAssets";
 
 interface ProductCardProps {
   product: ViewProductDto;
@@ -15,23 +15,22 @@ interface ProductCardProps {
   discount?: number;
 }
 
-export const ProductCard = ({ 
-  product, 
+export const ProductCard = ({
+  product,
   className = "",
   style,
   backgroundImage = PRODUCT_IMAGE_87,
-  decorativeLine = DECOR_LINE_15,
   discount = 0
 }: ProductCardProps): React.JSX.Element => {
   const productPrice = product.price ?? 0;
   const productName = product.name ?? 'Unnamed Product';
   const productImage = product.imageUrl ?? PRODUCT_IMAGE_87;
-  
+
   const hasDiscount = typeof discount === "number" && discount > 0;
   const originalPrice = hasDiscount ? productPrice / (1 - (discount ?? 0) / 100) : productPrice;
 
   return (
-    <article 
+    <article
       className={`relative w-[203px] h-[285px] ${className}`}
       style={style}
     >
@@ -44,7 +43,7 @@ export const ProductCard = ({
         />
         <div className="absolute top-0 left-0 w-full h-full rounded-[17px] border border-solid border-[#d08856] pointer-events-none" />
       </div>
-      
+
       {/* White card content */}
       <div className="absolute top-9 left-[15px] w-[170px] h-[237px] bg-white rounded-[17px] overflow-hidden">
         {/* Product Image */}
@@ -53,7 +52,7 @@ export const ProductCard = ({
           alt={productName}
           src={productImage}
         />
-        
+
         {/* Add to Cart Button */}
         <Link
           to={`/product/${product.productId}`}
@@ -64,7 +63,7 @@ export const ProductCard = ({
             Thêm vào giỏ hàng
           </span>
         </Link>
-        
+
         {/* Discount Badge */}
         {hasDiscount && (
           <div className="absolute top-[7px] left-[118px] w-[39px] h-[13px] flex bg-[#c40029] rounded-md overflow-hidden">
@@ -73,37 +72,33 @@ export const ProductCard = ({
             </span>
           </div>
         )}
-        
+
         {/* Wishlist Button */}
-        <button 
-          className="absolute top-[207px] left-[122px] w-5 h-5 cursor-pointer border-0 bg-transparent p-0"
+        <button
+          className="absolute top-[207px] left-[122px] w-6 h-6 cursor-pointer border-0 bg-transparent p-0 flex items-center justify-center group"
           aria-label="Thêm vào yêu thích"
         >
-          <img
-            className="w-full h-full object-cover"
-            alt=""
-            src={PRODUCT_IMAGE_107}
+          <Heart
+            size={18}
+            className="text-[#c40029] transition-all group-hover:fill-[#c40029]"
+            strokeWidth={2}
           />
         </button>
-        
+
         {/* Divider Line */}
-        <img
-          className="absolute top-48 left-[100px] w-[60px] h-px object-cover"
-          alt=""
-          src={decorativeLine}
-        />
+        <div className="absolute top-[188px] left-[27px] w-[143px] h-px bg-gray-100" />
       </div>
-      
+
       {/* Product Name */}
       <p className="absolute top-[173px] left-[27px] w-[158px] [font-family:'Tilt_Warp-Regular',Helvetica] font-normal text-black text-[11px] tracking-[0] leading-[normal] line-clamp-2">
         {productName}
       </p>
-      
+
       {/* Sale Price */}
       <div className="absolute top-[221px] left-8 w-[60px] [font-family:'Tilt_Warp-Regular',Helvetica] text-[#ff0000] text-[11px] font-normal tracking-[0] leading-[normal]">
         {formatPrice(productPrice)}
       </div>
-      
+
       {/* Original Price (if discounted) */}
       {hasDiscount && (
         <div className="absolute top-[221px] left-[116px] w-[59px] [font-family:'Tilt_Warp-Regular',Helvetica] text-black text-[11px] font-normal tracking-[0] leading-[normal] line-through">
@@ -113,4 +108,3 @@ export const ProductCard = ({
     </article>
   );
 };
-

@@ -31,21 +31,21 @@ export const DECOR_BANNER_LAST_CHANCE = decorBannerLastChance;
 export const DECOR_RED_ENVELOPE = decorRedEnvelope;
 export const BANNER_LC2000 = bannerLC2000;
 
-// Section Icons (all use same image)
-export const SECTION_ICON = "https://www.figma.com/api/mcp/asset/90b57607-01f4-436a-84b7-bf19c8142dc8";
+// Section Icons
+export const SECTION_ICON = "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=100&auto=format&fit=crop";
 
 // Product Images
 export const PRODUCT_IMAGE_87 = prdCardBg; // Product card background frame
-export const PRODUCT_IMAGE_107 = "https://www.figma.com/api/mcp/asset/874014bc-9737-4521-b8c4-90b3db0362b4"; // Favorite/wishlist icon
+export const PRODUCT_IMAGE_107 = "https://cdn-icons-png.flaticon.com/512/833/833472.png"; // Heart icon fallback
 
 // Decorative Elements
-export const DECOR_DYNAMIC_BRAND = "https://www.figma.com/api/mcp/asset/c18966b1-02ef-44dc-b6e0-7ce67b29570f";
-export const DECOR_TOP_PRODUCT_CARD = "https://www.figma.com/api/mcp/asset/cb65df8d-ab94-4273-904d-f9d409106b68";
-export const DECOR_LINE_15 = "https://www.figma.com/api/mcp/asset/84873425-9473-446e-bf8a-cc361a15a42a";
+export const DECOR_DYNAMIC_BRAND = "https://images.unsplash.com/photo-1545558014-868157bb5815?q=80&w=500&auto=format&fit=crop";
+export const DECOR_TOP_PRODUCT_CARD = "";
+export const DECOR_LINE_15 = ""; // Will use CSS instead
 
-// Navigation Polygons
-export const POLYGON_RIGHT = "https://www.figma.com/api/mcp/asset/7ce161cd-3aed-46cc-ac02-b847295e949d";
-export const POLYGON_LEFT = "https://www.figma.com/api/mcp/asset/2b3172e3-1b05-4a57-978b-4a46b8e74b20";
-export const POLYGON_CENTER = "https://www.figma.com/api/mcp/asset/bfa0b650-16a1-42fb-aa56-4a6bf362986f";
-export const POLYGON_ARROW = "https://www.figma.com/api/mcp/asset/549e467e-e899-4866-9efa-a5b8a8863ee0";
+// Navigation Polygons (Fallbacks)
+export const POLYGON_RIGHT = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23af0000'%3E%3Cpath d='M10 17l5-5-5-5v10z'/%3E%3C/svg%3E";
+export const POLYGON_LEFT = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23af0000'%3E%3Cpath d='M14 7l-5 5 5 5V7z'/%3E%3C/svg%3E";
+export const POLYGON_CENTER = "";
+export const POLYGON_ARROW = "";
 
