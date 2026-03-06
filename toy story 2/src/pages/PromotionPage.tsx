@@ -68,8 +68,8 @@ const PromotionCard: React.FC<{ promo: ViewPromotionSummaryDto; index: number }>
 
         {/* Floating Tag */}
         <div className="absolute bottom-6 left-6 right-6">
-          <h3 className="font-tilt-warp text-2xl text-white mb-2 line-clamp-1">{promo.name}</h3>
-          <div className="flex items-center gap-2 text-white/80 text-xs font-red-hat">
+          <h3 className="font-sf-pro font-bold tracking-tight text-2xl text-white mb-2 line-clamp-1">{promo.name}</h3>
+          <div className="flex items-center gap-2 text-white/80 text-xs font-sf-pro">
             <Clock size={14} className="text-[#ffd900]" />
             <span>
               {promo.startDate ? new Date(promo.startDate).toLocaleDateString('vi-VN') : '...'} -
@@ -81,7 +81,7 @@ const PromotionCard: React.FC<{ promo: ViewPromotionSummaryDto; index: number }>
 
       {/* Content */}
       <div className="p-8">
-        <p className="font-red-hat text-sm text-gray-500 leading-relaxed mb-8 h-[60px] overflow-hidden line-clamp-3">
+        <p className="font-sf-pro text-sm text-gray-500 leading-relaxed mb-8 h-[60px] overflow-hidden line-clamp-3">
           {promo.description}
         </p>
 
@@ -109,7 +109,7 @@ const PromotionCard: React.FC<{ promo: ViewPromotionSummaryDto; index: number }>
 
           <Link
             to={`/products?promotionId=${promo.promotionId}`}
-            className="group/btn flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#ca002a] text-white font-tilt-warp text-xs px-6 py-3.5 rounded-2xl transition-all duration-300 transform active:scale-95"
+            className="group/btn flex items-center gap-2 bg-[#ca002a] hover:bg-[#ab0007] text-white font-sf-pro font-bold tracking-wider text-xs px-6 py-3.5 rounded-2xl transition-all duration-300 transform active:scale-95 shadow-md shadow-red-900/20"
           >
             SĂN DEAL NGAY
             <ChevronRight size={16} className="transition-transform group-hover/btn:translate-x-1" />
@@ -153,14 +153,14 @@ const PromotionPage: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-block bg-white/50 backdrop-blur-sm border border-[#f5ecec] px-6 py-2 rounded-full mb-6 font-tilt-warp text-[#ca002a] text-sm tracking-wider"
+            className="inline-block bg-white/50 backdrop-blur-sm border border-[#f5ecec] px-6 py-2 rounded-full mb-6 font-sf-pro font-bold text-[#ca002a] text-sm tracking-wider"
           >
             ✨ TOY STORY SPECIAL OFFERS ✨
           </motion.div>
-          <h1 className="font-tilt-warp text-5xl md:text-7xl bg-gradient-to-b from-[#1a1a1a] via-[#1a1a1a] to-[#ca002a] bg-clip-text text-transparent leading-tight mb-6">
+          <h1 className="font-sf-pro font-black tracking-tight text-5xl md:text-7xl text-[#ca002a] leading-tight mb-6">
             Khuyến Mãi <br /> Ngập Tràn 🎈
           </h1>
-          <p className="font-red-hat text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
+          <p className="font-sf-pro text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
             Khám phá những ưu đãi hấp dẫn nhất dành cho bé yêu. Đừng bỏ lỡ cơ hội sở hữu đồ chơi chính hãng với mức giá cực kỳ ưu đãi.
           </p>
 
@@ -193,11 +193,11 @@ const PromotionPage: React.FC = () => {
               <div className="w-20 h-20 bg-red-50 text-[#ca002a] rounded-full flex items-center justify-center mx-auto mb-6">
                 <AlertCircle size={40} />
               </div>
-              <h2 className="font-tilt-warp text-2xl text-black mb-4">Ối! Có lỗi xảy ra</h2>
-              <p className="font-red-hat text-gray-500 mb-8">{error}</p>
+              <h2 className="font-sf-pro font-bold tracking-tight text-2xl text-black mb-4">Ối! Có lỗi xảy ra</h2>
+              <p className="font-sf-pro text-gray-500 mb-8">{error}</p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-[#ca002a] text-white font-tilt-warp px-10 py-4 rounded-2xl shadow-lg hover:shadow-red-200 transition-all"
+                className="bg-[#ca002a] text-white font-sf-pro font-bold tracking-wider px-10 py-4 rounded-2xl shadow-lg hover:shadow-red-200 transition-all"
               >
                 TẢI LẠI TRANG
               </button>
@@ -210,8 +210,8 @@ const PromotionPage: React.FC = () => {
               className="bg-white rounded-[40px] p-20 text-center shadow-lg border border-[#f0f0f0]"
             >
               <Gift size={80} className="text-gray-200 mx-auto mb-8" />
-              <h2 className="font-tilt-warp text-2xl text-black mb-2">Hiện chưa có khuyến mãi mới</h2>
-              <p className="font-red-hat text-gray-500">Chúng tôi đang cập nhật những chương trình ưu đãi mới. Vui lòng quay lại sau nhé!</p>
+              <h2 className="font-sf-pro font-bold tracking-tight text-2xl text-black mb-2">Hiện chưa có khuyến mãi mới</h2>
+              <p className="font-sf-pro text-gray-500">Chúng tôi đang cập nhật những chương trình ưu đãi mới. Vui lòng quay lại sau nhé!</p>
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -223,20 +223,20 @@ const PromotionPage: React.FC = () => {
         </AnimatePresence>
 
         {/* Newsletter Section */}
-        <div className="mt-32 p-12 md:p-20 bg-gradient-to-br from-[#1a1a1a] to-black rounded-[60px] relative overflow-hidden text-center text-white">
+        <div className="mt-32 p-12 md:p-20 bg-gradient-to-br from-[#ca002a] to-[#990020] rounded-[60px] relative overflow-hidden text-center text-white shadow-2xl shadow-red-900/20">
           <div className="relative z-10 max-w-3xl mx-auto">
             <Tag size={48} className="text-[#ffd900] mx-auto mb-8 animate-bounce" />
-            <h2 className="font-tilt-warp text-4xl md:text-5xl mb-6">Đăng ký nhận mã giảm giá</h2>
-            <p className="font-red-hat text-gray-400 text-lg mb-10 leading-relaxed">
+            <h2 className="font-sf-pro font-black tracking-tight text-4xl md:text-5xl mb-6">Đăng ký nhận mã giảm giá</h2>
+            <p className="font-sf-pro text-white/90 text-lg mb-10 leading-relaxed">
               Trở thành người đầu tiên biết về các chương trình khuyến mãi đặc biệt và nhận ngay voucher giảm giá 10% cho đơn hàng đầu tiên.
             </p>
             <div className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
               <input
                 type="email"
                 placeholder="Nhập email của bạn..."
-                className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 font-red-hat focus:outline-none focus:ring-2 focus:ring-[#ca002a] transition-all"
+                className="flex-1 bg-white/10 border border-white/30 rounded-2xl px-6 py-4 font-sf-pro focus:outline-none focus:ring-2 focus:ring-white transition-all text-white placeholder:text-white/60"
               />
-              <button className="bg-[#ca002a] text-white font-tilt-warp px-8 py-4 rounded-2xl hover:bg-[#ab0007] transition-all shadow-lg shadow-red-900/40">
+              <button className="bg-white text-[#ca002a] font-sf-pro font-bold tracking-wider px-8 py-4 rounded-2xl hover:bg-gray-50 transition-all shadow-xl">
                 ĐĂNG KÝ
               </button>
             </div>
