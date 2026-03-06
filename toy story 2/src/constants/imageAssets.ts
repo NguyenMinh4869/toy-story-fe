@@ -15,8 +15,10 @@ import decorCoinsClouds from "@/assets/0bf7c9e9f403c404a8aa369c23b47f3cd11072a8.
 import decorTetPanel from "@/assets/6c4dec4c8dbb6339a78469d5a6be3fed4152f6ee.png";
 import logoToyStory from "@/assets/7b68a93c4088c0080b43b93064aa13d55301f1be.png";
 import decorMoneyBagFans from "@/assets/87aa1172a83bb68c994ec672fa11ae695b2e7482.png";
+import decorDynamicBrand24 from "@/assets/decor-dynamic-brand-2 4.png";
 import storeFacade from "@/assets/e0e7adb7ab8d88ee2485aef2d9ffac986f0de223.png";
 import prdCardBg from "@/assets/PrdCardBg.png";
+import favToyDecor from "@/assets/FavToyDecor.png";
 
 export const STORE_FACADE = storeFacade;
 export const DECOR_COINS_CLOUDS = decorCoinsClouds;
@@ -30,6 +32,7 @@ export const DECOR_LANTERNS_ENVELOPES = decorLanternsEnvelopes;
 export const DECOR_BANNER_LAST_CHANCE = decorBannerLastChance;
 export const DECOR_RED_ENVELOPE = decorRedEnvelope;
 export const BANNER_LC2000 = bannerLC2000;
+export const FAV_TOY_DECOR = favToyDecor;
 
 // Section Icons
 export const SECTION_ICON = "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?q=80&w=100&auto=format&fit=crop";
@@ -39,13 +42,13 @@ export const PRODUCT_IMAGE_87 = prdCardBg; // Product card background frame
 export const PRODUCT_IMAGE_107 = "https://cdn-icons-png.flaticon.com/512/833/833472.png"; // Heart icon fallback
 
 // Decorative Elements
-export const DECOR_DYNAMIC_BRAND = "https://images.unsplash.com/photo-1545558014-868157bb5815?q=80&w=500&auto=format&fit=crop";
-export const DECOR_TOP_PRODUCT_CARD = "";
-export const DECOR_LINE_15 = ""; // Will use CSS instead
+export const DECOR_DYNAMIC_BRAND = decorDynamicBrand24;
+export const DECOR_TOP_PRODUCT_CARD = "https://www.figma.com/api/mcp/asset/cb65df8d-ab94-4273-904d-f9d409106b68";
+export const DECOR_LINE_15 = "https://www.figma.com/api/mcp/asset/84873425-9473-446e-bf8a-cc361a15a42a";
 
-// Navigation Polygons (Fallbacks)
-export const POLYGON_RIGHT = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23af0000'%3E%3Cpath d='M10 17l5-5-5-5v10z'/%3E%3C/svg%3E";
-export const POLYGON_LEFT = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23af0000'%3E%3Cpath d='M14 7l-5 5 5 5V7z'/%3E%3C/svg%3E";
-export const POLYGON_CENTER = "";
-export const POLYGON_ARROW = "";
+// Navigation Polygons
+export const POLYGON_RIGHT = "https://www.figma.com/api/mcp/asset/7ce161cd-3aed-46cc-ac02-b847295e949d";
+export const POLYGON_LEFT = "https://www.figma.com/api/mcp/asset/2b3172e3-1b05-4a57-978b-4a46b8e74b20";
+export const POLYGON_CENTER = "https://www.figma.com/api/mcp/asset/bfa0b650-16a1-42fb-aa56-4a6bf362986f";
+export const POLYGON_ARROW = "https://www.figma.com/api/mcp/asset/549e467e-e899-4866-9efa-a5b8a8863ee0";
 
