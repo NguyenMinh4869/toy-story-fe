@@ -1,19 +1,19 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema, RegisterFormData, toCreateUserDto } from '../types/Auth'
 import { register as registerUser } from '../services/authService'
 import { ROUTES } from '../routes/routePaths'
+import { LOGO_TOY_STORY } from '../constants/imageAssets'
 
 import imgImage11 from "@/assets/login/image11.png"
 const imgLine38 = "https://www.figma.com/api/mcp/asset/919bffbb-b4c0-4649-a02e-4e37b30e697f"
 
-import { useAuth } from '../hooks/useAuth'
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate()
-    const { refreshUser } = useAuth()
+
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<string | null>(null)
@@ -76,6 +76,12 @@ const RegisterPage: React.FC = () => {
 
     return (
         <div className="fixed top-0 left-0 w-full h-screen bg-white flex overflow-hidden z-[9999] max-xl:flex-col" data-name="RegisterPage">
+            <div className="fixed top-6 left-8 z-50">
+                <Link to="/" className="flex items-center gap-2 no-underline hover:opacity-80 transition-opacity">
+                    <img src={LOGO_TOY_STORY} alt="TOY STORY" className="h-[60px] w-auto object-contain" />
+                </Link>
+            </div>
+
             <div className="relative w-[40%] h-full bg-gradient-to-br from-[#ffa500] to-[#ff8c00] flex items-end justify-center p-10 max-xl:w-full max-xl:h-[30%]" data-name="image 11">
                 <img alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" src={imgImage11} />
             </div>
@@ -84,7 +90,7 @@ const RegisterPage: React.FC = () => {
                 <img alt="" className="w-screen h-0.5 rotate-90 origin-center" src={imgLine38} />
             </div>
 
-            <div className="flex-1 flex flex-col items-center justify-center py-10 pr-[17px] pl-0 bg-white overflow-y-auto max-xl:w-full max-xl:p-5">
+            <div className="flex-1 flex flex-col items-center justify-center py-10 pr-[17px] pl-0 bg-white overflow-y-auto max-xl:w-full max-xl:p-5 relative">
                 <h1 className="font-tienne text-[42px] font-normal text-black text-center m-0 mb-[15px] w-[654px] max-w-full max-xl:text-[36px] max-md:text-[32px]">Create Account</h1>
                 <p className="font-tienne text-xl font-normal text-black text-center m-0 mb-6 w-[654px] max-w-full max-xl:text-xl max-md:text-lg">Join us and start your magical journey!</p>
 
@@ -200,7 +206,7 @@ const RegisterPage: React.FC = () => {
                     </button>
 
                     <p className="font-tienne text-lg font-normal text-black text-center m-[10px_0_0_0]">
-                        Already have an account? <a href="#" onClick={(e) => { e.preventDefault(); navigate(ROUTES.LOGIN); }} className="text-[#ff0404] no-underline transition-opacity hover:opacity-80">Login instead</a>
+                        Already have an account? <Link to={ROUTES.LOGIN} className="text-[#ff0404] no-underline transition-opacity hover:opacity-80">Login instead</Link>
                     </p>
                 </form>
             </div>

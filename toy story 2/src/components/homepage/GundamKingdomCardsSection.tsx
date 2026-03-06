@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import type { ViewProductDto } from "../../types/ProductDTO";
 import { ProductCard } from "../ProductCard";
-import { DECOR_RED_ENVELOPE } from "../../constants/imageAssets";
+import { DECOR_LANTERNS_ENVELOPES } from "../../constants/imageAssets";
 
 interface GundamKingdomCardsSectionProps {
   products?: ViewProductDto[];
@@ -63,13 +63,13 @@ export const GundamKingdomCardsSection = ({
       >
         {pages.map((pageProducts, pageIndex) => (
           <div key={`gundam-page-${pageIndex}`} className="w-full shrink-0 h-full">
-            <div className="pt-0 flex gap-x-[34px]" style={{ paddingLeft: pageIndex === 0 ? "244px" : 0 }}>
+            <div className="flex items-end gap-x-[34px]" style={{ paddingLeft: pageIndex === 0 ? "244px" : 0 }}>
               {pageProducts.map((product) => (
-                <article key={product.productId} className="relative w-[203px] h-[309px]">
+                <article key={product.productId} className="relative w-[203px] h-[309px] shrink-0">
                   <img
-                    className="absolute top-0 left-[23px] w-[80px] h-[70px] object-contain z-10"
+                    className="absolute top-[-20px] left-1/2 -translate-x-1/2 w-[157px] h-[53px] object-contain z-10"
                     alt="Trang trí lì xì"
-                    src={DECOR_RED_ENVELOPE}
+                    src={DECOR_LANTERNS_ENVELOPES}
                   />
 
                   <ProductCard
