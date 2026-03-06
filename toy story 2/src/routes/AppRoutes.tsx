@@ -91,7 +91,7 @@ const AppRoutes: React.FC = () => {
       {/* <Route path={ROUTES.BRAND_DETAIL} element={<BrandDetailPage />} /> */}
 
       {/* Promotion Route */}
-      <Route path={ROUTES.PROMOTION} element={<PromotionPage />} />
+      <Route path="/promotion" element={<PromotionPage />} />
 
       {/* Voucher Route (FR-3: customer-filter) */}
       <Route path={ROUTES.VOUCHERS} element={<VoucherPage />} />
